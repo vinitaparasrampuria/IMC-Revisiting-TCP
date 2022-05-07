@@ -3,7 +3,7 @@
 
 # Base port is the port number after which the ports on server will be listening 
 #For ee., if base port is 50000 then it will listen on 50001,50002,50003 etc.
-base_port=50000
+base_port=60000
 
 # Command line input: number of servers
 # E.g. 5
@@ -29,6 +29,6 @@ for i in `seq 1 $num_servers`; do
 	report_file=${report_base}-${server_port}.txt
 
 	# Run iperf
-	iperf -s -p $server_port $iperf_options &> $report_file &
+	iperf3 -s -p $server_port $iperf_options &> $report_file &
 
 done
