@@ -32,7 +32,7 @@ iperf3 -c $server_ip -p $server_port1 -t $test_duration -C bbr &> $report_file2 
 for i in `seq 1 $num_clients`; do
 
 	# Set server port
-	server_port2=$(($base_port+$i));
+	server_port2=$(($base_port+$i+$j));
 	# Report file includes server ip, server port and test duration
 	report_file1=${report_base}-${server_ip}-${server_port2}-${test_duration}-reni.txt
 	
