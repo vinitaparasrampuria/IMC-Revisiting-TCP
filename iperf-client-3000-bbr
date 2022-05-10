@@ -36,6 +36,6 @@ for i in `seq 1 $num_clients`; do
 	# Run iperf
 
 	#iperf3 -c $server_ip -p $server_port -t $test_duration &> $report_file2 &  
-	iperf3 -c $server_ip -p $server_port2 -t $test_duration -C bbr -P 30 &> $report_file2 &
+	iperf3 -c $server_ip -p $server_port2 -t $test_duration -C reno -P 30 &> $report_file2 &
 	iperf3 -c $server_ip -p $server_port1 -t $test_duration -C reno -P 30 &>$report_file1 &
 done
