@@ -22,9 +22,9 @@ shift
 # E.g. -u -b 10M
 iperf_options="$*"
 
-# declare -i j=$num_clients
+declare -i j=1
 
-server_port1=$(($base_port+$1));
+server_port1=$(($base_port+$j));
 report_file2=${report_base}-${server_ip}-${server_port1}-${test_duration}-bbr.txt
 iperf3 -c $server_ip -p $server_port1 -t $test_duration -C bbr &> $report_file2 &
 
