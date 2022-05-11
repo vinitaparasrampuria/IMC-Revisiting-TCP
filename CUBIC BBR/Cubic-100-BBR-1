@@ -38,5 +38,5 @@ for i in `seq 1 $num_clients`; do
 	
 
 	# Run iperf
-	iperf3 -c $server_ip -p $server_port2 -t $test_duration -C cubic -P 10 &>$report_file1 &
+	iperf3 -c $server_ip -p $server_port2 -t $test_duration -C cubic -P 1 &>$report_file1 &
 done
