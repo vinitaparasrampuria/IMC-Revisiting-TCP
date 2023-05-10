@@ -38,5 +38,5 @@ for i in `seq 1 $num_clients`; do
 	report_file=${report_base}-${server_ip}-${server_port}-${test_duration}-$cca.txt
 
 	# Run iperf3
-	iperf3 -c $server_ip -p $server_port -t $test_duration -C $cca -P $flows &>$report_file &
+	iperf3 -c $server_ip -p $server_port -t $test_duration -C $cca -P $flows --format k &>$report_file &
 done
