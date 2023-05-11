@@ -5,10 +5,8 @@ sudo ethtool  -K $router_egress_name hw-tc-offload on
 sudo ethtool  -k $router_egress_name | grep hw-tc-offload
 
 sudo tc qdisc del dev $router_egress_name root
-
-sudo tc qdisc replace dev $router_egress_name root handle 1: htb default 3 offload
-sudo tc class add dev $router_egress_name parent 1: classid 1:3 htb rate 10Gbit
-sudo tc qdisc add dev $router_egress_name parent 1:3 handle 3: bfifo limit 375MB
+sudo tc qdisc replace dev $router_egress_name root handle 1: bfifo limit 375MB
+sudo mlnx_qos -i $router_egress_name -p 0,0,0,0,0,0,0,0 -r 10,0,0,0,0,0,0,0
 
 echo "Capacity test with multiple flows"
 

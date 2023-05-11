@@ -38,6 +38,8 @@ request = pc.makeRequestRSpec()
 node_router = request.RawPC('router')
 node_router.disk_image = 'urn:publicid:IDN+emulab.net+image+emulab-ops//UBUNTU22-64-STD'
 node_router.hardware_type = params.rtrtype
+node_router.addService(pg.Execute(shell="bash", command="bash /local/repository/setup-scripts/mlnx-install.sh"))
+
 node_router.installRootKeys(True, True)
 iface1 = node_router.addInterface('interface-r-send', pg.IPv4Address('10.10.1.1','255.255.255.0'))
 iface2 = node_router.addInterface('interface-r-recv', pg.IPv4Address('10.10.2.1','255.255.255.0'))
