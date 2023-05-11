@@ -2,7 +2,7 @@
 router_egress_name=$( ip route get 10.10.2.100 | grep -oP "(?<=dev )[^ ]+" )
 
 sudo ethtool  -K $router_egress_name hw-tc-offload on
-sudo ethtool  -k $router_egress_name grep hw-tc-offload
+sudo ethtool  -k $router_egress_name | grep hw-tc-offload
 
 sudo tc qdisc del dev $router_egress_name root
 
