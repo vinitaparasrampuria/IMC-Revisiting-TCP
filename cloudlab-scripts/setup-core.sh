@@ -1,7 +1,14 @@
 
 router_egress_name=$( ip route get 10.10.2.100 | grep -oP "(?<=dev )[^ ]+" )
 
+sudo ethtool  -K $router_egress_name hw-tc-offload on
+sudo ethtool  -k $router_egress_name grep hw-tc-offload
+
 sudo tc qdisc del dev $router_egress_name root
+
+sudo tc qdisc replace dev $router_egress_name root handle 1: htb default 3 offload
+sudo tc class add dev $router_egress_name parent 1: classid 1:3 htb rate 10Gbit
+sudo tc qdisc add dev $router_egress_name parent 1:3 handle 3: bfifo limit 375MB
 
 echo "Capacity test with multiple flows"
 
