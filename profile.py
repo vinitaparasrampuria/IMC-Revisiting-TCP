@@ -20,7 +20,7 @@ pc.defineParameter( "n", "Number of hosts on either end of dumbbell", portal.Par
 pc.defineParameter( "v", "Use VMs?", portal.ParameterType.BOOLEAN, False)
 # Optional physical type for all nodes.
 pc.defineParameter("rtrtype",  "Physical node type for router",
-                   portal.ParameterType.STRING, "d6515",
+                   portal.ParameterType.STRING, "c6525-25g",
                    longDescription="Specify a single physical node type (d6515,c6525-25g,c6525-100g,etc)")
 pc.defineParameter("endtype",  "Physical node type for end hosts",
                    portal.ParameterType.STRING, "m400",
