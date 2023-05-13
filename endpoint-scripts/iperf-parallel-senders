@@ -15,8 +15,8 @@ test_duration=$1
 shift
 
 # E.g. report
-report_base=$1
-shift
+#report_base=$1
+#shift
 
 #E.g. reno, cubic, bbr
 cca=$1
@@ -35,7 +35,7 @@ for i in `seq 1 $num_clients`; do
 	# Set server port
 	server_port=$(($base_port+$i));
 	# Report file includes server ip, server port and test duration
-	report_file=${report_base}-${server_ip}-${server_port}-${test_duration}-$cca.txt
+	report_file=sender-${server_ip}-${server_port}-${test_duration}-$cca.txt
 
 	# Run iperf3
 	iperf3 -c $server_ip -p $server_port -t $test_duration -C $cca -P $flows --format k &>$report_file &
