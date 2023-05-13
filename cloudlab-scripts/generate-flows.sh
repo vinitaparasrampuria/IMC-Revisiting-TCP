@@ -53,6 +53,7 @@ then
       
       sudo ssh -o StrictHostKeyChecking=no root@receiver-$i 
       'receiver_inf_name=$( ip route get 10.10.2.100 | grep -oP "(?<=dev )[^ ]+" );
+      echo receiver_inf_name;
       sudo tc qdisc add dev $receiver_inf_name root netem delay $delay;
       bash /local/repository/endpoint-scripts/iperf-parallel-servers $num_clients'
    done
