@@ -1,4 +1,3 @@
-#!/bin/bash
 
 base_port=60000
 
