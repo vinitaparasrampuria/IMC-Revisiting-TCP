@@ -1,4 +1,4 @@
-#!/bin/bash
+
 # Run multiple parallel instances of iperf servers
 
 # Base port is the port number after which the ports on server will be listening 
