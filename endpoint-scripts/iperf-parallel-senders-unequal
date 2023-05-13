@@ -41,4 +41,4 @@ for i in `seq 1 $((num_clients-1))`; do
 	iperf3 -c $server_ip -p $server_port -t $test_duration -C $cca -P $flows --format k &>$report_file &
 done
 report_file=sender-${server_ip}-${server_port}-${test_duration}-${cca}.txt
-iperf3 -c $server_ip -p $server_port -t $test_duration -C $cca -P $((flows-1) --format k &>$report_file &
+iperf3 -c $server_ip -p $server_port -t $test_duration -C $cca -P $((flows-1)) --format k &>$report_file &
