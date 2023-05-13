@@ -12,23 +12,22 @@ shift
 
 # Command line input: base report file name
 # E.g. report
-report_base=$1
-shift
+#report_base=$1
+#shift
 
 # Optional command line input: other iperf options
 # E.g. -u
-iperf_options="$*"
+#iperf_options="$*"
 
 # Run iperf multiple times
 for i in `seq 1 $num_servers`; do
 
 	# Set server port
 	server_port=$(($base_port+$i));
-
-	# Report file includes server port
-	report_file=${report_base}-${server_port}.txt
+	
+	report_file=${server_port}-server.dat
 
 	# Run iperf
-	iperf3 -s -p $server_port $iperf_options &> $report_file &
+	iperf3 -s -p $server_port $iperf_options -D --logfile $report_file
 
 done
