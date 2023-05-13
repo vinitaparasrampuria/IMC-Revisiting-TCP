@@ -19,7 +19,7 @@ shift
 #shift
 
 #E.g. reno, cubic, bbr
-cca=$1
+cca1=$1
 shift
 
 #E.g. 10,30,50
