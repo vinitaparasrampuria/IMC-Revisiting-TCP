@@ -31,7 +31,8 @@ cca2=$1
 shift
 
 #empty the result folder
-rm -f result/*
+mkdir /local/repository/cloudlab-scripts/result-${cca1}
+rm -f result-${cca1}/*
 
 if [ $type == 1 ] || [ $type == 2 ];
 then
@@ -90,13 +91,13 @@ EOF
       sudo ssh -o StrictHostKeyChecking=no root@sender-9 "bash /local/repository/endpoint-scripts/iperf-parallel-senders-unequal.sh 10.10.2.19 $num_clients $test_duration $cca1 $flows $cca2"
   fi
 
- # sleep $((test_duration+60))
+sleep $((test_duration+60))
 
 # do something here to analyze results and compute whatever you need
 
 for i in {0..9}
 do
-sudo scp -o StrictHostKeyChecking=no -r root@sender-$i:./sender* /local/repository/cloudlab-scripts/result/.
+sudo scp -o StrictHostKeyChecking=no -r root@sender-$i:./sender* /local/repository/cloudlab-scripts/result-${cca1}/.
 done
 
 if [ $type == 1 ]; then
