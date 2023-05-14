@@ -43,7 +43,7 @@ then
       bash /local/repository/endpoint-scripts/set-delay.sh $delay
       sudo killall iperf3
       bash /local/repository/endpoint-scripts/iperf-parallel-servers.sh $num_clients > /dev/null 2>&1 &
-      EOF
+EOF
    done
  else
    for i in {0..8}
@@ -52,12 +52,13 @@ then
       bash /local/repository/endpoint-scripts/set-delay.sh $delay
       sudo killall iperf3
       bash /local/repository/endpoint-scripts/iperf-parallel-servers.sh $num_clients
-      EOF
+EOF
    done
+   sudo ssh -o StrictHostKeyChecking=no root@receiver-9 << EOF
    bash /local/repository/endpoint-scripts/set-delay.sh $delay
    sudo killall iperf3
    bash /local/repository/endpoint-scripts/iperf-parallel-servers.sh $((num_clients+1))
-   EOF
+EOF
 
  fi
 
