@@ -30,7 +30,9 @@ shift
 cca2=$1
 shift
 
-echo "hi"
+#empty the result folder
+rm -f result/*
+
 if [ $type == 1 ] || [ $type == 2 ];
 then
    for i in {0..9}
@@ -91,3 +93,35 @@ EOF
  # sleep $((test_duration+300))
 
 # do something here to analyze results and compute whatever you need
+
+for i in {0..9}
+do
+sudo scp -o StrictHostKeyChecking=no -r root@sender-$i:./sender* /local/repository/cloudlab-scripts/result/.
+done
+
+if [ $type == 1 ]; then
+jfi=$(grep -r -E "[0-9].*0.00-${test_duration}.*sender" .|awk '{sum+=$7}END {print sum}')
+square=$(grep -r -E "[0-9].*0.00-${test_duration}.*sender" .|awk '{sum+=$7*$7}END {print sum}')
+echo $square
+count=$(grep -r -E "[0-9].*0.00-$test_duration.*sender" .|awk '{count+=1}END {print count}')
+echo count of $cca1 flows is $count
+echo JFI is $jfi
+
+else
+sum1=$(grep -r -E "[0-9].*0.00-${test_duration}.*sender" result/*${cca1}.txt |awk '{sum+=$7} END {print sum}')
+count1=$(grep -r -E "[0-9].*0.00-$test_duration.*sender" result/*${cca1}.txt|awk '{count+=1}END {print count}')
+echo count of flows of $cca1 is $count1
+echo sum of Bandwidth of $cca1 is $sum1 Kbits/sec
+
+sum2=$(grep -r -E "[0-9].*0.00-${test_duration}.*sender" result/*${cca2}.txt |awk '{sum+=$7} END {print sum}')
+count2=$(grep -r -E "[0-9].*0.00-$test_duration.*sender" result/*${cca2}.txt|awk '{count+=1}END {print count}')
+echo count of flows of $cca2 is $count2
+echo sum of Bandwidth of $cca2 is $sum2 Kbits/sec
+fi
+
+for i in {0..9}
+do
+
+sudo ssh -o StrictHostKeyChecking=no root@receiver-$i "rm -f ./*"
+sudo ssh -o StrictHostKeyChecking=no root@sender-$i "rm -f ./*"
+done
