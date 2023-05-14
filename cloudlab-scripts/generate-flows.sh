@@ -31,7 +31,7 @@ cca2=$1
 shift
 
 echo "hi"
-if [ $type == 1 ];
+if [ $type == 1 ] || [ $type == 2 ];
 then
    for i in {0..9}
    do
@@ -39,24 +39,25 @@ then
       # instead of running iperf3 directly, run 'bash /local/repository/endpoint-scripts/iperf-parallel-servers'
       # with appropriate arguments
 
-      sudo ssh -o StrictHostKeyChecking=no root@receiver-$i "receiver_inf_name=$( ip route get 10.10.2.100 | grep -oP "(?<=dev )[^ ]+" );
-      sudo tc qdisc add dev $receiver_inf_name root netem delay $delay;
+      sudo ssh -o StrictHostKeyChecking=no root@receiver-$i << EOF
+      bash /local/repository/endpoint-scripts/set-delay.sh $delay
       sudo killall iperf3
-      bash /local/repository/endpoint-scripts/iperf-parallel-servers.sh $num_clients > /dev/null 2>&1 &"
+      bash /local/repository/endpoint-scripts/iperf-parallel-servers.sh $num_clients > /dev/null 2>&1 &
+      EOF
    done
  else
    for i in {0..8}
    do
-      sudo ssh -o StrictHostKeyChecking=no root@receiver-$i "receiver_inf_name=$( ip route get 10.10.2.100 | grep -oP "(?<=dev )[^ ]+" );
-      echo receiver_inf_name;
-      sudo tc qdisc add dev $receiver_inf_name root netem delay $delay;
+      sudo ssh -o StrictHostKeyChecking=no root@receiver-$i << EOF
+      bash /local/repository/endpoint-scripts/set-delay.sh $delay
       sudo killall iperf3
-      bash /local/repository/endpoint-scripts/iperf-parallel-servers.sh $num_clients"
+      bash /local/repository/endpoint-scripts/iperf-parallel-servers.sh $num_clients
+      EOF
    done
-   sudo ssh -o StrictHostKeyChecking=no root@receiver-9 "receiver_inf_name=$( ip route get 10.10.2.100 | grep -oP "(?<=dev )[^ ]+" );
-   sudo tc qdisc add dev $receiver_inf_name root netem delay $delay;
+   bash /local/repository/endpoint-scripts/set-delay.sh $delay
    sudo killall iperf3
-   bash /local/repository/endpoint-scripts/iperf-parallel-servers.sh $((num_clients+1))"
+   bash /local/repository/endpoint-scripts/iperf-parallel-servers.sh $((num_clients+1))
+   EOF
 
  fi
 
