@@ -38,7 +38,7 @@ if [ $type == 1 ] || [ $type == 2 ];
 then
    for i in {0..9}
    do
-      # use netem to configure the base delay on the receiver
+      # run 'bash /local/repository/endpoint-scripts/set-delay.sh $delay' to add delay on the receiver
       # instead of running iperf3 directly, run 'bash /local/repository/endpoint-scripts/iperf-parallel-servers'
       # with appropriate arguments
 
@@ -93,7 +93,7 @@ EOF
 
 sleep $((test_duration+60))
 
-# do something here to analyze results and compute whatever you need
+# analyze results
 
 for i in {0..9}
 do
@@ -101,9 +101,11 @@ sudo scp -o StrictHostKeyChecking=no -r root@sender-$i:./sender* /local/reposito
 done
 
 if [ $type == 1 ]; then
-jfi=$(grep -r -E "[0-9].*0.00-${test_duration}.*sender" .|awk '{sum+=$7}END {print sum}')
+jfi=$(grep -r -E "[0-9].*0.00-${test_duration}.*sender" .|awk '{sum+=$7}{sq+=$7*$7}{count+=1} END {print (sum*sum)/(sq*count)}')
+sum=$(grep -r -E "[0-9].*0.00-${test_duration}.*sender" .|awk '{sum+=$7}END {print sum}')
+echo sum of bandwidth is $sum Kbits/sec
 square=$(grep -r -E "[0-9].*0.00-${test_duration}.*sender" .|awk '{sum+=$7*$7}END {print sum}')
-echo $square
+echo square is $square
 count=$(grep -r -E "[0-9].*0.00-$test_duration.*sender" .|awk '{count+=1}END {print count}')
 echo count of $cca1 flows is $count
 echo JFI is $jfi
