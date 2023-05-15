@@ -130,16 +130,16 @@ echo sum of Bandwidth of $cca2 is $sum2 Kbits/sec
 fi
 
 #To get packet dropped:
-drop_before=$(cat tc_before.txt| grep drops | awk '{print $2}' |cut -d ',' -f1)
+drop_before=$(cat tc_before.txt| grep -m 1 '"drops":' | awk '{print $2}' |cut -d ',' -f1)
 
 #To get packets sent
-sent_before=$(cat tc_before.txt| grep packets | awk '{print $2}' |cut -d ',' -f1)
+sent_before=$(cat tc_before.txt| grep -m 1 '"packets":' | awk '{print $2}' |cut -d ',' -f1)
 
 #To get packet dropped:
-drop_after=$(cat tc_after.txt| grep drops | awk '{print $2}' |cut -d ',' -f1)
+drop_after=$(cat tc_after.txt| grep -m 1 '"drops":' | awk '{print $2}' |cut -d ',' -f1)
 
 #To get packets sent
-sent_after=$(cat tc_after.txt| grep packets | awk '{print $2}' |cut -d ',' -f1)
+sent_after=$(cat tc_after.txt| grep -m 1 '"packets":' | awk '{print $2}' |cut -d ',' -f1)
 
 #Calculate packet drop rate:
 
