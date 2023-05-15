@@ -34,6 +34,10 @@ shift
 mkdir /local/repository/cloudlab-scripts/result-${cca1}
 rm -f result-${cca1}/*
 
+#get queue statistics before running the experiment
+router_egress_name=$( ip route get 10.10.2.100 | grep -oP "(?<=dev )[^ ]+" )
+tc -p -s -d -j qdisc show dev $router_egress_name >tc_before.txt
+
 if [ $type == 1 ] || [ $type == 2 ];
 then
    for i in {0..9}
@@ -93,6 +97,9 @@ EOF
 
 sleep $((test_duration+300))
 
+#get queue statistics after running the experiment
+tc -p -s -d -j qdisc show dev $router_egress_name >tc_after.txt
+
 # analyze results
 
 for i in {0..9}
@@ -121,6 +128,36 @@ count2=$(grep -r -E "[0-9].*0.00-$test_duration.*sender" --include *${cca2}.txt 
 echo count of flows of $cca2 is $count2
 echo sum of Bandwidth of $cca2 is $sum2 Kbits/sec
 fi
+
+#To get packet dropped:
+drop_before=$(cat tc_before.txt| grep drops | awk '{print $2}' |cut -d ',' -f1)
+
+#To get packets sent
+sent_before=$(cat tc_before.txt| grep packets | awk '{print $2}' |cut -d ',' -f1)
+
+#To get packet dropped:
+drop_after=$(cat tc_after.txt| grep drops | awk '{print $2}' |cut -d ',' -f1)
+
+#To get packets sent
+sent_after=$(cat tc_after.txt| grep packets | awk '{print $2}' |cut -d ',' -f1)
+
+#Calculate packet drop rate:
+
+dropped=$(($drop_after-$drop_before))
+sent=$(($sent_after-$sent_before))
+drop_rate=$(echo "scale=8;$dropped/$sent" | bc)
+
+echo packet drop before running experiment
+echo $drop_before
+echo packet sent before running experiment
+echo $sent_before
+echo packet drop after running experiment
+echo $drop_after
+echo packet sent after  running experiment
+echo $sent_after
+echo packet drop rate
+echo $drop_rate
+
 
 for i in {0..9}
 do
