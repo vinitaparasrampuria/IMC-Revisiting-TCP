@@ -31,8 +31,11 @@ cca2=$1
 shift
 
 #empty the result folder
-mkdir /local/repository/cloudlab-scripts/result-${cca1}
 rm -f result-${cca1}/*
+rmdir result-${cca1}*
+#make a new directory to store the results
+mkdir /local/repository/cloudlab-scripts/result-${cca1}
+
 
 #get queue statistics before running the experiment
 router_egress_name=$( ip route get 10.10.2.100 | grep -oP "(?<=dev )[^ ]+" )
