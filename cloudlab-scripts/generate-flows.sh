@@ -91,7 +91,7 @@ EOF
       sudo ssh -o StrictHostKeyChecking=no root@sender-9 "bash /local/repository/endpoint-scripts/iperf-parallel-senders-unequal.sh 10.10.2.19 $num_clients $test_duration $cca1 $flows $cca2"
   fi
 
-sleep $((test_duration+60))
+sleep $((test_duration+300))
 
 # analyze results
 
