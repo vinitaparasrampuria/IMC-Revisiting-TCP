@@ -101,23 +101,23 @@ sudo scp -o StrictHostKeyChecking=no -r root@sender-$i:./sender* /local/reposito
 done
 
 if [ $type == 1 ]; then
-jfi=$(grep -r -E "[0-9].*0.00-${test_duration}.*sender" result/*${cca1}.txt |awk '{sum+=$7}{sq+=$7*$7}{count+=1} END {print (sum*sum)/(sq*count)}')
-sum=$(grep -r -E "[0-9].*0.00-${test_duration}.*sender" result/*${cca1}.txt |awk '{sum+=$7}END {print sum}')
+jfi=$(grep -r -E "[0-9].*0.00-${test_duration}.*sender" --include *${cca1}.txt /local/repository/cloudlab-scripts/result-${cca1} |awk '{sum+=$7}{sq+=$7*$7}{count+=1} END {print (sum*sum)/(sq*count)}')
+sum=$(grep -r -E "[0-9].*0.00-${test_duration}.*sender" --include *${cca1}.txt /local/repository/cloudlab-scripts/result-${cca1} |awk '{sum+=$7}END {print sum}')
 echo sum of bandwidth is $sum Kbits/sec
-square=$(grep -r -E "[0-9].*0.00-${test_duration}.*sender" result/*${cca1}.txt |awk '{sum+=$7*$7}END {print sum}')
+square=$(grep -r -E "[0-9].*0.00-${test_duration}.*sender" --include *${cca1}.txt /local/repository/cloudlab-scripts/result-${cca1} |awk '{sum+=$7*$7}END {print sum}')
 echo square is $square
-count=$(grep -r -E "[0-9].*0.00-$test_duration.*sender" result/*${cca1}.txt |awk '{count+=1}END {print count}')
+count=$(grep -r -E "[0-9].*0.00-$test_duration.*sender" --include *${cca1}.txt /local/repository/cloudlab-scripts/result-${cca1} |awk '{count+=1}END {print count}')
 echo count of $cca1 flows is $count
 echo JFI is $jfi
 
 else
-sum1=$(grep -r -E "[0-9].*0.00-${test_duration}.*sender" result/*${cca1}.txt |awk '{sum+=$7} END {print sum}')
-count1=$(grep -r -E "[0-9].*0.00-$test_duration.*sender" result/*${cca1}.txt|awk '{count+=1}END {print count}')
+sum1=$(grep -r -E "[0-9].*0.00-${test_duration}.*sender" --include *${cca1}.txt /local/repository/cloudlab-scripts/result-${cca1} |awk '{sum+=$7} END {print sum}')
+count1=$(grep -r -E "[0-9].*0.00-$test_duration.*sender" --include *${cca1}.txt /local/repository/cloudlab-scripts/result-${cca1}|awk '{count+=1}END {print count}')
 echo count of flows of $cca1 is $count1
 echo sum of Bandwidth of $cca1 is $sum1 Kbits/sec
 
-sum2=$(grep -r -E "[0-9].*0.00-${test_duration}.*sender" result/*${cca2}.txt |awk '{sum+=$7} END {print sum}')
-count2=$(grep -r -E "[0-9].*0.00-$test_duration.*sender" result/*${cca2}.txt|awk '{count+=1}END {print count}')
+sum2=$(grep -r -E "[0-9].*0.00-${test_duration}.*sender" --include *${cca2}.txt /local/repository/cloudlab-scripts/result-${cca2} |awk '{sum+=$7} END {print sum}')
+count2=$(grep -r -E "[0-9].*0.00-$test_duration.*sender" --include *${cca2}.txt /local/repository/cloudlab-scripts/result-${cca2}|awk '{count+=1}END {print count}')
 echo count of flows of $cca2 is $count2
 echo sum of Bandwidth of $cca2 is $sum2 Kbits/sec
 fi
