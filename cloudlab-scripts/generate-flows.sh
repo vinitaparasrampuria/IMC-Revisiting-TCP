@@ -78,24 +78,39 @@ EOF
    do
       # instead of running iperf3 directly, run 'bash /local/repository/endpoint-scripts/iperf-parallel-senders'
       # with appropriate arguments
-      sudo ssh -o StrictHostKeyChecking=no root@sender-$i  "bash /local/repository/endpoint-scripts/iperf-parallel-senders.sh 10.10.2.1$i $num_clients $test_duration $cca1 $flows"
+      sudo ssh -o StrictHostKeyChecking=no root@sender-$i /bin/bash << EOF
+      sudo killall iperf3
+      bash /local/repository/endpoint-scripts/iperf-parallel-senders.sh 10.10.2.1$i $num_clients $test_duration $cca1 $flows"
+EOF
    done
   elif [ $type == 2 ]
   then
    for i in {0..4}
    do
-      sudo ssh -o StrictHostKeyChecking=no root@sender-$i "bash /local/repository/endpoint-scripts/iperf-parallel-senders.sh 10.10.2.1$i $num_clients $test_duration $cca1 $flows"
+      sudo ssh -o StrictHostKeyChecking=no root@sender-$i /bin/bash << EOF
+      sudo killall iperf3
+      bash /local/repository/endpoint-scripts/iperf-parallel-senders.sh 10.10.2.1$i $num_clients $test_duration $cca1 $flows"
+EOF
    done
    for i in {5..9}
    do
-      sudo ssh -o StrictHostKeyChecking=no root@sender-$i "bash /local/repository/endpoint-scripts/iperf-parallel-senders.sh 10.10.2.1$i $num_clients $test_duration $cca2 $flows"
+      sudo ssh -o StrictHostKeyChecking=no root@sender-$i /bin/bash << EOF
+      sudo killall iperf3
+      bash /local/repository/endpoint-scripts/iperf-parallel-senders.sh 10.10.2.1$i $num_clients $test_duration $cca2 $flows"
+EOF
    done
   else
     for i in {0..8}
     do
-      sudo ssh -o StrictHostKeyChecking=no root@sender-$i "bash /local/repository/endpoint-scripts/iperf-parallel-senders.sh 10.10.2.1$i $num_clients $test_duration $cca1 $flows"
+      sudo ssh -o StrictHostKeyChecking=no root@sender-$i /bin/bash << EOF
+      sudo killall iperf3
+      bash /local/repository/endpoint-scripts/iperf-parallel-senders.sh 10.10.2.1$i $num_clients $test_duration $cca1 $flows"
+EOF
      done
-      sudo ssh -o StrictHostKeyChecking=no root@sender-9 "bash /local/repository/endpoint-scripts/iperf-parallel-senders-unequal.sh 10.10.2.19 $num_clients $test_duration $cca1 $flows $cca2"
+      sudo ssh -o StrictHostKeyChecking=no root@sender-9 /bin/bash << EOF
+      sudo killall iperf3
+      bash /local/repository/endpoint-scripts/iperf-parallel-senders-unequal.sh 10.10.2.19 $num_clients $test_duration $cca1 $flows $cca2"
+EOF
   fi
 
 sleep $((test_duration+300))
