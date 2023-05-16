@@ -30,13 +30,6 @@ shift
 cca2=$1
 shift
 
-#empty the result folder
-rm -f result-${cca1}/*
-rmdir result-${cca1}*
-#make a new directory to store the results
-mkdir /local/repository/cloudlab-scripts/result-${cca1}
-
-
 #get queue statistics before running the experiment
 router_egress_name=$( ip route get 10.10.2.100 | grep -oP "(?<=dev )[^ ]+" )
 tc -p -s -d -j qdisc show dev $router_egress_name >tc_before.txt
@@ -74,6 +67,11 @@ EOF
 
  if [ $type == 1 ]
  then
+   #empty the result folder
+   rm -f result-${cca1}/*
+   rmdir result-${cca1}*
+   #make a new directory to store the results
+   mkdir /local/repository/cloudlab-scripts/result-${cca1}
    for i in {0..9}
    do
       # instead of running iperf3 directly, run 'bash /local/repository/endpoint-scripts/iperf-parallel-senders'
@@ -85,6 +83,11 @@ EOF
    done
   elif [ $type == 2 ]
   then
+   #empty the result folder
+   rm -f result-${cca1}-${cca2}/*
+   rmdir result-${cca1}-${cca2}*
+   #make a new directory to store the results
+   mkdir /local/repository/cloudlab-scripts/result-${cca1}-${cca2}
    for i in {0..4}
    do
       sudo ssh -o StrictHostKeyChecking=no root@sender-$i /bin/bash << EOF
@@ -100,6 +103,11 @@ EOF
 EOF
    done
   else
+   #empty the result folder
+   rm -f result-${cca1}-${cca2}/*
+   rmdir result-${cca1}-${cca2}*
+   #make a new directory to store the results
+   mkdir /local/repository/cloudlab-scripts/result-${cca1}-${cca2}
     for i in {0..8}
     do
       sudo ssh -o StrictHostKeyChecking=no root@sender-$i /bin/bash << EOF
@@ -120,10 +128,16 @@ tc -p -s -d -j qdisc show dev $router_egress_name >tc_after.txt
 
 # analyze results
 
-for i in {0..9}
-do
-sudo scp -o StrictHostKeyChecking=no -r root@sender-$i:./sender* /local/repository/cloudlab-scripts/result-${cca1}/.
-done
+if [ $type == 1 ]; then
+   for i in {0..9}
+   do
+   sudo scp -o StrictHostKeyChecking=no -r root@sender-$i:./sender* /local/repository/cloudlab-scripts/result-${cca1}/.
+   done
+else
+   for i in {0..9}
+   do
+   sudo scp -o StrictHostKeyChecking=no -r root@sender-$i:./sender* /local/repository/cloudlab-scripts/result-${cca1}-${cca2}/.
+   done
 
 if [ $type == 1 ]; then
 jfi=$(grep -r -E "[0-9].*0.00-${test_duration}.*sender" --include *${cca1}.txt /local/repository/cloudlab-scripts/result-${cca1} |awk '{sum+=$7}{sq+=$7*$7}{count+=1} END {print (sum*sum)/(sq*count)}')
@@ -136,13 +150,13 @@ echo count of $cca1 flows is $count
 echo JFI is $jfi
 
 else
-sum1=$(grep -r -E "[0-9].*0.00-${test_duration}.*sender" --include *${cca1}.txt /local/repository/cloudlab-scripts/result-${cca1} |awk '{sum+=$7} END {print sum}')
-count1=$(grep -r -E "[0-9].*0.00-$test_duration.*sender" --include *${cca1}.txt /local/repository/cloudlab-scripts/result-${cca1}|awk '{count+=1}END {print count}')
+sum1=$(grep -r -E "[0-9].*0.00-${test_duration}.*sender" --include *${cca1}.txt /local/repository/cloudlab-scripts/result-${cca1}-${cca2} |awk '{sum+=$7} END {print sum}')
+count1=$(grep -r -E "[0-9].*0.00-$test_duration.*sender" --include *${cca1}.txt /local/repository/cloudlab-scripts/result-${cca1}-${cca2}|awk '{count+=1}END {print count}')
 echo count of flows of $cca1 is $count1
 echo sum of Bandwidth of $cca1 is $sum1 Kbits/sec
 
-sum2=$(grep -r -E "[0-9].*0.00-${test_duration}.*sender" --include *${cca2}.txt /local/repository/cloudlab-scripts/result-${cca2} |awk '{sum+=$7} END {print sum}')
-count2=$(grep -r -E "[0-9].*0.00-$test_duration.*sender" --include *${cca2}.txt /local/repository/cloudlab-scripts/result-${cca2}|awk '{count+=1}END {print count}')
+sum2=$(grep -r -E "[0-9].*0.00-${test_duration}.*sender" --include *${cca2}.txt /local/repository/cloudlab-scripts/result-${cca1}-${cca2} |awk '{sum+=$7} END {print sum}')
+count2=$(grep -r -E "[0-9].*0.00-$test_duration.*sender" --include *${cca2}.txt /local/repository/cloudlab-scripts/result-${cca1}-${cca2}|awk '{count+=1}END {print count}')
 echo count of flows of $cca2 is $count2
 echo sum of Bandwidth of $cca2 is $sum2 Kbits/sec
 fi
