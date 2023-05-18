@@ -65,7 +65,7 @@ EOF
 
  fi
 
- if [ $type == 1 ]
+ if [ $type == 1 ];
  then
    #empty the result folder
    rm -f result-${cca1}/*
@@ -81,7 +81,7 @@ EOF
       bash /local/repository/endpoint-scripts/iperf-parallel-senders.sh 10.10.2.1$i $num_clients $test_duration $cca1 $flows
 EOF
    done
-  elif [ $type == 2 ]
+  elif [ $type == 2 ];
   then
    #empty the result folder
    rm -f result-${cca1}-${cca2}/*
@@ -138,6 +138,7 @@ else
    do
    sudo scp -o StrictHostKeyChecking=no -r root@sender-$i:./sender* /local/repository/cloudlab-scripts/result-${cca1}-${cca2}/.
    done
+fi
 
 if [ $type == 1 ]; then
 jfi=$(grep -r -E "[0-9].*0.00-${test_duration}.*sender" --include *${cca1}.txt /local/repository/cloudlab-scripts/result-${cca1} |awk '{sum+=$7}{sq+=$7*$7}{count+=1} END {print (sum*sum)/(sq*count)}')
