@@ -2,6 +2,10 @@
 delay=$1
 shift
 
+#set limit for tc qdisc on esch receiver (10000, 100000 etc)
+limit=$1
+shift
+
 #type of test
 #1 for intra CCA
 #2 for inter cca- equal flows divided between two cca
@@ -43,7 +47,7 @@ then
       # with appropriate arguments
 
       sudo ssh -o StrictHostKeyChecking=no root@receiver-$i /bin/bash << EOF
-      bash /local/repository/endpoint-scripts/set-delay.sh $delay
+      bash /local/repository/endpoint-scripts/set-delay.sh $delay $limit
       sudo killall iperf3
       bash /local/repository/endpoint-scripts/iperf-parallel-servers.sh $num_clients > /dev/null 2>&1 &
 EOF
@@ -52,13 +56,13 @@ EOF
    for i in {0..8}
    do
       sudo ssh -o StrictHostKeyChecking=no root@receiver-$i /bin/bash << EOF
-      bash /local/repository/endpoint-scripts/set-delay.sh $delay
+      bash /local/repository/endpoint-scripts/set-delay.sh $delay $limit
       sudo killall iperf3
       bash /local/repository/endpoint-scripts/iperf-parallel-servers.sh $num_clients
 EOF
    done
    sudo ssh -o StrictHostKeyChecking=no root@receiver-9 /bin/bash << EOF
-   bash /local/repository/endpoint-scripts/set-delay.sh $delay
+   bash /local/repository/endpoint-scripts/set-delay.sh $delay $limit
    sudo killall iperf3
    bash /local/repository/endpoint-scripts/iperf-parallel-servers.sh $((num_clients+1))
 EOF
