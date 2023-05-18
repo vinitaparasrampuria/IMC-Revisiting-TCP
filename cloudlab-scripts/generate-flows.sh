@@ -127,6 +127,11 @@ EOF
 
 sleep $((test_duration+300))
 
+for i in {0..9}
+do
+      sudo ssh -o StrictHostKeyChecking=no root@receiver-$i "bash /local/repository/endpoint-scripts/check-packet-drop.sh"
+done
+
 #get queue statistics after running the experiment
 tc -p -s -d -j qdisc show dev $router_egress_name >tc_after.txt
 
