@@ -4,7 +4,7 @@ declare -A cwnd_dict
 declare -A halving_dict
 declare -i ss_count
 ss_count=1
-rm /local/repository/cloudlab-scripts/file.txt
+
 sstxt=$(ss --no-header -ein dst $ip)
 while read line_first; read line_second
 do
@@ -33,19 +33,19 @@ do
 		halving_dict[$local_port]=curr_count
 	fi
 	cwnd_dict[$local_port]=$current_cwnd
-echo "$local_port,$current_cwnd" >> file.txt
+echo "$local_port,$current_cwnd" >> sender-$ip-file.txt
 done <<< "$sstxt"
 done
 echo  $ss_count
 
 for i in "${!cwnd_dict[@]}"
 do
-  echo "key  : $i" >>cwnd_data.txt
-  echo "value: ${cwnd_dict[$i]}" >> cwnd_data.txt
+  echo "key  : $i" >> sender-$ip-cwnd_data.txt
+  echo "value: ${cwnd_dict[$i]}" >> sender-$ip-cwnd_data.txt
 done
 
 for i in "${!halving_dict[@]}"
 do
-  echo "key  : $i" >>cwnd_half.txt
-  echo "value: ${halving_dict[$i]}" >> cwnd_half.txt
+  echo "key  : $i" >> sender-$ip-cwnd_half.txt
+  echo "value: ${halving_dict[$i]}" >> sender-$ip-cwnd_half.txt
 done
