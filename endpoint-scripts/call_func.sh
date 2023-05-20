@@ -1,8 +1,11 @@
+ip=$1
+shift
+
 while [ 1 ]
 do
-	if [ ! -z "$(ss --no-header -ein dst 10.10.2.10)" ];
+	if [ ! -z "$(ss --no-header -ein dst $ip)" ];
 	then
-	bash cwn_half.sh
+	bash cwn_half.sh $ip
 	break
 	fi
 done
