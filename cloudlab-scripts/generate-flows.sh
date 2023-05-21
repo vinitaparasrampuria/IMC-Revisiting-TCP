@@ -82,7 +82,6 @@ EOF
       # with appropriate arguments
       sudo ssh -o StrictHostKeyChecking=no root@sender-$i /bin/bash << EOF
       sudo killall iperf3
-      bash /local/repository/endpoint-scripts/call_func.sh 10.10.2.1$i
       bash /local/repository/endpoint-scripts/iperf-parallel-senders.sh 10.10.2.1$i $num_clients $test_duration $cca1 $flows
 EOF
    done
