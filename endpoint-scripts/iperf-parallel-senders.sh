@@ -39,3 +39,4 @@ for i in `seq 1 $num_clients`; do
 	# Run iperf3
 	iperf3 -c $server_ip -p $server_port -t $test_duration -C $cca -P $flows --format k &>$report_file &
 done
+bash /local/repository/endpoint-scripts/call_func.sh $server_ip > /dev/null 2>&1 &
