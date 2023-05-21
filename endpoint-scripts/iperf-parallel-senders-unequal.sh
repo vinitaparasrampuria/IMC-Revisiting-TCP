@@ -44,7 +44,10 @@ for i in `seq 1 $((num_clients-1))`; do
         # Run iperf3
         iperf3 -c $server_ip -p $server_port -t $test_duration -C $cca1 -P $flows --format k &>$report_file &
 done
-report_file=sender-${server_ip}-$((server_port+1))-${test_duration}-${cca1}.txt
+server_port=$(($base_port+$num_clients))
+if [ $num_clients -ne 1 ]; then
+report_file=sender-${server_ip}-$((server_port))-${test_duration}-${cca1}.txt
 iperf3 -c $server_ip -p $((server_port+1)) -t $test_duration -C $cca1 -P $((flows-1)) --format k &>$report_file &
-report_file=sender-${server_ip}-$((server_port+2))-${test_duration}-${cca2}.txt
+fi
+report_file=sender-${server_ip}-$((server_port+1))-${test_duration}-${cca2}.txt
 iperf3 -c $server_ip -p $((server_port+2)) -t $test_duration -C $cca2 -P 1 --format k &>$report_file &
