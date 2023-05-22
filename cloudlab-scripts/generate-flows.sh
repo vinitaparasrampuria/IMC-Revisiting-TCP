@@ -34,6 +34,14 @@ shift
 cca2=$1
 shift
 
+#remove existing files from hosts
+for i in {0..9}
+do
+
+sudo ssh -o StrictHostKeyChecking=no root@receiver-$i "rm -f ./*"
+sudo ssh -o StrictHostKeyChecking=no root@sender-$i "rm -f ./*"
+done
+
 #get queue statistics before running the experiment
 router_egress_name=$( ip route get 10.10.2.100 | grep -oP "(?<=dev )[^ ]+" )
 tc -p -s -d -j qdisc show dev $router_egress_name >tc_before.txt
@@ -137,6 +145,8 @@ tc -p -s -d -j qdisc show dev $router_egress_name >tc_after.txt
 
 # analyze results
 
+sleep 900
+
 if [ $type == 1 ]; then
    for i in {0..9}
    do
@@ -212,9 +222,4 @@ cwnd_half=$(echo "scale=8;$sum_half_events/$sum_ss_count" | bc)
 echo congestion window halving rate is $cwnd_half
 
 
-for i in {0..9}
-do
 
-sudo ssh -o StrictHostKeyChecking=no root@receiver-$i "rm -f ./*"
-sudo ssh -o StrictHostKeyChecking=no root@sender-$i "rm -f ./*"
-done
