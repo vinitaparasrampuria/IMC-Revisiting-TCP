@@ -34,7 +34,7 @@ shift
 cca2=$1
 shift
 
-#remove existing files from hosts
+#remove existing files from all the hosts
 for i in {0..9}
 do
    sudo ssh -o StrictHostKeyChecking=no root@receiver-$i "rm -f ./*"
