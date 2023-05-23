@@ -59,8 +59,8 @@ then
       bash /local/repository/endpoint-scripts/iperf-parallel-servers.sh $num_clients > /dev/null 2>&1 &
 EOF
    done
- elif [ $type == 3 ];
- then
+elif [ $type == 3 ];
+then
    for i in {0..8}
    do
       sudo ssh -o StrictHostKeyChecking=no root@receiver-$i /bin/bash << EOF
@@ -76,11 +76,10 @@ EOF
 EOF
 else
    echo "Wrong input"
+fi
 
- fi
-
- if [ $type == 1 ];
- then
+if [ $type == 1 ];
+then
    #empty the result folder
    rm -f result-${cca1}/*
    rmdir result-${cca1}*
@@ -95,8 +94,8 @@ else
       bash /local/repository/endpoint-scripts/iperf-parallel-senders.sh 10.10.2.1$i $num_clients $test_duration $cca1 $flows
 EOF
    done
-  elif [ $type == 2 ];
-  then
+ elif [ $type == 2 ];
+ then
       #empty the result folder
       rm -f result-${cca1}-${cca2}/*
       rmdir result-${cca1}-${cca2}*
@@ -116,8 +115,8 @@ EOF
          bash /local/repository/endpoint-scripts/iperf-parallel-senders.sh 10.10.2.1$i $num_clients $test_duration $cca2 $flows
 EOF
    done
-  elif [ $type == 3 ];
-  then
+ elif [ $type == 3 ];
+ then
       #empty the result folder
       rm -f result-${cca1}-${cca2}/*
       rmdir result-${cca1}-${cca2}*
@@ -136,7 +135,7 @@ EOF
 EOF
 else
    echo "Wrong input"
-  fi
+fi
 
 sleep $((test_duration+300))
 
@@ -157,8 +156,7 @@ if [ $type == 1 ]; then
    do
       sudo scp -o StrictHostKeyChecking=no -r root@sender-$i:./sender* /local/repository/cloudlab-scripts/result-${cca1}/.
    done
-elif [ $type == 2 ] || [ $type == 3 ];
-then
+elif [ $type == 2 ] || [ $type == 3 ]; then
    for i in {0..9}
    do
       sudo scp -o StrictHostKeyChecking=no -r root@sender-$i:./sender* /local/repository/cloudlab-scripts/result-${cca1}-${cca2}/.
