@@ -37,7 +37,7 @@ for i in `seq 1 $num_clients`; do
 	report_file=sender-${server_ip}-${server_port}-${test_duration}-$cca.txt
 
 	# Run iperf3
-	iperf3 -c $server_ip -p $server_port -t $test_duration -C $cca -P $flows --format k &>$report_file &
+	iperf3 -c $server_ip -p $server_port -t $test_duration -C $cca -P $flows -O 300 --format k &>$report_file &
 	sleep 12
 done
 bash /local/repository/endpoint-scripts/call_func.sh $server_ip > /dev/null 2>&1 &
