@@ -12,7 +12,10 @@ done
 
 for i in {0..9}
 do
-   sudo ssh -o StrictHostKeyChecking=no root@sender-$i "nohup iperf3 -t 60 -P 10 -c 10.10.2.1$i > /dev/null 2>&1 &"
+   sudo ssh -o StrictHostKeyChecking=no root@sender-$i /bin/bash << EOF
+   bash /local/repository/endpoint-scripts/change-queue.sh
+	nohup iperf3 -t 60 -P 10 -c 10.10.2.1$i > /dev/null 2>&1 &
+EOF
 done
 
 sleep 65
