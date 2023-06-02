@@ -91,7 +91,7 @@ then
       # with appropriate arguments
       sudo ssh -o StrictHostKeyChecking=no root@sender-$i /bin/bash << EOF
       sudo killall iperf3
-      bash /local/repository/endpoint-scripts/iperf-parallel-senders.sh 10.10.2.1$i $num_clients $test_duration $cca1 $flows
+      bash /local/repository/endpoint-scripts/iperf-parallel-senders.sh 10.10.2.1$i $num_clients $test_duration $cca1 $flows > /dev/null 2>&1 &
 EOF
    done
  elif [ $type == 2 ];
@@ -105,14 +105,14 @@ EOF
       do
          sudo ssh -o StrictHostKeyChecking=no root@sender-$i /bin/bash << EOF
          sudo killall iperf3
-         bash /local/repository/endpoint-scripts/iperf-parallel-senders.sh 10.10.2.1$i $num_clients $test_duration $cca1 $flows
+         bash /local/repository/endpoint-scripts/iperf-parallel-senders.sh 10.10.2.1$i $num_clients $test_duration $cca1 $flows > /dev/null 2>&1 &
 EOF
    done
       for i in {5..9}
       do
          sudo ssh -o StrictHostKeyChecking=no root@sender-$i /bin/bash << EOF
          sudo killall iperf3
-         bash /local/repository/endpoint-scripts/iperf-parallel-senders.sh 10.10.2.1$i $num_clients $test_duration $cca2 $flows
+         bash /local/repository/endpoint-scripts/iperf-parallel-senders.sh 10.10.2.1$i $num_clients $test_duration $cca2 $flows > /dev/null 2>&1 &
 EOF
    done
  elif [ $type == 3 ];
@@ -126,12 +126,12 @@ EOF
       do
          sudo ssh -o StrictHostKeyChecking=no root@sender-$i /bin/bash << EOF
          sudo killall iperf3
-         bash /local/repository/endpoint-scripts/iperf-parallel-senders.sh 10.10.2.1$i $num_clients $test_duration $cca1 $flows
+         bash /local/repository/endpoint-scripts/iperf-parallel-senders.sh 10.10.2.1$i $num_clients $test_duration $cca1 $flows > /dev/null 2>&1 &
 EOF
        done
          sudo ssh -o StrictHostKeyChecking=no root@sender-9 /bin/bash << EOF
          sudo killall iperf3
-         bash /local/repository/endpoint-scripts/iperf-parallel-senders-unequal.sh 10.10.2.19 $num_clients $test_duration $cca1 $flows $cca2
+         bash /local/repository/endpoint-scripts/iperf-parallel-senders-unequal.sh 10.10.2.19 $num_clients $test_duration $cca1 $flows $cca2 > /dev/null 2>&1 &
 EOF
 else
    echo "Wrong input"
