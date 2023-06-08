@@ -168,7 +168,7 @@ fi
 
 if [ $type == 1 ]; then
    jfi=$(grep -r -E "[0-9].*0.00-${test_duration}.*sender" --include *${cca1}.txt /local/repository/cloudlab-scripts/result-${cca1} |tr '[' ' ' |awk -F ' ' '{sum+=$7}{sq+=$7*$7}{count+=1} END {print (sum*sum)/(sq*count)}')
-   sum=$(grep -r -E "[0-9].*0.00-${test_duration}.*sender" --include *${cca1}.txt /local/repository/cloudlab-scripts/result-${cca1} |tr '[' ' ' |awk -F ' ' '{sum+=$7}END {print $7}')
+   sum=$(grep -r -E "[0-9].*0.00-${test_duration}.*sender" --include *${cca1}.txt /local/repository/cloudlab-scripts/result-${cca1} |tr '[' ' ' |awk -F ' ' '{sum+=$7}END {print sum}')
    echo sum of bandwidth is $sum Kbits/sec
    square=$(grep -r -E "[0-9].*0.00-${test_duration}.*sender" --include *${cca1}.txt /local/repository/cloudlab-scripts/result-${cca1} |tr '[' ' ' |awk -F ' ' '{sum+=$7*$7}END {print sum}')
    echo square is $square
