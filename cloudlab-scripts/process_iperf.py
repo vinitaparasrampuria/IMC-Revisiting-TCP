@@ -17,10 +17,10 @@ cca1=sys.argv[4]
 
 
 for i in range(0,senders):
-  csv_filename = 'output-10.10.2.1'+str(i)+'.csv'
+  csv_filename = '"/local/repository/cloudlab-scripts/result-"+cca1+"/output-10.10.2.1'+str(i)+'.csv'
   for j in range(1,num_clients+1):
    # print("sender-10.10.2.1"+str(i)+"-"+str(base_port+j)+"-"+str(test_duration)+"-"+cca1+".txt")
-    with open("/local/repository/cloudlab-scripts/result-reno/sender-10.10.2.1"+str(i)+"-"+str(base_port+j)+"-"+str(test_duration)+"-"+cca1+".txt", 'r') as file:
+    with open("/local/repository/cloudlab-scripts/result-"+cca1+"/sender-10.10.2.1"+str(i)+"-"+str(base_port+j)+"-"+str(test_duration)+"-"+cca1+".txt", 'r') as file:
         lines = file.readlines()
 
     # Find the indices of the first and last instance of [ID]
