@@ -38,7 +38,7 @@ request = pc.makeRequestRSpec()
 node_router = request.RawPC('router')
 node_router.disk_image = 'urn:publicid:IDN+emulab.net+image+emulab-ops//UBUNTU22-64-STD'
 node_router.hardware_type = params.rtrtype
-node_router.addService(pg.Execute(shell="bash", command="bash /local/repository/setup-scripts/mlnx-install.sh"))
+node_router.addService(pg.Execute(shell="bash", command="bash /local/repository/setup-scripts/mlnx-install.sh; bash /local/repository/setup-scripts/install.sh"))
 
 node_router.installRootKeys(True, True)
 iface1 = node_router.addInterface('interface-r-send', pg.IPv4Address('10.10.1.1','255.255.255.0'))
@@ -64,7 +64,7 @@ for i in range(params.n):
         node_sender.hardware_type = params.endtype
     node_sender.disk_image = 'urn:publicid:IDN+emulab.net+image+emulab-ops//UBUNTU18-64-STD'
     node_sender.installRootKeys(True, True)
-    node_sender.addService(pg.Execute(shell="bash", command="sudo apt-get update; sudo apt-get -y install iperf3; sudo modprobe tcp_bbr"))
+    node_sender.addService(pg.Execute(shell="bash", command="sudo apt-get update; sudo apt-get -y install iperf3; sudo modprobe tcp_bbr; bash /local/repository/setup-scripts/install.sh"))
     iface0 = node_sender.addInterface('interface-send-' + str(i), pg.IPv4Address('10.10.1.1' + str(i) ,'255.255.255.0'))
     iface0.bandwidth = 10000000
     link_0.addInterface(iface0)
@@ -78,7 +78,7 @@ for i in range(params.n):
         node_receiver.hardware_type = params.endtype
     node_receiver.disk_image = 'urn:publicid:IDN+emulab.net+image+emulab-ops//UBUNTU18-64-STD'
     node_receiver.installRootKeys(True, True)
-    node_receiver.addService(pg.Execute(shell="bash", command="sudo apt-get update; sudo apt-get -y install iperf3; sudo modprobe tcp_bbr"))
+    node_receiver.addService(pg.Execute(shell="bash", command="sudo apt-get update; sudo apt-get -y install iperf3; sudo modprobe tcp_bbr; bash /local/repository/setup-scripts/install.sh"))
     iface0 = node_receiver.addInterface('interface-recv-' + str(i), pg.IPv4Address('10.10.2.1' + str(i),'255.255.255.0'))
     iface0.bandwidth = 10000000
     link_1.addInterface(iface0)
