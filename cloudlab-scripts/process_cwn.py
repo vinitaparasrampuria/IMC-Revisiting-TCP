@@ -36,8 +36,7 @@ for i in range (0,senders):
     meas_rtt=dat_flow['rtt']
     #print(meas_rtt)
     avg_rtt1 = meas_rtt.str.split('/').str[0]
-    #avg_rtt1 = float(meas_rtt.split('/')[0])
-    avg_rtt=np.average(pd.to_numeric(avg_rtt1))
+    avg_rtt=np.nanmean(pd.to_numeric(avg_rtt1))
 
     meas_retrans=dat_flow['retrans'].iloc[len(dat_flow) - 1]
     total_retrans = int(meas_retrans.split('/')[1]) if pd.notnull(meas_retrans) else meas_retrans
