@@ -233,11 +233,11 @@ echo $drop_rate
 
 #process iperf3 files to get required data
 
-python3 /local/repository/cloudlab-scripts/result-${cca1}/process_iperf.py 10 $num_clients $test_duration $cca1
+python3 /local/repository/cloudlab-scripts/process_iperf.py 10 $num_clients $test_duration $cca1
 
 #process cwn files to get required data
 
-python3 /local/repository/cloudlab-scripts/result-${cca1}/process_cwn.py 10 $cca1
+python3 /local/repository/cloudlab-scripts/process_cwn.py 10 $cca1
 
 
 
