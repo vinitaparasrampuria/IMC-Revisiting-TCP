@@ -74,8 +74,10 @@ for i in range (0,10):
     x1=(1448*8*1000)/(mean_rtt*np.sqrt(packet_loss1))
 
     #method-2: calculation of packet_loss rate using transfer and retrans from iperf3 data
+    if dat_flow_iperf.shape[0] > 0 :
+      exponent=9 if dat_flow_iperf['data_unit'].iloc[0]=='GBytes' else 6
     port_retrans2=pd.to_numeric(dat_flow_iperf['retrans'].iloc[0]) if dat_flow_iperf.shape[0] > 0 else np.nan
-    transfered_data=pd.to_numeric(dat_flow_iperf['transfer_data'].iloc[0])*pow(10,9) if dat_flow_iperf.shape[0] > 0 else np.nan
+    transfered_data=pd.to_numeric(dat_flow_iperf['transfer_data'].iloc[0])*pow(10,exponent) if dat_flow_iperf.shape[0] > 0 else np.nan
     packet_loss2=(port_retrans2*1500)/(transfered_data)
     list_retrans2.append(port_retrans2)
     x2=(1448*8*1000)/(mean_rtt*np.sqrt(packet_loss2))
