@@ -16,7 +16,7 @@ for i in range(1, len(sys.argv)):
 sender=int(sys.argv[1])
 num_clients=int(sys.argv[2])
 cca1=sys.argv[3]
-droped=int(sys.argv[4])
+dropped=int(sys.argv[4])
 sent=int(sys.argv[5])
 
 list_cwnd_half=[]
@@ -117,7 +117,7 @@ print(total_cwnd_half)
 print(sum(ports))
 
 print(total_retransmission1)
-print(total_retransmission1)
+print(total_retransmission2)
 
 print(total_retransmission1/total_cwnd_half)
 print(total_retransmission2/total_cwnd_half)
