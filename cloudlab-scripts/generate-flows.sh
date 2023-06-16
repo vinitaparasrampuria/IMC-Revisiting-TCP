@@ -175,7 +175,13 @@ if [ $type == 1 ]; then
    count=$(grep -r -E "[0-9].*0.00-[0-9].*sender" --include *${cca1}.txt /local/repository/cloudlab-scripts/result-${cca1} |tr '[' ' ' |awk -F ' ' '{count+=1}END {print count}')
    echo count of $cca1 flows is $count
    echo JFI is $jfi
-
+   jfi_filename=/local/repository/cloudlab-scripts/JFI.csv
+   if test -f "$jfi_filename"; then
+      echo $cca1,$delay,$sum,$square,$count,$jfi > $jfi_filename
+   else
+      echo "CCA,Base RTT(ms),Total Bandwidth(Kbps),Sum of sq of BW,Flow Count,JFI" > $jfi_filename;
+      echo "John,Wick,57" >> $jfi_filename
+   fi
 elif [ $type == 2 ] || [ $type == 3 ];
 then
    sum1=$(grep -r -E "[0-9].*0.00-[0-9].*sender" --include *${cca1}.txt /local/repository/cloudlab-scripts/result-${cca1}-${cca2} |tr '[' ' ' |awk -F ' ' '{sum+=$7} END {print sum}')
@@ -237,7 +243,7 @@ python3 /local/repository/cloudlab-scripts/process_iperf.py 10 $num_clients $tes
 
 #process cwn files to get required data
 
-python3 /local/repository/cloudlab-scripts/process_cwn.py 10 $cca1
+python3 /local/repository/cloudlab-scripts/process_cwn.py 10 $num_clients $cca1 $dropped $sent
 
 
 
