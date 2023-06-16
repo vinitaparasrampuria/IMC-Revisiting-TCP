@@ -30,4 +30,3 @@ fi
 done
 	echo  ss_count_on_running_cwn_half.sh $ss_count >> sender-cwn-ss-count-$ip.txt
 
-bash /local/repository/endpoint-scripts/calc.sh $ip
