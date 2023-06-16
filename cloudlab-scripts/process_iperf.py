@@ -47,7 +47,6 @@ for i in range(0,senders):
           data1[i]=re.sub(r'\s+|\[', ' ', data1[i])
           words1 = data1[i].split()
           lines[i]=re.sub(r'\s+|\[', ' ', lines[i])
-          words2 = lines[i].split() 
-          
-          columns = words1[1][:-1], words1[5]+words1[9], words2[2], words2[3], words2[4], words2[5], words2[6], words2[7], words2[8]
+          words2 = lines[i].split()
+          columns = words1[0][:-1], words1[4]+words1[9], words2[1], words2[2], words2[3], words2[4], words2[5], words2[6], words2[7]
           writer.writerow(columns)
