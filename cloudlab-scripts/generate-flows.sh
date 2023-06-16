@@ -150,7 +150,7 @@ tc -p -s -d -j qdisc show dev $router_egress_name >tc_after.txt
 
 # analyze results
 
-sleep 900
+sleep 60
 
 if [ $type == 1 ]; then
    for i in {0..9}
@@ -226,16 +226,6 @@ echo $sent_after
 echo packet drop rate
 echo $drop_rate
 
-#calculate congestion window halving rate
-
-#sum_ss_count=$(tail --lines=1 /local/repository/cloudlab-scripts/result-${cca1}/*ss-count*.txt |awk -F '[, ]' '{sum+=$1}END {print sum}')
-#echo sum of ss count is $sum_ss_count
-#sum_half_events=$(cat /local/repository/cloudlab-scripts/result-${cca1}/*halving-dict*.txt |awk -F '[, ]' '{sum+=$2}END {print sum}')
-#echo sum of halving events is $sum_half_events
-
-#cwnd_half=$(echo "scale=8;$sum_half_events/$sum_ss_count" | bc)
-
-#echo congestion window halving rate is $cwnd_half
 
 #process iperf3 files to get required data
 
