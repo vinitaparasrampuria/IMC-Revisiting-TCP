@@ -177,10 +177,10 @@ if [ $type == 1 ]; then
    echo JFI is $jfi
    jfi_filename=/local/repository/cloudlab-scripts/JFI.csv
    if test -f "$jfi_filename"; then
-      echo $cca1,$delay,$sum,$square,$count,$jfi > $jfi_filename
+      echo $cca1,$delay,$sum,$square,$count,$jfi >> $jfi_filename
    else
-      echo "CCA,Base RTT(ms),Total Bandwidth(Kbps),Sum of sq of BW,Flow Count,JFI" > $jfi_filename;
-      echo $cca1,$delay,$sum,$square,$count,$jfi > $jfi_filename
+      echo "CCA,Base RTT(ms),Total Bandwidth(Kbps),Sum of sq of BW,Flow Count,JFI" >> $jfi_filename;
+      echo $cca1,$delay,$sum,$square,$count,$jfi >> $jfi_filename
    fi
 elif [ $type == 2 ] || [ $type == 3 ];
 then
