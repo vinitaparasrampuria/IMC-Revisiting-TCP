@@ -14,6 +14,7 @@ senders=int(sys.argv[1])
 num_clients=int(sys.argv[2])
 test_duration=int(sys.argv[3])
 cca1=sys.argv[4]
+flows=int(sys.argv[5])
 
 
 for i in range(0,senders):
@@ -32,7 +33,10 @@ for i in range(0,senders):
     #print(end_index2)
     csv_lines = []
     data1 = [line.strip() for line in lines[1:end_index1]]
-    data2= [line.strip() for line in lines[end_index2+1:-4]]
+    if flows==1:
+      data2= [line.strip() for line in lines[end_index2+1:-2]]
+    else:
+      data2= [line.strip() for line in lines[end_index2+1:-4]]
     lines = data2[::2]
     #print(data1)
     #print(lines)
