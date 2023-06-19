@@ -23,14 +23,16 @@ for i in range(0,senders):
    # print("sender-10.10.2.1"+str(i)+"-"+str(base_port+j)+"-"+str(test_duration)+"-"+cca1+".txt")
     with open("/local/repository/cloudlab-scripts/result-"+cca1+"/sender-10.10.2.1"+str(i)+"-"+str(base_port+j)+"-"+str(test_duration)+"-"+cca1+".txt", 'r') as file:
         lines = file.readlines()
-
-    # Find the indices of the first and last instance of [ID]
-    end_index1 = lines.index('[ ID] Interval           Transfer     Bandwidth       Retr  Cwnd\n')
-    #print(end_index1)
-
-    #last_index = len(lines) - lines[::-1].index('[ ID] Interval           Transfer     Bandwidth       Retr  Cwnd\n') - 1
-    end_index2 = lines.index('[ ID] Interval           Transfer     Bandwidth       Retr\n')
-    #print(end_index2)
+    if '[ ID] Interval           Transfer     Bandwidth       Retr  Cwnd\n' in lines:
+      end_index1 = lines.index('[ ID] Interval           Transfer     Bandwidth       Retr  Cwnd\n')
+      #print(end_index1)
+    else:
+      continue
+    if '[ ID] Interval           Transfer     Bandwidth       Retr\n' in lines:
+      end_index2 = lines.index('[ ID] Interval           Transfer     Bandwidth       Retr\n')
+      #print(end_index2)
+    else:
+      continue
     csv_lines = []
     data1 = [line.strip() for line in lines[1:end_index1]]
     if flows==1:
