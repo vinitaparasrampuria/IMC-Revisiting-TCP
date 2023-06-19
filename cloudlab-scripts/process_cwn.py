@@ -84,18 +84,18 @@ for i in range (0,10):
 
 
     #method-3: calculation of cwnd_halving rate using transfer from iperf3 data
-    cwnd_half_rate1=(cwn_half_port*1500)/(transfered_data)
-    x3=(1448*8*1000)/(mean_rtt*np.sqrt(cwnd_half_rate1))
+    if cwn_half_port:
+      cwnd_half_rate1=(cwn_half_port*1500)/(transfered_data)
+      x3=(1448*8*1000)/(mean_rtt*np.sqrt(cwnd_half_rate1))
 
     #method-4: calculation of cwnd_halving rate using data_seg_out from ss data
-    cwnd_half_rate2=cwn_half_port/data_seg_out
-    if cwnd_half_rate2:
+      cwnd_half_rate2=cwn_half_port/data_seg_out
       x4=(1448*8*1000)/(mean_rtt*np.sqrt(cwnd_half_rate2))
 
-    ratio1=port_retrans1/cwn_half_port if cwn_half_port>0 else np.nan
-    ratio2=port_retrans2/cwn_half_port if cwn_half_port>0 else np.nan
-    list_ratio1.append(ratio1)
-    list_ratio2.append(ratio2)
+      ratio1=port_retrans1/cwn_half_port
+      ratio2=port_retrans2/cwn_half_port
+      list_ratio1.append(ratio1)
+      list_ratio2.append(ratio2)
     bandwidth_port=pd.to_numeric(dat_flow_iperf['bandwidth'].iloc[0])*1000 if dat_flow_iperf.shape[0] > 0 else np.nan
 
     if not np.isnan(bandwidth_port):
@@ -104,12 +104,10 @@ for i in range (0,10):
       x3_values.append(x3)
       x4_values.append(x4)
       y_values.append(bandwidth_port)
-
-
-    with open(csv_filename, 'a', newline='') as csvfile:
-      writer = csv.writer(csvfile)
-      columns = p, data_seg_out, mean_rtt, bandwidth_port, port_retrans1, port_retrans2, cwn_half_port, packet_loss1, x1, packet_loss2, x2, cwnd_half_rate1, x3, cwnd_half_rate2, x4, ratio1, ratio2
-      writer.writerow(columns)
+      with open(csv_filename, 'a', newline='') as csvfile:
+        writer = csv.writer(csvfile)
+        columns = p, data_seg_out, mean_rtt, bandwidth_port, port_retrans1, port_retrans2, cwn_half_port, packet_loss1, x1, packet_loss2, x2, cwnd_half_rate1, x3, cwnd_half_rate2, x4, ratio1, ratio2
+        writer.writerow(columns)
 
 total_cwnd_half=np.nansum(list_cwnd_half)
 total_retransmission1=np.nansum(list_retrans1)
