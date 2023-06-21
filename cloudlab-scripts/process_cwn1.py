@@ -61,8 +61,9 @@ for i in range (0,10):
     list_cwnd_half.append(cwn_half_port)
 
     
-    meas_rtt=dat_flow['rtt'].str.split('/').str[0]
-    mean_rtt=np.nanmean(pd.to_numeric(meas_rtt))
+   # meas_rtt=dat_flow['rtt'].str.split('/').str[0]
+   # mean_rtt=np.nanmean(pd.to_numeric(meas_rtt))
+      mean_rtt=310
 
     #method-2: calculation of packet_loss rate using transfer and retrans from iperf3 data
     if dat_flow_iperf.shape[0] > 0 :
