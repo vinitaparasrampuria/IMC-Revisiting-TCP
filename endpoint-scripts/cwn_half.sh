@@ -23,7 +23,7 @@ if [ ! -z "$sstxt" ]; then
 	#retrans=$(echo $line_second | grep -oP '\bretrans:.*(\s|$)\brcv_space' | awk '{print $1}' | cut -f2 -d':');
         current_cwnd=$(echo $line_second | grep -oP '\bcwnd:.*(\s|$)\bbytes_acked' | awk -F '[: ]' '{print $2}')
 		#echo "$local_port,$current_cwnd,$rtt,$data_seg_out,$retrans" >> sender-cwn-$ip-file.txt
-		echo "$local_port,$current_cwnd,$rtt" >> sender-cwn-$ip-file.txt
+		echo "$local_port,$current_cwnd" >> sender-cwn-$ip-file.txt
 		done <<< "$sstxt"
 else
 	break
