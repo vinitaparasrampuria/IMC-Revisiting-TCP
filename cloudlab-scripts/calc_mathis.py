@@ -45,8 +45,8 @@ if not os.path.isfile(output_filename):
 
 
 for i in range (0,sender):
-  dat_cwn = pd.read_csv("/local/repository/cloudlab-scripts/result-"+cca1+"/cwn-10.10.2.1"+str(i)+".csv", names=['socket', 'port','cwnd'])
-  dat_iperf= pd.read_csv("/local/repository/cloudlab-scripts/result-"+cca1+"/iperf-10.10.2.1"+str(i)+".csv", names=['socket','port', 'mean_rtt', 'retransmits', 'send_rate', 'bytes_sent'] )
+  dat_cwn = pd.read_csv("/local/repository/cloudlab-scripts/result-"+cca1+"/cwn-10.10.2.1"+str(i)+".txt",header=0, names=['socket', 'port','cwnd', 'mean_rtt'])
+  dat_iperf= pd.read_csv("/local/repository/cloudlab-scripts/result-"+cca1+"/iperf-10.10.2.1"+str(i)+".txt",header=0, names=['socket','port', 'retransmits', 'send_rate', 'bytes_sent'] )
   port_un=pd.unique(dat_cwn.port)
   count_port=len(port_un)
   ports.append(count_port)
@@ -60,22 +60,22 @@ for i in range (0,sender):
     cwn_half_port=np.sum((np.diff(np.sign(x))) == -2)
     list_cwnd_half.append(cwn_half_port)
 
-    
+   # mean_rtt=300000
    # meas_rtt=dat_flow['rtt'].str.split('/').str[0]
    # mean_rtt=np.nanmean(pd.to_numeric(meas_rtt))
-
+    mean_rtt=np.nanmean(dat_flow['mean_rtt'])
     #method-2: calculation of packet_loss rate using transfer and retrans from iperf3 data
-    port_retrans=pd.to_numeric(dat_flow_iperf['retrans'].iloc[0]) if dat_flow_iperf.shape[0] > 0 else np.nan
+    port_retrans=pd.to_numeric(dat_flow_iperf['retransmits'].iloc[0]) if dat_flow_iperf.shape[0] > 0 else np.nan
     transfered_data=pd.to_numeric(dat_flow_iperf['bytes_sent'].iloc[0]) if dat_flow_iperf.shape[0] > 0 else np.nan
     packet_loss=(port_retrans*1500)/(transfered_data)
-    list_retrans2.append(port_retrans2)
-    x1=(1448*8*1000000)/(dat_flow_iperf['mean_rtt']*np.sqrt(packet_loss2))
+    list_retrans.append(port_retrans)
+    x1=(1448*8*1000000)/(mean_rtt*np.sqrt(packet_loss))
 
 
     #method-3: calculation of cwnd_halving rate using transfer from iperf3 data
     if cwn_half_port:
       cwnd_half_rate=(cwn_half_port*1500)/(transfered_data)
-      x2=(1448*8*1000)/(mean_rtt*np.sqrt(cwnd_half_rate1))
+      x2=(1448*8*1000000)/(mean_rtt*np.sqrt(cwnd_half_rate))
 
 
       ratio=port_retrans/cwn_half_port
@@ -126,9 +126,9 @@ with open(output_filename, 'a', newline='') as csvfile:
   writer.writerow(columns)
 
 
-y_hat1 = reg_simple2.predict(x1_values)
+y_hat1 = reg_simple1.predict(x1_values)
 
-y_hat2 = reg_simple3.predict(x2_values)
+y_hat2 = reg_simple2.predict(x2_values)
 
 
 with PdfPages("/local/repository/cloudlab-scripts/linear_reg_plot.pdf") as pdf:
