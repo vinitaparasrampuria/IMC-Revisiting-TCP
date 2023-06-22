@@ -20,7 +20,7 @@ for i in range(0,senders):
   if not os.path.isfile(iperf_filename):
     with open(iperf_filename, 'a', newline='') as csvfile:
       writer = csv.writer(csvfile)
-      header = 'socket', 'port', 'mean_rtt', 'retransmits', 'send_rate', 'bytes_sent'
+      header = 'socket', 'port', 'retransmits', 'send_rate', 'bytes_sent'
       writer.writerow(header)
    
 
@@ -48,15 +48,9 @@ for i in range(0,senders):
       bytes_sent=data['end']['streams'][l]['sender']['bytes']
       send_rate=data['end']['streams'][l]['sender']['bits_per_second']
       retransmits=data['end']['streams'][l]['sender']['retransmits']
-      mean_rtt=data['end']['streams'][l]['sender']['mean_rtt']
-      print("socket:",s)
-      print("bytes_sent:",bytes_sent)
-      print("send_rate:", send_rate)
-      print("retransmits", retransmits)
-      print("mean_rtt", mean_rtt)
       with open(iperf_filename, 'a', newline='') as csvfile:
         writer = csv.writer(csvfile)
-        columns = s, socket_dict[s], mean_rtt, retransmits, send_rate, bytes_sent
+        columns = s, socket_dict[s], retransmits, send_rate, bytes_sent
         writer.writerow(columns)
 
 
