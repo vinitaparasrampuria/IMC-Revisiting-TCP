@@ -35,6 +35,8 @@ for i in range(0,senders):
     f=open("/local/repository/cloudlab-scripts/result-"+cca1+"/sender-10.10.2.1"+str(i)+"-"+str(base_port+j)+"-"+str(test_duration)+"-"+cca1+".txt")
     data = json.load(f)
     socket_dict={}
+    if not data:
+        continue
 
     for k in range (0, len(data['start']['connected'])):
       socket=data['start']['connected'][k]['socket']
