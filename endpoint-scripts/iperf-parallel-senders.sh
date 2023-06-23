@@ -26,7 +26,7 @@ flows=$1
 shift
 
 # E.g. -u -b 10M
-iperf_options="$*"
+interval=$1
 
 # Run iperf multiple times
 for i in `seq 1 $num_clients`; do
@@ -37,7 +37,7 @@ for i in `seq 1 $num_clients`; do
 	report_file=sender-${server_ip}-${server_port}-${test_duration}-$cca.txt
 
 	# Run iperf3
-	iperf3 -c $server_ip -p $server_port -t $test_duration -C $cca -P $flows -O 60 -i 0.2 -J &>$report_file &
+	iperf3 -c $server_ip -p $server_port -t $test_duration -C $cca -P $flows -O 60 -i $interval -J &>$report_file &
  	#iperf3 -c $server_ip -p $server_port -t $test_duration -C $cca -P $flows -O 60 --format k &>$report_file &
 	sleep 12
 done
