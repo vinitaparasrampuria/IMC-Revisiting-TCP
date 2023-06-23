@@ -14,7 +14,7 @@ for i in {0..9}
 do
    sudo ssh -o StrictHostKeyChecking=no root@sender-$i /bin/bash << EOF
    bash /local/repository/endpoint-scripts/change-queue.sh 
-   bash /local/repository/endpoint-scripts/install-iperf.sh > /dev/null 2>&1 &
+   bash /local/repository/endpoint-scripts/install_iperf.sh > /dev/null 2>&1 &
    bash /local/repository/setup-scripts/install.sh > /dev/null 2>&1 &
 EOF
 done
