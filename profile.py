@@ -64,7 +64,8 @@ for i in range(params.n):
         node_sender.hardware_type = params.endtype
     node_sender.disk_image = 'urn:publicid:IDN+emulab.net+image+emulab-ops//UBUNTU18-64-STD'
     node_sender.installRootKeys(True, True)
-    node_sender.addService(pg.Execute(shell="bash", command="sudo apt-get update; sudo apt-get -y install iperf3; sudo modprobe tcp_bbr"))
+    node_sender.addService(pg.Execute(shell="bash", command="sudo apt-get update; sudo modprobe tcp_bbr"))
+    #node_sender.addService(pg.Execute(shell="bash", command="sudo apt-get update; sudo apt-get -y install iperf3; sudo modprobe tcp_bbr"))
     iface0 = node_sender.addInterface('interface-send-' + str(i), pg.IPv4Address('10.10.1.1' + str(i) ,'255.255.255.0'))
     iface0.bandwidth = 10000000
     link_0.addInterface(iface0)
