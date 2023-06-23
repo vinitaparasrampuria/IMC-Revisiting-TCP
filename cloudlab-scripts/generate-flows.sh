@@ -30,6 +30,10 @@ shift
 flows=$1
 shift
 
+#interval(in sec) in which iperf data is saved
+interval=$1
+shift
+
 #CCA-bbr, cubic, reno for inter flow
 cca2=$1
 shift
@@ -91,7 +95,7 @@ then
       # with appropriate arguments
       sudo ssh -o StrictHostKeyChecking=no root@sender-$i /bin/bash << EOF
       sudo killall iperf3
-      bash /local/repository/endpoint-scripts/iperf-parallel-senders.sh 10.10.2.1$i $num_clients $test_duration $cca1 $flows > /dev/null 2>&1 &
+      bash /local/repository/endpoint-scripts/iperf-parallel-senders.sh 10.10.2.1$i $num_clients $test_duration $cca1 $flows $interval > /dev/null 2>&1 &
 EOF
    done
  elif [ $type == 2 ];
