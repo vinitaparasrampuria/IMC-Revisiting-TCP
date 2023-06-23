@@ -30,7 +30,7 @@ if not os.path.isfile(cwn_filename):
 for j in range(1,num_clients+1):
   #print("sender-"+server_ip+"-"+str(base_port+j)+"-"+str(test_duration)+"-"+cca1+".txt")
   f=open("sender-"+server_ip+"-"+str(base_port+j)+"-"+str(test_duration)+"-"+cca1+".txt")
-  with open("sender-"+server_ip+"-"+str(base_port+j)+"-"+str(test_duration)+"-"+cca1+".txt")
+  with open("sender-"+server_ip+"-"+str(base_port+j)+"-"+str(test_duration)+"-"+cca1+".txt") as file:
     content = file.read()
   if not content:
     print("File is empty")
