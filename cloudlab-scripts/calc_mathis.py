@@ -45,8 +45,8 @@ if not os.path.isfile(output_filename):
 
 
 for i in range (0,sender):
-  dat_cwn = pd.read_csv("/local/repository/cloudlab-scripts/result-"+cca1+"/cwn-10.10.2.1"+str(i)+".txt",header=0, names=['socket', 'port','cwnd', 'mean_rtt'])
-  dat_iperf= pd.read_csv("/local/repository/cloudlab-scripts/result-"+cca1+"/iperf-10.10.2.1"+str(i)+".txt",header=0, names=['socket','port', 'retransmits', 'send_rate', 'bytes_sent'] )
+  dat_cwn = pd.read_csv("/local/repository/cloudlab-scripts/result-"+cca1+"/data-cwn-10.10.2.1"+str(i)+".txt",header=0, names=['socket', 'port','cwnd', 'mean_rtt'])
+  dat_iperf= pd.read_csv("/local/repository/cloudlab-scripts/result-"+cca1+"/data-iperf-10.10.2.1"+str(i)+".txt",header=0, names=['socket','port', 'retransmits', 'send_rate', 'bytes_sent'] )
   port_un=pd.unique(dat_cwn.port)
   count_port=len(port_un)
   ports.append(count_port)
