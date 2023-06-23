@@ -15,8 +15,8 @@ base_port=60000
 
 
 for i in range(0,senders):
-  iperf_filename =  "/local/repository/cloudlab-scripts/result-"+cca1+"/iperf-10.10.2.1"+str(i)+".csv"
-  cwn_filename = "/local/repository/cloudlab-scripts/result-"+cca1+"/cwn-10.10.2.1"+str(i)+".csv"
+  iperf_filename =  "/local/repository/cloudlab-scripts/result-"+cca1+"/iperf-10.10.2.1"+str(i)+".txt"
+  cwn_filename = "/local/repository/cloudlab-scripts/result-"+cca1+"/cwn-10.10.2.1"+str(i)+".txt"
   if not os.path.isfile(iperf_filename):
     with open(iperf_filename, 'a', newline='') as csvfile:
       writer = csv.writer(csvfile)
@@ -54,13 +54,14 @@ for i in range(0,senders):
         writer.writerow(columns)
 
 
-    for i in range (0, len(data['intervals'])):
-      for j in range (0, len(data['intervals'][i]['streams'])):
-        s=data['intervals'][i]['streams'][j]['socket']
-        cwnd=data['intervals'][i]['streams'][j]['snd_cwnd']
+    for m in range (0, len(data['intervals'])):
+      for n in range (0, len(data['intervals'][m]['streams'])):
+        s=data['intervals'][m]['streams'][n]['socket']
+        cwnd=data['intervals'][m]['streams'][n]['snd_cwnd']
+        rtt=data['intervals'][m]['streams'][n]['rtt']
         with open(cwn_filename, 'a', newline='') as csvfile:
           writer = csv.writer(csvfile)
-          columns = s, socket_dict[s], cwnd
+          columns = s, socket_dict[s], cwnd, rtt
           writer.writerow(columns)
 
     f.close()
