@@ -1,4 +1,4 @@
-erimport json
+import json
 import csv
 import os
 import sys
@@ -33,10 +33,13 @@ for i in range(0,senders):
   for j in range(1,num_clients+1):
     #print("/local/repository/cloudlab-scripts/result-"+cca1+"/sender-10.10.2.1"+str(i)+"-"+str(base_port+j)+"-"+str(test_duration)+"-"+cca1+".txt")
     f=open("/local/repository/cloudlab-scripts/result-"+cca1+"/sender-10.10.2.1"+str(i)+"-"+str(base_port+j)+"-"+str(test_duration)+"-"+cca1+".txt")
+    with open("sender-10.10.2.1"+str(i)+"-"+str(base_port+j)+"-"+str(test_duration)+"-"+cca1+".txt")
+      content = file.read()
+    if not content:
+      print("File is empty")
+      continue
     data = json.load(f)
     socket_dict={}
-    if not data:
-        continue
 
     for k in range (0, len(data['start']['connected'])):
       socket=data['start']['connected'][k]['socket']
