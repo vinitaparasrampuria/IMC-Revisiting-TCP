@@ -19,6 +19,8 @@ do
 EOF
 done
 
+sleep 300
+
 for i in {0..9}
 do
    sudo ssh -o StrictHostKeyChecking=no root@sender-$i /bin/bash << EOF
