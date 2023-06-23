@@ -159,7 +159,10 @@ sleep 60
 if [ $type == 1 ]; then
    for i in {0..9}
    do
-      sudo scp -o StrictHostKeyChecking=no -r root@sender-$i:./sender* /local/repository/cloudlab-scripts/result-${cca1}/.
+      sudo ssh -o StrictHostKeyChecking=no root@sender-$i /bin/bash << EOF
+      python3 /local/repository/cloudlab-scripts/iperf_process.py 10 $num_clients $test_duration $cca1 > /dev/null 2>&1 &
+EOF
+      sudo scp -o StrictHostKeyChecking=no -r root@sender-$i:./data* /local/repository/cloudlab-scripts/result-${cca1}/.
    done
 elif [ $type == 2 ] || [ $type == 3 ]; then
    for i in {0..9}
@@ -235,7 +238,7 @@ echo $drop_rate
 
 #python3 /local/repository/cloudlab-scripts/process_iperf.py 10 $num_clients $test_duration $cca1 $flows
 
-python3 /local/repository/cloudlab-scripts/iperf_process.py 10 $num_clients $test_duration $cca1
+#python3 /local/repository/cloudlab-scripts/iperf_process.py 10 $num_clients $test_duration $cca1
 
 #process cwn files to get required data
 
