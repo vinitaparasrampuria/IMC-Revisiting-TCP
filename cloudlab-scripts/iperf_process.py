@@ -1,4 +1,4 @@
-import json
+erimport json
 import csv
 import os
 import sys
@@ -15,8 +15,8 @@ base_port=60000
 
 
 for i in range(0,senders):
-  iperf_filename =  "/local/repository/cloudlab-scripts/result-"+cca1+"/iperf-10.10.2.1"+str(i)+".txt"
-  cwn_filename = "/local/repository/cloudlab-scripts/result-"+cca1+"/cwn-10.10.2.1"+str(i)+".txt"
+  iperf_filename =  "/local/repository/cloudlab-scripts/result-"+cca1+"/data-iperf-10.10.2.1"+str(i)+".txt"
+  cwn_filename = "/local/repository/cloudlab-scripts/result-"+cca1+"/data-cwn-10.10.2.1"+str(i)+".txt"
   if not os.path.isfile(iperf_filename):
     with open(iperf_filename, 'a', newline='') as csvfile:
       writer = csv.writer(csvfile)
