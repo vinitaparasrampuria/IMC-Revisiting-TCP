@@ -27,7 +27,7 @@ for j in range(1,num_clients+1):
     end_index1 = lines.index('[ ID] Interval           Transfer     Bandwidth       Retr  Cwnd\n')
     #print(end_index1)
   elif '[ ID] Interval           Transfer     Bitrate         Retr  Cwnd\n' in lines:
-    end_index1 = lines.index('[ ID] Interval           Transfer     Bitrate         Retr  Cwnd\n)       
+    end_index1 = lines.index('[ ID] Interval           Transfer     Bitrate         Retr  Cwnd\n')       
   else:
     continue
   if '[ ID] Interval           Transfer     Bandwidth       Retr\n' in lines:
