@@ -162,7 +162,7 @@ if [ $type == 1 ]; then
       sudo ssh -o StrictHostKeyChecking=no root@sender-$i /bin/bash << EOF
       #python3 /local/repository/endpoint-scripts/process_iperf_file.py 10.10.2.1$i $num_clients $test_duration $cca1 > /dev/null 2>&1 &
       python3 /local/repository/endpoint-scripts/process_cwn_file.py 10.10.2.1$i > /dev/null 2>&1 &
-      python3 /local/repository/cloudlab-scripts/process_iperf.py 10 $num_clients $test_duration $cca1 $flows > /dev/null 2>&1 &
+      python3 /local/repository/endpoint-scripts/process_iperf_normal.py $i $num_clients $test_duration $cca1 $flows > /dev/null 2>&1 &
 EOF
    done
    sleep 7200
