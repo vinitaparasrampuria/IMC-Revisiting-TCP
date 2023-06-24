@@ -26,11 +26,15 @@ for j in range(1,num_clients+1):
   if '[ ID] Interval           Transfer     Bandwidth       Retr  Cwnd\n' in lines:
     end_index1 = lines.index('[ ID] Interval           Transfer     Bandwidth       Retr  Cwnd\n')
     #print(end_index1)
+  elif '[ ID] Interval           Transfer     Bitrate         Retr  Cwnd\n' in lines:
+    end_index1 = lines.index('[ ID] Interval           Transfer     Bitrate         Retr  Cwnd\n)       
   else:
     continue
   if '[ ID] Interval           Transfer     Bandwidth       Retr\n' in lines:
     end_index2 = lines.index('[ ID] Interval           Transfer     Bandwidth       Retr\n')
     #print(end_index2)
+  elif '[ ID] Interval           Transfer     Bitrate         Retr\n' in lines:
+    end_index2 = lines.index('[ ID] Interval           Transfer     Bitrate         Retr\n') 
   else:
     continue
   csv_lines = []
