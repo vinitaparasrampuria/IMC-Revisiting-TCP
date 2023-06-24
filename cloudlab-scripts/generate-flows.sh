@@ -163,7 +163,7 @@ if [ $type == 1 ]; then
       python3 /local/repository/endpoint-scripts/process_iperf_file.py 10.10.2.1$i $num_clients $test_duration $cca1 > /dev/null 2>&1 &
 EOF
    done
-   sleep 900
+   sleep 7200
    
    for i in {0..9}
    do
