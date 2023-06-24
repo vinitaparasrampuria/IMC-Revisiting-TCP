@@ -47,7 +47,7 @@ if not os.path.isfile(output_filename):
       writer.writerow(header)
 
 
-for i in range (0,10):
+for i in range (0,sender):
   dat_cwn = pd.read_csv("/local/repository/cloudlab-scripts/result-"+cca1+"/data-cwn-10.10.2.1"+str(i)+"-file.txt", header=None, names=['port', 'cwnd', 'rtt'])
   dat_iperf= pd.read_csv("/local/repository/cloudlab-scripts/result-"+cca1+"/data-iperf-10.10.2.1"+str(i)+".csv", header=None, names=['id','port','duration','time_unit','transfer_data','data_unit','bandwidth','BW_unit','retrans'] )
   port_un=pd.unique(dat_cwn.port)
