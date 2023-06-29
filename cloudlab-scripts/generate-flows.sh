@@ -160,12 +160,12 @@ if [ $type == 1 ]; then
    for i in {0..9}
    do
       sudo ssh -o StrictHostKeyChecking=no root@sender-$i /bin/bash << EOF
-      #python3 /local/repository/endpoint-scripts/process_iperf_file.py 10.10.2.1$i $num_clients $test_duration $cca1 > /dev/null 2>&1 &
-      python3 /local/repository/endpoint-scripts/process_cwn_file.py $i > /dev/null 2>&1 &
-      python3 /local/repository/endpoint-scripts/process_iperf_normal.py $i $num_clients $test_duration $cca1 $flows > /dev/null 2>&1 &
+      python3 /local/repository/endpoint-scripts/process_iperf_file.py 10.10.2.1$i $num_clients $test_duration $cca1 > /dev/null 2>&1 &
+      #python3 /local/repository/endpoint-scripts/process_cwn_file.py $i > /dev/null 2>&1 &
+      #python3 /local/repository/endpoint-scripts/process_iperf_normal.py $i $num_clients $test_duration $cca1 $flows > /dev/null 2>&1 &
 EOF
    done
-   sleep 7200
+   sleep 600
    
    for i in {0..9}
    do
@@ -250,7 +250,7 @@ echo $drop_rate
 #process cwn files to get required data
 
 #python3 /local/repository/cloudlab-scripts/process_cwn.py 10 $num_clients $cca1 $dropped $sent
-#python3 /local/repository/cloudlab-scripts/calc_mathis.py 10 $num_clients $cca1 $dropped $sent
-python3 /local/repository/cloudlab-scripts/get_mathis_constant.py 10 $num_clients $cca1 $dropped $sent
+python3 /local/repository/cloudlab-scripts/calc_mathis.py 10 $num_clients $cca1 $dropped $sent
+#python3 /local/repository/cloudlab-scripts/get_mathis_constant.py 10 $num_clients $cca1 $dropped $sent
 
 
