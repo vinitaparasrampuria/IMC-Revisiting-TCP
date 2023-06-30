@@ -29,6 +29,7 @@ shift
 interval=$1
 
 # Run iperf multiple times
+bash /local/repository/endpoint-scripts/call_func.sh $server_ip > /dev/null 2>&1 &
 for i in `seq 1 $num_clients`; do
 
 	# Set server port
@@ -41,4 +42,3 @@ for i in `seq 1 $num_clients`; do
  	#iperf3 -c $server_ip -p $server_port -t $test_duration -C $cca -P $flows -O 60 --format k &>$report_file &
 	sleep 12
 done
-bash /local/repository/endpoint-scripts/call_func.sh $server_ip > /dev/null 2>&1 &
