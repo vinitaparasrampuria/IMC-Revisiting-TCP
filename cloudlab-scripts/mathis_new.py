@@ -45,9 +45,9 @@ if not os.path.isfile(output_filename):
 
 
 for i in range (0,sender):
-  dat_rtt = pd.read_csv("/local/repository/cloudlab-scripts/result-"+cca1+"/"data-cwn-10.10.2.1"+str(i)+"-file.txt",header=0, names=['port', 'cwnd' , 'rtt'])
-  dat_cwn = pd.read_csv("/local/repository/cloudlab-scripts/result-"+cca1+"/data-cwn-10.10.2.1"+str(i)+".txt",header=0, names=['socket', 'port','cwnd'])
-  dat_iperf= pd.read_csv("/local/repository/cloudlab-scripts/result-"+cca1+"/data-iperf-10.10.2.1"+str(i)+".txt",header=0, names=['socket', 'port', 'time', 'time_unit', 'transfer', 'transfer_unit', 'bitrate', 'bitrate_unit', 'retrans'] )
+  dat_rtt = pd.read_csv("/local/repository/cloudlab-scripts/result-"+cca1+"/"data-cwn-10.10.2.1"+str(i)+"-file.txt",header=None, names=['port', 'cwnd' , 'rtt'])
+  dat_cwn = pd.read_csv("/local/repository/cloudlab-scripts/result-"+cca1+"/data-cwn-10.10.2.1"+str(i)+".csv",header=0, names=['socket', 'port','cwnd'])
+  dat_iperf= pd.read_csv("/local/repository/cloudlab-scripts/result-"+cca1+"/data-iperf-10.10.2.1"+str(i)+".csv",header=0, names=['socket', 'port', 'time', 'time_unit', 'transfer', 'transfer_unit', 'bitrate', 'bitrate_unit', 'retrans'] )
   port_un=pd.unique(dat_cwn.port)
   count_port=len(port_un)
   ports.append(count_port)
@@ -72,17 +72,17 @@ for i in range (0,sender):
     transfered_data=pd.to_numeric(dat_flow_iperf['transfer'].iloc[0])*pow(10,exponent) if dat_flow_iperf.shape[0] > 0 else np.nan
     packet_loss=(port_retrans*1500)/(transfered_data)
     list_retrans.append(port_retrans)
-    x1=(1448*8*1000000)/(mean_rtt*np.sqrt(packet_loss))
+    x1=(1448*8*1000)/(mean_rtt*np.sqrt(packet_loss))
 
 
     #method-3: calculation of cwnd_halving rate using transfer from iperf3 data
     if cwn_half_port:
       cwnd_half_rate=(cwn_half_port*1500)/(transfered_data)
-      x2=(1448*8*1000000)/(mean_rtt*np.sqrt(cwnd_half_rate))
+      x2=(1448*8*1000)/(mean_rtt*np.sqrt(cwnd_half_rate))
 
       ratio=port_retrans/cwn_half_port
       list_ratio.append(ratio)
-    bandwidth_port=pd.to_numeric(dat_flow_iperf['bitrate'].iloc[0]) if dat_flow_iperf.shape[0] > 0 else np.nan
+    bandwidth_port=pd.to_numeric(dat_flow_iperf['bitrate'].iloc[0]*1000) if dat_flow_iperf.shape[0] > 0 else np.nan
 
     if not np.isnan(bandwidth_port):
       x1_values.append(x1)
