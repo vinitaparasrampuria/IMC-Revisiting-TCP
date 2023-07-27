@@ -1,12 +1,10 @@
 import csv
 import re
-#senders=10
-#num_clients=10
-#test_duration=7200
-#cca1="reno"
-base_port=60000
-
+import os
 import sys
+
+
+base_port=60000
 
 for i in range(1, len(sys.argv)):
     print('argument:', i, 'value:', sys.argv[i])
@@ -33,8 +31,6 @@ if not os.path.isfile(cwn_filename):
     writer.writerow(header)
 
 
-header_iperf=
-header_cwn=
 for j in range(1,num_clients+1):
    # print("sender-10.10.2.1"+ip+"-"+str(base_port+j)+"-"+str(test_duration)+"-"+cca1+".txt")
   with open("sender-10.10.2.1"+ip+"-"+str(base_port+j)+"-"+str(test_duration)+"-"+cca1+".txt", 'r') as file:
@@ -72,9 +68,9 @@ for j in range(1,num_clients+1):
         id_dict[words1[0][:-1]]=words1[4]+words1[9]
         columns = words1[0][:-1], words1[4]+words1[9], words2[1], words2[2], words2[3], words2[4], words2[5], words2[6], words2[7]
         writer.writerow(columns)
-
+    
     data_cwn=[line.strip() for line in lines[end_index1:end_index2]]
-      with open(cwn_filename, 'a', newline='') as csvfile:
+    with open(cwn_filename, 'a', newline='') as csvfile:
         writer = csv.writer(csvfile)
         for m in range(0,len(data_cwn)):
               data_cwn[m]=re.sub(r'\s+|\[', ' ', data_cwn[m])
