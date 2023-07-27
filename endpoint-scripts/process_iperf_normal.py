@@ -16,7 +16,7 @@ flows=int(sys.argv[5])
 
 id_dict={}
 iperf_filename = "data-iperf-10.10.2.1"+ip+".csv"
-cwn_filename= "data-cwn-10.10.2."+ip+".csv"
+cwn_filename= "data-cwn-10.10.2.1"+ip+".csv"
 if not os.path.isfile(iperf_filename):
   with open(iperf_filename, 'a', newline='') as csvfile:
     writer = csv.writer(csvfile)
