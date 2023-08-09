@@ -63,6 +63,8 @@ for i in range(params.n):
         node_sender = request.RawPC('sender-' + str(i))
         node_sender.hardware_type = params.endtype
     node_sender.disk_image = 'urn:publicid:IDN+emulab.net+image+emulab-ops//UBUNTU18-64-STD'
+    bs = node_sender.Blockstore("bs", "/mydata")
+    bs.size = "30GB"
     node_sender.installRootKeys(True, True)
     node_sender.addService(pg.Execute(shell="bash", command="sudo apt-get update; sudo modprobe tcp_bbr"))
     #node_sender.addService(pg.Execute(shell="bash", command="sudo apt-get update; sudo apt-get -y install iperf3; sudo modprobe tcp_bbr"))
