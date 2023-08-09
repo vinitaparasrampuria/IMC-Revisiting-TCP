@@ -30,6 +30,10 @@ shift
 cca2=$1
 shift
 
+#iperf3 output interval
+interval=$1
+shift
+
 # E.g. -u -b 10M
 #iperf_options="$*"
 
@@ -42,12 +46,12 @@ for i in `seq 1 $((num_clients-1))`; do
         report_file=sender-${server_ip}-${server_port}-${test_duration}-${cca1}.txt
 
         # Run iperf3
-        iperf3 -c $server_ip -p $server_port -t $test_duration -C $cca1 -P $flows --format k &>$report_file &
+        iperf3 -c $server_ip -p $server_port -t $test_duration -C $cca1 -P $flows -i $interval --format k &>$report_file &
 done
 server_port=$(($base_port+$num_clients))
 if [ $num_clients -ne 1 ]; then
 report_file=sender-${server_ip}-$((server_port))-${test_duration}-${cca1}.txt
-iperf3 -c $server_ip -p $((server_port)) -t $test_duration -C $cca1 -P $((flows-1)) --format k &>$report_file &
+iperf3 -c $server_ip -p $((server_port)) -t $test_duration -C $cca1 -P $((flows-1)) -i $interval --format k &>$report_file &
 fi
 report_file=sender-${server_ip}-$((server_port+1))-${test_duration}-${cca2}.txt
-iperf3 -c $server_ip -p $((server_port+1)) -t $test_duration -C $cca2 -P 1 --format k &>$report_file &
+iperf3 -c $server_ip -p $((server_port+1)) -t $test_duration -C $cca2 -P 1 -i $interval --format k &>$report_file &
