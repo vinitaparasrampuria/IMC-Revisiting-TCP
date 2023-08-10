@@ -18,6 +18,8 @@ num_clients=int(sys.argv[2])
 cca1=sys.argv[3]
 dropped=int(sys.argv[4])
 sent=int(sys.argv[5])
+time_interval=int(sys.argv[6])
+duration=int(sys.argv[6])
 
 list_cwnd_half=[]
 ports=[]
@@ -40,7 +42,7 @@ output_filename='/local/repository/cloudlab-scripts/output_mathis_C_iperf.csv'
 if not os.path.isfile(output_filename):
     with open(output_filename, 'a', newline='') as csvfile:
       writer = csv.writer(csvfile)
-      header = 'ports', 'sum(y_values)', 'total_cwnd_half', 'total_retransmission', 'total_retransmission/total_cwnd_half', 'np.nanmean(list_ratio)', 'reg_simple1.intercept_', 'reg_simple1.coef_[0]', 'reg_simple2.intercept_', 'reg_simple2.coef_[0]', 'router_dropped', 'router_sent', 'router_dropped/total_cwnd_half'
+      header = 'time_interval', 'time_duration' ,'ports', 'sum(y_values)', 'total_cwnd_half', 'total_retransmission', 'total_retransmission/total_cwnd_half', 'np.nanmean(list_ratio)', 'reg_simple1.intercept_', 'reg_simple1.coef_[0]', 'reg_simple2.intercept_', 'reg_simple2.coef_[0]', 'router_dropped', 'router_sent', 'router_dropped/total_cwnd_half'
       writer.writerow(header)
 
 
@@ -124,7 +126,7 @@ print("Coefficient list: ", reg_simple2.coef_)
 
 with open(output_filename, 'a', newline='') as csvfile:
   writer = csv.writer(csvfile)
-  columns = sum(ports), sum(y_values), total_cwnd_half, total_retransmission, total_retransmission/total_cwnd_half, np.nanmean(list_ratio), reg_simple1.intercept_, reg_simple1.coef_[0], reg_simple2.intercept_, reg_simple2.coef_[0], dropped, sent, dropped/total_cwnd_half
+  columns = time_interval, duration, sum(ports), sum(y_values), total_cwnd_half, total_retransmission, total_retransmission/total_cwnd_half, np.nanmean(list_ratio), reg_simple1.intercept_, reg_simple1.coef_[0], reg_simple2.intercept_, reg_simple2.coef_[0], dropped, sent, dropped/total_cwnd_half
   writer.writerow(columns)
 
 
