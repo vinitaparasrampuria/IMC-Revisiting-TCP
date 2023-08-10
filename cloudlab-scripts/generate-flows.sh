@@ -250,7 +250,7 @@ echo $drop_rate
 #process cwn files to get required data
 
 #python3 /local/repository/cloudlab-scripts/process_cwn.py 10 $num_clients $cca1 $dropped $sent
-python3 /local/repository/cloudlab-scripts/mathis_new.py 10 $num_clients $cca1 $dropped $sent
+python3 /local/repository/cloudlab-scripts/mathis_new.py 10 $num_clients $cca1 $dropped $sent $interval $test_duration
 #python3 /local/repository/cloudlab-scripts/get_mathis_constant.py 10 $num_clients $cca1 $dropped $sent
 
 
