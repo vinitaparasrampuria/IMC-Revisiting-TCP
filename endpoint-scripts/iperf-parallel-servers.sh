@@ -1,4 +1,3 @@
-
 # Run multiple parallel instances of iperf servers
 
 # Base port is the port number after which the ports on server will be listening 
@@ -13,11 +12,7 @@ shift
 # Command line input: base report file name
 # E.g. report
 #report_base=$1
-#shift
 
-# Optional command line input: other iperf options
-# E.g. -u
-#iperf_options="$*"
 
 # Run iperf multiple times
 for i in `seq 1 $num_servers`; do
