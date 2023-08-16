@@ -1,51 +1,52 @@
-#delay (in ms) to be added to each receiver
+# delay (in ms) to be added to each receiver (for this expt values are 20, 100 and 200 ms)
 delay=$1
-shift
 
-#set limit for tc qdisc on esch receiver (10000, 100000 etc)
-limit=$1
-shift
+# set limit for tc qdisc on esch receiver (10000, 100000 etc)
+limit=$2
 
-#type of test
-#1 for intra CCA
-#2 for inter cca- equal flows divided between two cca
-#3 for inter cca- unequal flows divided between two cca
-#like bbr-1 and reno 1000
-type=$1
-shift
+# type of test
+# 1 for intra CCA and Mathis constant Calculation
+# 2 for inter cca- equal flows divided between two cca
+# 3 for inter cca- unequal flows divided between two cca
+# like bbr-1 and reno 999
+type=$3
 
-# E.g. 5
-num_clients=$1
-shift
+# E.g. 10
+# For this expt, the value is 10 for core scale and 1 for edge scale
+num_clients=$4
 
-# E.g. 60
-test_duration=$1
-shift
+# E.g. 1800
+# For this experiment, this value is 10800 (=3 hours)
+test_duration=$5
 
-#CCA-bbr, cubic, reno
-cca1=$1
-shift
+# CCA1-bbr, cubic, reno
+# To get Mathis constant this is set to reno
+# To get intra and inter CCA fairness, it can be bbr, cubic, reno
 
-#number of flows to be sent from one iperf3
-flows=$1
-shift
+cca1=$6
 
-#interval(in sec) in which iperf data is saved
-interval=$1
-shift
+# number of flows to be sent from one iperf3
+# For this expt, core scale, this is set to 10, 30 and 50 (to get 1000, 3000 and 5000 flows)
+# edge scale, 1, 3 and 5 (to get 10, 30 and 50 flows)
+flows=$7
 
-#CCA-bbr, cubic, reno for inter flow
-cca2=$1
-shift
+# interval(in sec) in which iperf3 data is saved
+# for getting Mathos constant this is set to 0.01
+# for all other expts, this value is set to 1
+interval=$8
 
-#remove existing files from all the hosts
+# CCA2-bbr, cubic, reno 
+# This is used only in inter flow fairness expts
+cca2=$9
+
+# remove existing files from all the hosts
 for i in {0..9}
 do
    sudo ssh -o StrictHostKeyChecking=no root@receiver-$i "rm -f ./*"
    sudo ssh -o StrictHostKeyChecking=no root@sender-$i "rm -f ./*"
 done
 
-#get queue statistics before running the experiment
+# get queue statistics at the router before running the experiment
 router_egress_name=$( ip route get 10.10.2.100 | grep -oP "(?<=dev )[^ ]+" )
 tc -p -s -d -j qdisc show dev $router_egress_name >tc_before.txt
 
@@ -53,10 +54,6 @@ if [ $type == 1 ] || [ $type == 2 ];
 then
    for i in {0..9}
    do
-      # run 'bash /local/repository/endpoint-scripts/set-delay.sh $delay' to add delay on the receiver
-      # instead of running iperf3 directly, run 'bash /local/repository/endpoint-scripts/iperf-parallel-servers'
-      # with appropriate arguments
-
       sudo ssh -o StrictHostKeyChecking=no root@receiver-$i /bin/bash << EOF
       bash /local/repository/endpoint-scripts/set-delay.sh $delay $limit
       sudo killall iperf3
@@ -154,63 +151,6 @@ tc -p -s -d -j qdisc show dev $router_egress_name >tc_after.txt
 
 # analyze results
 
-sleep 60
-
-if [ $type == 1 ]; then
-   for i in {0..9}
-   do
-      sudo ssh -o StrictHostKeyChecking=no root@sender-$i /bin/bash << EOF
-      #python3 /local/repository/endpoint-scripts/process_iperf_file.py 10.10.2.1$i $num_clients $test_duration $cca1 > /dev/null 2>&1 &
-      python3 /local/repository/endpoint-scripts/process_cwn_file.py $i > /dev/null 2>&1 &
-      python3 /local/repository/endpoint-scripts/process_iperf_normal.py $i $num_clients $test_duration $cca1 $flows > /dev/null 2>&1 &
-EOF
-   done
-   sleep 600
-   
-   for i in {0..9}
-   do
-      sudo scp -o StrictHostKeyChecking=no -r root@sender-$i:./data* /local/repository/cloudlab-scripts/result-${cca1}/.
-   done
-elif [ $type == 2 ] || [ $type == 3 ]; then
-   for i in {0..9}
-   do
-      sudo scp -o StrictHostKeyChecking=no -r root@sender-$i:./sender* /local/repository/cloudlab-scripts/result-${cca1}-${cca2}/.
-   done
-else
-   echo "Wrong input"
-fi
-
-if [ $type == 1 ]; then
-   jfi=$(grep -r -E "[0-9].*0.00-[0-9].*sender" --include *${cca1}.txt /local/repository/cloudlab-scripts/result-${cca1} |tr '[' ' ' |awk -F ' ' '{sum+=$7}{sq+=$7*$7}{count+=1} END {print (sum*sum)/(sq*count)}')
-   sum=$(grep -r -E "[0-9].*0.00-[0-9].*sender" --include *${cca1}.txt /local/repository/cloudlab-scripts/result-${cca1} |tr '[' ' ' |awk -F ' ' '{sum+=$7}END {print sum}')
-   echo sum of bandwidth is $sum Kbits/sec
-   square=$(grep -r -E "[0-9].*0.00-[0-9].*sender" --include *${cca1}.txt /local/repository/cloudlab-scripts/result-${cca1} |tr '[' ' ' |awk -F ' ' '{sum+=$7*$7}END {print sum}')
-   echo square is $square
-   count=$(grep -r -E "[0-9].*0.00-[0-9].*sender" --include *${cca1}.txt /local/repository/cloudlab-scripts/result-${cca1} |tr '[' ' ' |awk -F ' ' '{count+=1}END {print count}')
-   echo count of $cca1 flows is $count
-   echo JFI is $jfi
-   jfi_filename=/local/repository/cloudlab-scripts/JFI.csv
-   if test -f "$jfi_filename"; then
-      echo $cca1,$delay,$sum,$square,$count,$jfi >> $jfi_filename
-   else
-      echo "CCA,Base RTT(ms),Total Bandwidth(Kbps),Sum of sq of BW,Flow Count,JFI" >> $jfi_filename;
-      echo $cca1,$delay,$sum,$square,$count,$jfi >> $jfi_filename
-   fi
-elif [ $type == 2 ] || [ $type == 3 ];
-then
-   sum1=$(grep -r -E "[0-9].*0.00-[0-9].*sender" --include *${cca1}.txt /local/repository/cloudlab-scripts/result-${cca1}-${cca2} |tr '[' ' ' |awk -F ' ' '{sum+=$7} END {print sum}')
-   count1=$(grep -r -E "[0-9].*0.00-[0-9].*sender" --include *${cca1}.txt /local/repository/cloudlab-scripts/result-${cca1}-${cca2} |tr '[' ' ' |awk -F ' ' '{count+=1}END {print count}')
-   echo count of flows of $cca1 is $count1
-   echo sum of Bandwidth of $cca1 is $sum1 Kbits/sec
-
-   sum2=$(grep -r -E "[0-9].*0.00-[0-9].*sender" --include *${cca2}.txt /local/repository/cloudlab-scripts/result-${cca1}-${cca2} |tr '[' ' ' |awk -F ' ' '{sum+=$7} END {print sum}')
-   count2=$(grep -r -E "[0-9].*0.00-[0-9].*sender" --include *${cca2}.txt /local/repository/cloudlab-scripts/result-${cca1}-${cca2} |tr '[' ' ' |awk -F ' ' '{count+=1}END {print count}')
-   echo count of flows of $cca2 is $count2
-   echo sum of Bandwidth of $cca2 is $sum2 Kbits/sec
-else
-   echo "Wrong input"
-fi
-
 #To get packet dropped:
 drop_before=$(cat tc_before.txt| grep -m 1 '"drops":' | awk '{print $2}' |cut -d ',' -f1)
 
@@ -240,17 +180,49 @@ echo $sent_after
 echo packet drop rate
 echo $drop_rate
 
+sleep 60
 
-#process iperf3 files to get required data
+if [ $type == 1 ]; then
+   for i in {0..9}
+   do
+      sudo ssh -o StrictHostKeyChecking=no root@sender-$i /bin/bash << EOF
+      python3 /local/repository/endpoint-scripts/process_cwn_file.py $i > /dev/null 2>&1 &
+      python3 /local/repository/endpoint-scripts/process_iperf_normal.py $i $num_clients $test_duration $cca1 $flows > /dev/null 2>&1 &
+EOF
+   done
+   sleep 600
+   
+   for i in {0..9}
+   do
+      sudo scp -o StrictHostKeyChecking=no -r root@sender-$i:./data* /local/repository/cloudlab-scripts/result-${cca1}/.
+   done
+elif [ $type == 2 ] || [ $type == 3 ]; then
+   for i in {0..9}
+   do
+      sudo scp -o StrictHostKeyChecking=no -r root@sender-$i:./sender* /local/repository/cloudlab-scripts/result-${cca1}-${cca2}/.
+   done
+else
+   echo "Wrong input"
+fi
 
-#python3 /local/repository/cloudlab-scripts/process_iperf.py 10 $num_clients $test_duration $cca1 $flows
+if [ $type == 1 ]; then
+   python3 /local/repository/cloudlab-scripts/get_JFI.py 10 $num_clients $cca1 $test_duration $delay
+   if [ $cca1 == 'reno' ]; then
+      python3 /local/repository/cloudlab-scripts/mathis_new.py 10 $num_clients $cca1 $dropped $sent $interval $test_duration
+   fi
+  
+elif [ $type == 2 ] || [ $type == 3 ];
+then
+   sum1=$(grep -r -E "[0-9].*0.00-[0-9].*sender" --include *${cca1}.txt /local/repository/cloudlab-scripts/result-${cca1}-${cca2} |tr '[' ' ' |awk -F ' ' '{sum+=$7} END {print sum}')
+   count1=$(grep -r -E "[0-9].*0.00-[0-9].*sender" --include *${cca1}.txt /local/repository/cloudlab-scripts/result-${cca1}-${cca2} |tr '[' ' ' |awk -F ' ' '{count+=1}END {print count}')
+   echo count of flows of $cca1 is $count1
+   echo sum of Bandwidth of $cca1 is $sum1 Kbits/sec
 
-#python3 /local/repository/cloudlab-scripts/iperf_process.py 10 $num_clients $test_duration $cca1
-
-#process cwn files to get required data
-
-#python3 /local/repository/cloudlab-scripts/process_cwn.py 10 $num_clients $cca1 $dropped $sent
-python3 /local/repository/cloudlab-scripts/mathis_new.py 10 $num_clients $cca1 $dropped $sent $interval $test_duration
-#python3 /local/repository/cloudlab-scripts/get_mathis_constant.py 10 $num_clients $cca1 $dropped $sent
-
+   sum2=$(grep -r -E "[0-9].*0.00-[0-9].*sender" --include *${cca2}.txt /local/repository/cloudlab-scripts/result-${cca1}-${cca2} |tr '[' ' ' |awk -F ' ' '{sum+=$7} END {print sum}')
+   count2=$(grep -r -E "[0-9].*0.00-[0-9].*sender" --include *${cca2}.txt /local/repository/cloudlab-scripts/result-${cca1}-${cca2} |tr '[' ' ' |awk -F ' ' '{count+=1}END {print count}')
+   echo count of flows of $cca2 is $count2
+   echo sum of Bandwidth of $cca2 is $sum2 Kbits/sec
+else
+   echo "Wrong input"
+fi
 
