@@ -19,7 +19,7 @@ cca1=sys.argv[3]
 dropped=int(sys.argv[4])
 sent=int(sys.argv[5])
 time_interval=int(sys.argv[6])
-duration=int(sys.argv[6])
+duration=float(sys.argv[6])
 
 list_cwnd_half=[]
 ports=[]
