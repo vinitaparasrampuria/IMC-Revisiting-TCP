@@ -18,8 +18,8 @@ num_clients=int(sys.argv[2])
 cca1=sys.argv[3]
 dropped=int(sys.argv[4])
 sent=int(sys.argv[5])
-time_interval=int(sys.argv[6])
-duration=float(sys.argv[6])
+time_interval=float(sys.argv[6])
+duration=int(sys.argv[7])
 
 list_cwnd_half=[]
 ports=[]
