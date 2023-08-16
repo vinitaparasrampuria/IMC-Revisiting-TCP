@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import matplotlib.backends.backend_pdf
 from matplotlib.backends.backend_pdf import PdfPages
+from sklearn.metrics import accuracy_score
 import sys
 import os
 
@@ -42,7 +43,7 @@ output_filename='/local/repository/cloudlab-scripts/output_mathis_C_iperf.csv'
 if not os.path.isfile(output_filename):
     with open(output_filename, 'a', newline='') as csvfile:
       writer = csv.writer(csvfile)
-      header = 'time_interval', 'time_duration' ,'ports', 'sum(y_values)', 'total_cwnd_half', 'total_retransmission', 'total_retransmission/total_cwnd_half', 'np.nanmean(list_ratio)', 'reg_simple1.intercept_', 'reg_simple1.coef_[0]', 'reg_simple2.intercept_', 'reg_simple2.coef_[0]', 'router_dropped', 'router_sent', 'router_dropped/total_cwnd_half'
+      header = 'time_interval', 'time_duration' ,'ports', 'sum(y_values)', 'total_cwnd_half', 'total_retransmission', 'total_retransmission/total_cwnd_half', 'np.nanmean(list_ratio)', 'reg_simple1.intercept_', 'reg_simple1.coef_[0]', 'reg_simple2.intercept_', 'reg_simple2.coef_[0]', 'router_dropped', 'router_sent', 'router_dropped/total_cwnd_half', 'accuracy_1', 'accuracy_2', 'mse_1', 'mse_2'
       writer.writerow(header)
 
 
@@ -66,7 +67,7 @@ for i in range (0,sender):
 
     mean_rtt=np.nanmean(dat_flow_rtt['rtt'])
 
-    #method-2: calculation of packet_loss rate using transfer and retrans from iperf3 data
+    #method-1: calculation of packet_loss rate using transfer and retrans from iperf3 data
 
     if dat_flow_iperf.shape[0] > 0 :
       exponent=9 if dat_flow_iperf['transfer_unit'].iloc[0]=='GBytes' else 6
@@ -77,7 +78,7 @@ for i in range (0,sender):
     x1=(1448*8*1000)/(mean_rtt*np.sqrt(packet_loss))
 
 
-    #method-3: calculation of cwnd_halving rate using transfer from iperf3 data
+    #method-2: calculation of cwnd_halving rate using transfer from iperf3 data
     if cwn_half_port:
       cwnd_half_rate=(cwn_half_port*1500)/(transfered_data)
       x2=(1448*8*1000)/(mean_rtt*np.sqrt(cwnd_half_rate))
@@ -111,28 +112,32 @@ x1_values = np.array(x1_values).reshape(-1, 1)
 x2_values = np.array(x2_values).reshape(-1, 1)
 
 
-
-
-print("method-2: calculation of packet_loss rate using transfer and retrans from iperf3 data")
+print("method-1: calculation of packet_loss rate using transfer and retrans from iperf3 data")
 reg_simple1 = LinearRegression(fit_intercept = False).fit(x1_values, y_values)
 print("Intercept: " , reg_simple1.intercept_)
 print("Coefficient list: ", reg_simple1.coef_)
 
-print("method-3: calculation of cwnd_halving rate using transfer from iperf3 data")
+print("method-2: calculation of cwnd_halving rate using cwnd and transfer from iperf3 data")
 reg_simple2 = LinearRegression(fit_intercept = False).fit(x2_values, y_values)
 print("Intercept: " , reg_simple2.intercept_)
 print("Coefficient list: ", reg_simple2.coef_)
 
 
+y_hat1 = reg_simple1.predict(x1_values)
+y_hat2 = reg_simple2.predict(x2_values)
+acc1=accuracy_score(y_values, y_hat1)
+acc2=accuracy_score(y_values, y_hat2)
+
+mse1 = metrics.mean_squared_error(y_values, y_hat1)
+mse2 = metrics.mean_squared_error(y_values, y_hat2)
+
 with open(output_filename, 'a', newline='') as csvfile:
   writer = csv.writer(csvfile)
-  columns = time_interval, duration, sum(ports), sum(y_values), total_cwnd_half, total_retransmission, total_retransmission/total_cwnd_half, np.nanmean(list_ratio), reg_simple1.intercept_, reg_simple1.coef_[0], reg_simple2.intercept_, reg_simple2.coef_[0], dropped, sent, dropped/total_cwnd_half
+  columns = time_interval, duration, sum(ports), sum(y_values), total_cwnd_half, total_retransmission, total_retransmission/total_cwnd_half, np.nanmean(list_ratio), reg_simple1.intercept_, reg_simple1.coef_[0], reg_simple2.intercept_, reg_simple2.coef_[0], dropped, sent, dropped/total_cwnd_half, acc1, acc2, mse1, mse2
   writer.writerow(columns)
 
 
-y_hat1 = reg_simple1.predict(x1_values)
 
-y_hat2 = reg_simple2.predict(x2_values)
 
 
 with PdfPages("/local/repository/cloudlab-scripts/linear_reg_plot.pdf") as pdf:
@@ -156,7 +161,7 @@ with PdfPages("/local/repository/cloudlab-scripts/linear_reg_plot.pdf") as pdf:
   plt.xlabel("x=mss/rtt*sqrt(cwnd_half_rate)")
   plt.ylabel("y=bandwidth(bits/sec)")
 
-  plt.title("Method-2: calculation of cwnd_halving rate using transfer from iperf3 data")
+  plt.title("Method-2: calculation of cwnd_halving rate using cwnd and transfer from iperf3 data")
   plt.legend()
   pdf.savefig()  # saves the current figure into a pdf page
   plt.show()
