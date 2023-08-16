@@ -3,30 +3,21 @@ base_port=60000
 
 # E.g. 1.1.1.1
 server_ip=$1
-shift
 
 # E.g. 5
-num_clients=$1
-shift
+num_clients=$2
 
 # E.g. 60
-test_duration=$1
-shift
+test_duration=$3
 
-# E.g. report
-#report_base=$1
-#shift
+# E.g. reno, cubic, bbr
+cca=$4
 
-#E.g. reno, cubic, bbr
-cca=$1
-shift
+# E.g. 10,30,50
+flows=$5
 
-#E.g. 10,30,50
-flows=$1
-shift
-
-# E.g. -u -b 10M
-interval=$1
+# E.g. 1,0.01
+interval=$6
 
 # Run iperf multiple times
 bash /local/repository/endpoint-scripts/call_func.sh $server_ip > /dev/null 2>&1 &
