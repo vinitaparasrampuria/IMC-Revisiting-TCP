@@ -1,7 +1,12 @@
-
 router_egress_name=$( ip route get 10.10.2.100 | grep -oP "(?<=dev )[^ ]+" )
-
 sudo tc qdisc del dev $router_egress_name root
+
+for i in {0..9}
+do
+   sudo ssh -o StrictHostKeyChecking=no root@sender-$i /bin/bash << EOF
+   bash /local/repository/endpoint-scripts/change-queue.sh
+EOF
+done
 
 echo "Capacity test with multiple flows"
 
@@ -13,21 +18,11 @@ done
 for i in {0..9}
 do
    sudo ssh -o StrictHostKeyChecking=no root@sender-$i /bin/bash << EOF
-   bash /local/repository/endpoint-scripts/change-queue.sh
-EOF
-done
-
-sleep 300
-
-for i in {0..9}
-do
-   sudo ssh -o StrictHostKeyChecking=no root@sender-$i /bin/bash << EOF
    nohup iperf3 -t 60 -P 10 -c 10.10.2.1$i > /dev/null 2>&1 &
 EOF
 done
 
 sleep 65
-
 
 for i in {0..9}
 do
