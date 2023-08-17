@@ -17,10 +17,10 @@ y_values=[]
 sq_y_values=[]
    
 jfi_filename='/local/repository/cloudlab-scripts/jfi.csv'
-if not os.path.isfile(output_filename):
-    with open(output_filename, 'a', newline='') as csvfile:
+if not os.path.isfile(jfi_filename):
+    with open(jfi_filename, 'a', newline='') as csvfile:
       writer = csv.writer(csvfile)
-      header ='CCA', 'Duration of Expt(sec)', 'Base RTT(ms)', 'Total Bandwidth(bps)', 'Sum of sq of BW', 'Flow Count', 'JFI'
+      header ='CCA', 'Duration of Expt(sec)', 'Base RTT(ms)', 'Total Bandwidth(Kbps)', 'Sum of sq of BW', 'Flow Count', 'JFI'
       writer.writerow(header)
 
 
@@ -31,7 +31,7 @@ for i in range (0,sender):
   ports.append(count_port)
   for p in port_un:
     dat_flow_iperf=dat_iperf[dat_iperf.port==p]
-    bandwidth_port=pd.to_numeric(dat_flow_iperf['bitrate'].iloc[0]*1000) if dat_flow_iperf.shape[0] > 0 else np.nan
+    bandwidth_port=pd.to_numeric(dat_flow_iperf['bitrate'].iloc[0]) if dat_flow_iperf.shape[0] > 0 else np.nan
     sq_bandwidth_port= bandwidth_port*bandwidth_port
     if not np.isnan(bandwidth_port):
       y_values.append(bandwidth_port)
@@ -39,7 +39,7 @@ for i in range (0,sender):
 
 with open(jfi_filename, 'a', newline='') as csvfile:
   writer = csv.writer(csvfile)
-  columns = cca1, duration, delay, sum(y_values),sum(sq_y_values), sum(ports), sum(y_values)/(sum(sq_y_values)*sum(ports))
+  columns = cca1, duration, delay, sum(y_values),sum(sq_y_values), sum(ports), sum(y_values)*sum(y_values)/(sum(sq_y_values)*sum(ports))
   writer.writerow(columns)
 
 
