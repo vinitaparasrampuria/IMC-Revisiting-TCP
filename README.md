@@ -75,7 +75,16 @@ Example notebook
 
 Discussion:
 
+The finding from the original paper is shown below which states " Deriving the Mathis constant 𝐶 using the packet loss rate results in different flow count-dependent constants in CoreScale vs EdgeScale, while using the CWND halving rate results in consistent values across settings and flow counts"
+
 <img width="453" alt="image" src="https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/assets/91571551/c4009c9e-2215-4e38-ac46-ce8102a445ee">
+
+Following is the result of the experiment:
+p	Edge Scale	Core Scale				
+		1000	3000	5000		
+Packet Loss	2.35	2.76	2.49	2.42		
+CWND Halving	3.07	4.06	3.84	3.47		
+Deriving Mathis Constant C using packet loss rate and CWND halving rate, when iperf data is taken every 10 ms						![image](https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/assets/91571551/092e41a6-b665-4f09-83fd-0ffd32982476)
 
 
 ## Finding 2
