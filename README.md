@@ -75,7 +75,8 @@ Example notebook
 
 Discussion:
 
-TBD
+<img width="453" alt="image" src="https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/assets/91571551/c4009c9e-2215-4e38-ac46-ce8102a445ee">
+
 
 ## Finding 2
 
