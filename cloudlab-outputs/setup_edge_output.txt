@@ -1,3 +1,5 @@
+#this file shows ouptut of running `bash /local/repository/cloudlab-scripts/setup-edge.sh`
+
 Capacity test with multiple flows
 [SUM]   0.00-60.27  sec   144 MBytes  0.02 Gbits/sec                  receiver
 [SUM]   0.00-60.27  sec  70.0 MBytes  0.01 Gbits/sec                  receiver
