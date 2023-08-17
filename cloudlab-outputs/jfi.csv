@@ -1,0 +1,2 @@
+CCA,Duration of Expt(sec),Base RTT(ms),Total Bandwidth(Kbps),Sum of sq of BW,Flow Count,JFI
+reno,1800,20,10045527,102111493807,1000,0.9882590974377773
