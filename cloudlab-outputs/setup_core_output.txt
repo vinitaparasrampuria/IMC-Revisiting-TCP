@@ -1,4 +1,4 @@
-/this file shows output of running "bash /local/repository/cloudlab-scripts/setup-core.sh"
+#this file shows output of running "bash /local/repository/cloudlab-scripts/setup-core.sh"
 
 hw-tc-offload: on
 DCBX mode: OS controlled
