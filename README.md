@@ -116,7 +116,8 @@ To validate this finding on CloudLab:
 * On the router: run `bash /local/repository/cloudlab-scripts/generate-flows.sh 20 1000000 1 1 1800 bbr 1 1`.
 
   Example output from running the command is
-  `CCA,Duration of Expt(sec),Base RTT(ms),Total Bandwidth(Kbps),Sum of sq of BW,Flow Count,JFI`
+  `CCA,Duration of Expt(sec),Base RTT(ms),Total Bandwidth(Kbps),Sum of sq of BW,Flow Count,JFI
+  bbr,1800,20,94261,889051487,10,0.9993950014055822`
 
   Combined output of all the above experiment can be found at [JFI.csv](https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/blob/main/cloudlab-outputs/jfi.csv)
 
