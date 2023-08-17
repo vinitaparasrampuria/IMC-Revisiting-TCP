@@ -7,7 +7,7 @@ Study of Fairness and throughput for TCP Reno, CUBIC and BBR in high scale netwo
 
 > The Mathis model for TCP NewReno throughput is valid at CoreScale only if the congestion event rate (p) and model parameter C are calculated using the CWND-halving rate, rather than the conventional packet loss rate that is typically used for EdgeScale.
 
-### To validate this finding on CloudLab:
+To validate this finding on CloudLab:
 
 * Open the [CloudLab profile](https://www.cloudlab.us/p/nyunetworks/imc-revisiting). Leave parameters at their default settings, and reserve resources at CloudLab Utah. Wait for resources to come up and for startup scripts to be complete. Open an SSH terminal at the router.
 * On the router: run `bash /local/repository/cloudlab-scripts/validate.sh` and confirm that you see about 24-25 Gbps sum throughput for multiple flows (on average 2.5 Gbps for each of the 10 flows), 8-10 Gbps throughput for single flow, and 0-1 ms RTT.
@@ -48,7 +48,7 @@ Study of Fairness and throughput for TCP Reno, CUBIC and BBR in high scale netwo
 
       Example output from running the command is [linear_reg_plot_edge_10.pdf](https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/blob/main/cloudlab-outputs/linear_reg_plot_edge_10.pdf)
 
-### To validate this finding on FABRIC:
+To validate this finding on FABRIC:
 
 * In the Jupyter environment, select File > New > Terminal and in this terminal, run `https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP`
 * Open fabric-notebook subdirectory inside IMC directory.
@@ -75,16 +75,18 @@ Example notebook
 
 Discussion:
 
-The finding from the original paper is shown below which states " Deriving the Mathis constant 𝐶 using the packet loss rate results in different flow count-dependent constants in CoreScale vs EdgeScale, while using the CWND halving rate results in consistent values across settings and flow counts"
+The finding from the original paper is shown below which states "Deriving the Mathis constant 𝐶 using the packet loss rate results in different flow count-dependent constants in CoreScale vs EdgeScale, while using the CWND halving rate results in consistent values across settings and flow counts"
 
 <img width="453" alt="image" src="https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/assets/91571551/c4009c9e-2215-4e38-ac46-ce8102a445ee">
 
-Following is the result of the experiment:
-p	Edge Scale	Core Scale				
-		1000	3000	5000		
-Packet Loss	2.35	2.76	2.49	2.42		
-CWND Halving	3.07	4.06	3.84	3.47		
-Deriving Mathis Constant C using packet loss rate and CWND halving rate, when iperf data is taken every 10 ms						![image](https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/assets/91571551/092e41a6-b665-4f09-83fd-0ffd32982476)
+Following is the result of the experiment: We found that the Mathis constant C using packet loss rate results in flow count-independent constant in CoreScale and EdgeScale, while using CWND halving rate results in flow count-dependent constant in CoreScale and EdgeScale. 
+				![image](https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/assets/91571551/4a2f9bc6-f823-4624-8e07-36a8045cad51)
+
+p	Edge Scale	Core Scale Flow Count		
+		1000	3000	5000
+Packet Loss	2.38	2.78	2.48	2.41
+CWND Halving	1.35	1.48	1.38	1.34
+Deriving Mathis Constant C using packet loss rate and CWND halving rate, when iperf data is taken every 1s				![image](https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/assets/91571551/c35079f3-ae77-4081-ba27-4faa25f62bde)
 
 
 ## Finding 2
