@@ -80,13 +80,21 @@ The finding from the original paper is shown below which states "Deriving the Ma
 <img width="453" alt="image" src="https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/assets/91571551/c4009c9e-2215-4e38-ac46-ce8102a445ee">
 
 Following is the result of the experiment: We found that the Mathis constant C using packet loss rate results in flow count-independent constant in CoreScale and EdgeScale, while using CWND halving rate results in flow count-dependent constant in CoreScale and EdgeScale. 
-				![image](https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/assets/91571551/4a2f9bc6-f823-4624-8e07-36a8045cad51)
 
-p	Edge Scale	Core Scale Flow Count		
-		1000	3000	5000
-Packet Loss	2.38	2.78	2.48	2.41
-CWND Halving	1.35	1.48	1.38	1.34
-Deriving Mathis Constant C using packet loss rate and CWND halving rate, when iperf data is taken every 1s				![image](https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/assets/91571551/c35079f3-ae77-4081-ba27-4faa25f62bde)
+<img width="453" alt="image" src="https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/assets/91571551/3d402c02-d7ae-489f-a8ce-1d1a8c2415d0">
+
+As per the original paper, the variation in Mathis Constant C is due to the ratio of packet loss to CWND halving rate not being constant at the CoreScale. In EdgeScale, the ratio of packet losses to CWND halvings is approximately 1.7 regardless of the number of concurrent flows. But in CoreScale the ratio varies between 6 and 9 and depends on the flow count.   
+
+<img width="453" alt="image" src="https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/assets/91571551/b5eea1db-cc99-4b02-935f-afa1e6268971">
+
+Our experiment shows that the ratio between packet loss to CWND halving rate is a constant at both EdgeScale and CoreScale.
+
+<img width="441" alt="image" src="https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/assets/91571551/9dc525fd-c8a8-42e4-b2f8-704f7fba0c39">
+
+<img width="479" alt="image" src="https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/assets/91571551/3a00a5c2-32a3-4205-9b55-86b83f908be4">
+
+
+
 
 
 ## Finding 2
