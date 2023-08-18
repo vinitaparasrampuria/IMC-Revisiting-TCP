@@ -52,24 +52,19 @@ To validate this finding on FABRIC:
 
 * In the Jupyter environment, select File > New > Terminal and in this terminal, run `https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP`
 * Open fabric-notebook subdirectory inside IMC directory.
-* Run the notebook `00-reserve.ipynb` to reserve the resources. This will reserve 10 sender-reciver pair and a router. All the required dependencies or modules will be installed.
-  
-Example notebook
-* Run the notebook `01-validate.ipynb' and confirm that you see about 24-25 Gbps sum throughput for multiple flows (on average 2.5 Gbps for each of the 10 flows), 8-10 Gbps throughput for single flow, and 0-1 ms RTT.
+* Run the notebook `00-reserve.ipynb` to reserve the resources. This will reserve 10 sender-reciver pair and a router. All the required dependencies or modules will be installed. [Example notebook](https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/blob/main/fabric-outputs/00-reserve.ipynb)
+* Run the notebook `01-validate.ipynb' and confirm that you see about 24-28 Gbps sum throughput for multiple flows (on average 2.5 Gbps for each of the 10 flows), 8-17 Gbps throughput for single flow, and 0-1 ms RTT.
+[Example notebook](https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/blob/main/fabric-outputs/01-validate.ipynb)
+* Run the notebook `02-setup-core.ipynb` and confirm that you see about **10 Gbps** sum throughput for multiple flows (on average 1 Gbps for each of the 10 flows), 8-10 Gbps throughput for single flow, and 0-2 ms RTT. 
+[Example notebook](https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/blob/main/fabric-outputs/02-setup-core.ipynb)
 
-Example notebook
-* Run the notebook `02-setup-core.ipynb` and confirm that you see about **10 Gbps** sum throughput for multiple flows (on average 1 Gbps for each of the 10 flows), 7-10 Gbps throughput for single flow, and 0-2 ms RTT.
-  
-Example notebook
-
-* Run the notebook `generate-flows-one-cca.ipynb`. Set the parameters as mentioned in the notebook to run experiments with reno at 20ms delay.
-  
+* Run the notebook `get_mathis_constant.ipynb`. Set the parameters as mentioned in the notebook to run experiments with reno at 20ms delay  
 Example notebook
 
 * Run the notebook `04-setup-edge.ipynb` and confirm that you see about **100 Mbps** sum throughput for multiple flows (on average 10 Mbps for each of the 10 flows), 100 Mbps throughput for single flow, and 0-2 ms RTT.
   
 Example notebook
-* Run the notebook `generate-flows-one-cca.ipynb`. Vary the parameters as mentioned in the notebook to run experiments with reno at 20ms delay.
+* Run the notebook `get_mathis_constant.ipynb`. Vary the parameters as mentioned in the notebook to run experiments with reno at 20ms delay.
 
 Example notebook
 
@@ -93,6 +88,7 @@ Our experiment shows that the ratio between packet loss to CWND halving rate is 
 
 <img width="479" alt="image" src="https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/assets/91571551/3a00a5c2-32a3-4205-9b55-86b83f908be4">
 
+Data source of above graphs is at [Mathis_Constant_CloudLab.csv](https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/blob/main/cloudlab-outputs/Mathis_Constant.csv).
 
 
 
@@ -146,21 +142,18 @@ To validate this finding on FABRIC:
 * In the Jupyter environment, select File > New > Terminal and in this terminal, run `https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP`
 * Open fabric-notebook subdirectory inside IMC directory.
 * Run the notebook `00-reserve.ipynb` to reserve the resources. This will reserve 10 sender-reciver pair and a router. All the required dependencies or modules will be installed.
-  
-Example notebook
-* Run the notebook `01-validate.ipynb' and confirm that you see about 24-25 Gbps sum throughput for multiple flows (on average 2.5 Gbps for each of the 10 flows), 8-10 Gbps throughput for single flow, and 0-1 ms RTT.
-
-Example notebook
-* Run the notebook `02-setup-core.ipynb` and confirm that you see about **10 Gbps** sum throughput for multiple flows (on average 1 Gbps for each of the 10 flows), 7-10 Gbps throughput for single flow, and 0-2 ms RTT.
-  
-Example notebook
-* Run the notebook `generate-flows-one-cca.ipynb`. Vary the parameters as mentioned in the notebook to run experiments with reno, bbr and cubic.
+[Example notebook](https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/blob/main/fabric-outputs/00-reserve.ipynb)
+* Run the notebook `01-validate.ipynb' and confirm that you see about 24-28 Gbps sum throughput for multiple flows (on average 2.5 Gbps for each of the 10 flows), 8-17 Gbps throughput for single flow, and 0-1 ms RTT.
+[Example notebook](https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/blob/main/fabric-outputs/01-validate.ipynb)
+* Run the notebook `02-setup-core.ipynb` and confirm that you see about **10 Gbps** sum throughput for multiple flows (on average 1 Gbps for each of the 10 flows), 7-10 Gbps throughput for single flow, and 0-2 ms RTT. 
+[Example notebook](https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/blob/main/fabric-outputs/02-setup-core.ipynb)
+* Run the notebook `intra-cca-fairness.ipynb`. Vary the parameters as mentioned in the notebook to run experiments with reno, bbr and cubic.
 
 Example notebook
 * Run the notebook `04-setup-edge.ipynb` and confirm that you see about **100 Mbps** sum throughput for multiple flows (on average 10 Mbps for each of the 10 flows), 100 Mbps throughput for single flow, and 0-2 ms RTT.
   
 Example notebook
-* Run the notebook `generate-flows-one-cca.ipynb`. Vary the parameters as mentioned in the notebook to run experiments with reno, bbr and cubic.
+* Run the notebook `intra-cca-fairness.ipynb`. Vary the parameters as mentioned in the notebook to run experiments with reno, bbr and cubic.
 
 Example notebook
   
