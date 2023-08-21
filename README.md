@@ -199,7 +199,27 @@ Data source of all above plots is [JFI_FABRIC.csv](https://github.com/vinitapara
 
 To validate this finding on CloudLab:
 
-TBD
+* Open the CloudLab profile. Leave parameters at their default settings, and reserve resources at CloudLab Utah. Wait for resources to come up and for startup scripts to be complete. Open an SSH terminal at the router.
+
+* On the router: run bash /local/repository/cloudlab-scripts/validate.sh and confirm that you see about 24-25 Gbps sum throughput for multiple flows (on average 2.5 Gbps for each of the 10 flows), 8-10 Gbps throughput for single flow, and 0-1 ms RTT.
+
+* On the router: run bash /local/repository/cloudlab-scripts/setup-core.sh and confirm that you see about 10 Gbps sum throughput for multiple flows (on average 1 Gbps for each of the 10 flows), 7-10 Gbps throughput for single flow, and 0-2 ms RTT. 
+
+* To validate this: "Cubic achieves 70 to 80% of total throughput when competing with an equal number of NewReno flows at CoreScale", On the router run: bash generate-flows.sh 20 10000000 2 10 1800 reno 10 1 cubic
+
+Example output from running the command is 
+count of flows of reno is 500
+sum of Bandwidth of reno is 1833615 Kbits/sec
+count of flows of cubic is 500
+sum of Bandwidth of cubic is 8064566 Kbits/sec
+
+* To validate this: "BBR is highly unfair to loss-based CCA, i.e., NewReno and Cubic", On the router run: bash generate-flows.sh 20 10000000 3 10 1800 reno 10 1 bbr
+
+Example output from running the command is 
+count of flows of reno is 499
+sum of Bandwidth of reno is 5861246 Kbits/sec
+count of flows of bbr is 1
+sum of Bandwidth of bbr is 93807 Kbits/sec
 
 To validate this finding on FABRIC:
 
