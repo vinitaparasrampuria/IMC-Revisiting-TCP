@@ -224,7 +224,24 @@ sum of Bandwidth of bbr is 93807 Kbits/sec
 
 To validate this finding on FABRIC:
 
-TBD
+As per the original paper, we have 
+1) Cubic achieves 70 to 80% of total throughput when competing with an equal number of NewReno flows at CoreScale 
+2) BBR is highly unfair to loss-based CCA, i.e., NewReno and Cubic. A single BBR flow takes 40% of the total throughput when competing with thousands of NewReno or Cubic flows. 
+
+<img width="394" alt="Screenshot 2023-08-21 at 9 28 02 AM" src="https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/assets/10760836/1077ba81-6f8c-470f-b45f-b626933fc6bf">
+
+<img width="816" alt="Screenshot 2023-08-21 at 9 45 31 AM" src="https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/assets/10760836/0b17c093-2bb2-4cf1-b9a3-b78eeee515bc">
+
+As per our experiment on CloudLab, we have 
+1)  Cubic achieves 70 to 80% of total throughput when competing with an equal number of NewReno flows at CoreScale : which is same as the finding of the paper
+
+![Cubic Vs Reno _ 20ms RTT](https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/assets/10760836/84804668-7965-46f7-afce-ff7dd4cd2f3f)
+
+![Cubic Vs Reno _ 100ms RTT](https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/assets/10760836/7a81c67a-4a01-47cd-aab0-f73e84fc3ab3)
+
+![Cubic Vs Reno _ 200ms RTT](https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/assets/10760836/e4876c45-e82b-4e0d-8c82-a6ee8f11ad3b)
+
+2) BBR seems to be highly FAIR when competing with Loss-based CCA. A single BBR flow takes only 1% of the total throughput when competing with thousands of NewReno or Cubic flows. 
 
 Discussion: 
 
