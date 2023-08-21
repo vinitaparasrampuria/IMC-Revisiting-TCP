@@ -43,7 +43,7 @@ output_filename='/local/repository/cloudlab-scripts/output_mathis_C_iperf.csv'
 if not os.path.isfile(output_filename):
     with open(output_filename, 'a', newline='') as csvfile:
       writer = csv.writer(csvfile)
-      header = 'time_interval', 'time_duration' ,'ports', 'sum(y_values)', 'total_cwnd_half', 'total_retransmission', 'total_retransmission/total_cwnd_half', 'np.nanmean(list_ratio)', 'reg_simple1.intercept_', 'reg_simple1.coef_[0]', 'reg_simple2.intercept_', 'reg_simple2.coef_[0]', 'router_dropped', 'router_sent', 'router_dropped/total_cwnd_half', 'accuracy_1', 'accuracy_2', 'mse_1', 'mse_2'
+      header = 'time_interval', 'time_duration' ,'ports', 'sum(y_values)', 'total_cwnd_half', 'total_retransmission', 'total_retransmission/total_cwnd_half', 'np.nanmean(list_ratio)', 'reg_simple1.intercept_', 'reg_simple1.coef_[0]', 'reg_simple2.intercept_', 'reg_simple2.coef_[0]', 'router_dropped', 'router_sent', 'router_dropped/total_cwnd_half'
       writer.writerow(header)
 
 
@@ -125,15 +125,13 @@ print("Coefficient list: ", reg_simple2.coef_)
 
 y_hat1 = reg_simple1.predict(x1_values)
 y_hat2 = reg_simple2.predict(x2_values)
-acc1=accuracy_score(y_values, y_hat1)
-acc2=accuracy_score(y_values, y_hat2)
 
-mse1 = metrics.mean_squared_error(y_values, y_hat1)
-mse2 = metrics.mean_squared_error(y_values, y_hat2)
+# mse1 = metrics.mean_squared_error(y_values, y_hat1)
+# mse2 = metrics.mean_squared_error(y_values, y_hat2)
 
 with open(output_filename, 'a', newline='') as csvfile:
   writer = csv.writer(csvfile)
-  columns = time_interval, duration, sum(ports), sum(y_values), total_cwnd_half, total_retransmission, total_retransmission/total_cwnd_half, np.nanmean(list_ratio), reg_simple1.intercept_, reg_simple1.coef_[0], reg_simple2.intercept_, reg_simple2.coef_[0], dropped, sent, dropped/total_cwnd_half, acc1, acc2, mse1, mse2
+  columns = time_interval, duration, sum(ports), sum(y_values), total_cwnd_half, total_retransmission, total_retransmission/total_cwnd_half, np.nanmean(list_ratio), reg_simple1.intercept_, reg_simple1.coef_[0], reg_simple2.intercept_, reg_simple2.coef_[0], dropped, sent, dropped/total_cwnd_half
   writer.writerow(columns)
 
 
