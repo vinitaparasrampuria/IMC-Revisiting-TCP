@@ -33,7 +33,7 @@ To validate this finding on CloudLab:
 * On the router: run `bash /local/repository/cloudlab-scripts/generate-flows.sh 20 1000000 1 1 1800 reno 1 0.01` to to generate 10 flows with 20ms delay. To change the number of flows to 30 and 50, change the 7th parameter from 1 to 3 and 5 respectively. Three files are generated-
   1. 'packet_loss_iperf.csv' which has the mean rtt, bandwidth, number of retransmits, number of congestion window halving events, packet loss rate and congestion window halving rate for each flow.
 
-     Example output file can from running the command is [packet_loss_iperf_edge_10.csv](https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/blob/main/cloudlab-outputs/packet_loss_iperf_edge_10.csv)
+     Example output file from running the command is [packet_loss_iperf_edge_10.csv](https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/blob/main/cloudlab-outputs/packet_loss_iperf_edge_10.csv)
   2. 'output_mathis_C_iperf.csv' has the total bandwidth, total number of retransmits, total congestion window halving events, 'C' value using packet loss rate, 'C' value using congestion window halving rate, ratio of packets dropped at the router to congestion window halving event.
      `time_interval,time_duration,ports,sum(y_values),total_cwnd_half,total_retransmission,total_retransmission/total_cwnd_half,np.nanmean(list_ratio),reg_simple1.intercept_,reg_simple1.coef_[0],reg_simple2.intercept_,reg_simple2.coef_[0],router_dropped,router_sent,router_dropped/total_cwnd_half
 0.01,1800,10,95791000,3588,2064,0.5752508361204013,0.5827833785106743,0.0,2.473642492258249,0.0,3.2641250718214074,1223,15413505,0.34085841694537344`
@@ -59,14 +59,11 @@ To validate this finding on FABRIC:
 [Example notebook](https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/blob/main/fabric-outputs/02-setup-core.ipynb)
 
 * Run the notebook `get_mathis_constant.ipynb`. Set the parameters as mentioned in the notebook to run experiments with reno at 20ms delay  
-Example notebook
+[Example notebook](https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/blob/main/fabric-outputs/get_mathis_constant.ipynb)
 
-* Run the notebook `04-setup-edge.ipynb` and confirm that you see about **100 Mbps** sum throughput for multiple flows (on average 10 Mbps for each of the 10 flows), 100 Mbps throughput for single flow, and 0-2 ms RTT.
-  
-Example notebook
+* Run the notebook `04-setup-edge.ipynb` and confirm that you see about **100 Mbps** sum throughput for multiple flows (on average 10 Mbps for each of the 10 flows), 100 Mbps throughput for single flow, and 0-2 ms RTT. 
+[Example notebook](https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/blob/main/fabric-outputs/04-setup-edge.ipynb)
 * Run the notebook `get_mathis_constant.ipynb`. Vary the parameters as mentioned in the notebook to run experiments with reno at 20ms delay.
-
-Example notebook
 
 Discussion:
 
@@ -82,6 +79,7 @@ As per the original paper, the variation in Mathis Constant C is due to the rati
 
 <img width="453" alt="image" src="https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/assets/91571551/b5eea1db-cc99-4b02-935f-afa1e6268971">
 
+Experiment results from CloudLab:
 Our experiment shows that the ratio between packet loss to CWND halving rate is a constant at both EdgeScale and CoreScale.
 
 <img width="441" alt="image" src="https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/assets/91571551/9dc525fd-c8a8-42e4-b2f8-704f7fba0c39">
@@ -89,6 +87,8 @@ Our experiment shows that the ratio between packet loss to CWND halving rate is 
 <img width="479" alt="image" src="https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/assets/91571551/3a00a5c2-32a3-4205-9b55-86b83f908be4">
 
 Data source of above graphs is at [Mathis_Constant_CloudLab.csv](https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/blob/main/cloudlab-outputs/Mathis_Constant.csv).
+
+Experiment results from FABRIC:
 
 
 
@@ -118,6 +118,7 @@ To validate this finding on CloudLab:
   Example output from running the command is
   CCA,Duration of Expt(sec),Base RTT(ms),Total Bandwidth(Kbps),Sum of sq of BW,Flow Count,JFI
   bbr,1800,20,9903756,101231459864,1000,0.9689120658667576`
+  
 * On the router: run `bash /local/repository/cloudlab-scripts/setup-edge.sh` and confirm that you see about **100 Mbps** sum throughput for multiple flows (on average 10 Mbps for each of the 10 flows), 100 Mbps throughput for single flow, and 0-2 ms RTT.
 * On the router: run `bash /local/repository/cloudlab-scripts/generate-flows.sh 20 1000000 1 1 1800 reno 1 1`.
 
@@ -148,20 +149,48 @@ To validate this finding on FABRIC:
 * Run the notebook `02-setup-core.ipynb` and confirm that you see about **10 Gbps** sum throughput for multiple flows (on average 1 Gbps for each of the 10 flows), 7-10 Gbps throughput for single flow, and 0-2 ms RTT. 
 [Example notebook](https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/blob/main/fabric-outputs/02-setup-core.ipynb)
 * Run the notebook `intra-cca-fairness.ipynb`. Vary the parameters as mentioned in the notebook to run experiments with reno, bbr and cubic.
-
-Example notebook
-* Run the notebook `04-setup-edge.ipynb` and confirm that you see about **100 Mbps** sum throughput for multiple flows (on average 10 Mbps for each of the 10 flows), 100 Mbps throughput for single flow, and 0-2 ms RTT.
-  
-Example notebook
+[Example notebook](https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/blob/main/fabric-outputs/intra-cca-fairness.ipynb)
+* Run the notebook `04-setup-edge.ipynb` and confirm that you see about **100 Mbps** sum throughput for multiple flows (on average 10 Mbps for each of the 10 flows), 100 Mbps throughput for single flow, and 0-2 ms RTT. 
+[Example notebook](https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/blob/main/fabric-outputs/04-setup-edge.ipynb)
 * Run the notebook `intra-cca-fairness.ipynb`. Vary the parameters as mentioned in the notebook to run experiments with reno, bbr and cubic.
-
-Example notebook
-  
 
   
 Discussion: 
+As per original paper:
+1. NewReno & Cubic continue to show high intra-CCA fairness in CoreScale with a JFI > 0.99, as expected from past research.
+2. BBR surprisingly shows intra-CCA unfairness in CoreScale, with JFIs as low as 0.4, which is not expected from past research. Milder unfairness also occurs when more than 10 flows compete in EdgeScale, with JFI’s as low as 0.7.
+   <img width="441" alt="image" src="https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/assets/91571551/38fb619e-5abf-42a7-abe6-c35e918497e9">
 
-TBD
+As per experiment on CloudLab:
+1. NewReno and Cubic show high intra-CCA fairness in CoreScale and EdgeScale with a JFI > 0.95
+2. BBR shows intra-CCA fairness in both EdgeScale and CoreScale with JFI > 0.95
+Reno:
+<img width="678" alt="image" src="https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/assets/91571551/d1bf1bbd-62f3-48ac-956c-4c3748df1822">
+
+Cubic:
+<img width="678" alt="image" src="https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/assets/91571551/9a6d45ac-0e35-4753-bc05-bd1047f3048e">
+
+BBR:
+<img width="678" alt="image" src="https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/assets/91571551/e400cc0d-833e-4733-8545-4690c0ee64d7">
+
+Data source of all above plots is [JFI_cloudlab.csv](https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/blob/main/cloudlab-outputs/JFI_cloudlab.csv)
+
+
+As per experiment on FABRIC:
+1. NewReno and Cubic show high intra-CCA fairness in CoreScale and EdgeScale with a JFI > 0.91
+2. BBR shows intra-CCA fairness in both EdgeScale and CoreScale with JFI > 0.92
+Reno:
+<img width="678" alt="image" src="https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/assets/91571551/ed3c9e9b-c487-4b6b-83bb-e2778ba21442">
+
+Cubic:
+<img width="678" alt="image" src="https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/assets/91571551/71e90e81-afd6-4a7d-92a7-eb3c2e89340a">
+
+
+BBR:
+<img width="678" alt="image" src="https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/assets/91571551/7e74faca-e6b3-4704-a7a4-01e77cfb43d8">
+
+Data source of all above plots is [JFI_FABRIC.csv](https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/blob/main/fabric-outputs/JFI_FABRIC.csv)
+
 
 ## Finding 3
 
@@ -180,3 +209,35 @@ Discussion:
 TBD
 
 ## Extension to intermediate settings
+
+### Finding 1
+> The Mathis model for TCP NewReno throughput is valid at CoreScale only if the congestion event rate (p) and model parameter C are calculated using the CWND-halving rate, rather than the conventional packet loss rate that is typically used for EdgeScale.
+
+To validate this finding on CloudLab:
+
+* Open the [CloudLab profile](https://www.cloudlab.us/p/nyunetworks/imc-revisiting). Leave parameters at their default settings, and reserve resources at CloudLab Utah. Wait for resources to come up and for startup scripts to be complete. Open an SSH terminal at the router.
+* On the router: run `bash /local/repository/cloudlab-scripts/validate.sh` and confirm that you see about 24-25 Gbps sum throughput for multiple flows (on average 2.5 Gbps for each of the 10 flows), 8-10 Gbps throughput for single flow, and 0-1 ms RTT.
+* Run the notebook `03-setup-intermediate.ipynb` and confirm that you see about **1 Gbps** sum throughput for multiple flows (on average 100 Mbps for each of the 10 flows), 1 Gbps throughput for single flow, and 0-2 ms RTT.
+* * On the router: run `bash /local/repository/cloudlab-scripts/generate-flows.sh 20 1000000 1 10 1800 reno 1 0.01` to generate 100 flows with 20ms delay. To change the number of flows to 300 and 500, change the 7th parameter from 1 to 3 and 5 respectively. Three files are generated-
+  1. 'packet_loss_iperf.csv' which has the mean rtt, bandwidth, number of retransmits, number of congestion window halving events, packet loss rate and congestion window halving rate for each flow.
+
+     Example output file from running the command is [packet_loss_iperf_core_1000.csv](https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/blob/main/cloudlab-outputs/packet_loss_iperf_core_1000.csv)
+  2. 'output_mathis_C_iperf.csv' has the total bandwidth, total number of retransmits, total congestion window halving events, 'C' value using packet loss rate, 'C' value using congestion window halving rate, ratio of packets dropped at the router to congestion window halving event.
+
+     Example output from running the command is [output_mathis_C_iperf.csv](https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/blob/main/cloudlab-outputs/output_mathis_C_iperf.csv)
+     `time_interval,time_duration,ports,sum(y_values),total_cwnd_half,total_retransmission,total_retransmission/total_cwnd_half,np.nanmean(list_ratio),reg_simple1.intercept_,reg_simple1.coef_[0],reg_simple2.intercept_,reg_simple2.coef_[0],router_dropped,router_sent,router_dropped/total_cwnd_half
+0.01,1800,1000,10045527000,328005,150056,0.457480831084892,0.4592942121018375,0.0,2.6682251202316913,0.0,3.985303969272882,98829,1686597751,0.30130333379064345`
+  3. 'linear_reg_plot.pdf' contains two plots showing
+     
+     a. x=mss/rtt\*sqrt(packet loss rate) vs actual bandwidth per flow; regression line and x=mss/rtt\*sqrt(packet loss rate) vs predicted bandwidth per flow.
+     
+     b. x=mss/rtt\*sqrt(cwnd halving rate) vs actual bandwidth per flow; linear regression line and x=mss/rtt\*sqrt(cwnd halving rate) vs predicted bandwidth per flow.
+     
+      Example output from running the command is [linear_reg_plot_core_1000.pdf](https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/blob/main/cloudlab-outputs/linear_reg_plot_core_1000.pdf)
+
+
+
+
+     
+[Example notebook](https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/blob/main/fabric-outputs/04-setup-edge.ipynb)
+* Run the notebook `intra-cca-fairness.ipynb`. Vary the parameters as mentioned in the notebook to run experiments with reno, bbr and cubic.
