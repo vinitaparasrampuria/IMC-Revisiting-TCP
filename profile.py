@@ -63,8 +63,8 @@ for i in range(params.n):
         node_sender = request.RawPC('sender-' + str(i))
         node_sender.hardware_type = params.endtype
     node_sender.disk_image = 'urn:publicid:IDN+emulab.net+image+emulab-ops//UBUNTU18-64-STD'
-    #bs_node = node_sender.Blockstore("bs_node", "/mydata")
-    #bs_node.size = "30GB"
+    bs_node = node_sender.Blockstore("bs_node_" + str(i), "/mydata")
+    bs_node.size = "0GB"
     node_sender.installRootKeys(True, True)
     node_sender.addService(pg.Execute(shell="bash", command="sudo modprobe tcp_bbr"))
     node_sender.addService(pg.Execute(shell="bash", command="bash /local/repository/setup-scripts/install.sh; bash /local/repository/endpoint-scripts/install_iperf.sh"))
