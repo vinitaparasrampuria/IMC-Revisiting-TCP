@@ -271,11 +271,6 @@ sum of Bandwidth of bbr is 90762 Kbits/sec
 BBR Throughput share = BBRTP/(RENO+BBR) = 0.00955356589 = 1% 
 
 
-
-
-
-
-
 ## Extension to intermediate settings
 
 ### Finding 1
@@ -289,23 +284,91 @@ To validate this finding on CloudLab:
 * * On the router: run `bash /local/repository/cloudlab-scripts/generate-flows.sh 20 1000000 1 10 1800 reno 1 0.01` to generate 100 flows with 20ms delay. To change the number of flows to 300 and 500, change the 7th parameter from 1 to 3 and 5 respectively. Three files are generated-
   1. 'packet_loss_iperf.csv' which has the mean rtt, bandwidth, number of retransmits, number of congestion window halving events, packet loss rate and congestion window halving rate for each flow.
 
-     Example output file from running the command is [packet_loss_iperf_core_1000.csv](https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/blob/main/cloudlab-outputs/packet_loss_iperf_core_1000.csv)
-  2. 'output_mathis_C_iperf.csv' has the total bandwidth, total number of retransmits, total congestion window halving events, 'C' value using packet loss rate, 'C' value using congestion window halving rate, ratio of packets dropped at the router to congestion window halving event.
+     Example output file from running the command is [[packet_loss_iperf_core_100.csv]](https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/blob/main/cloudlab-outputs/packet_loss_iperf_100.csv)
 
-     Example output from running the command is [output_mathis_C_iperf.csv](https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/blob/main/cloudlab-outputs/output_mathis_C_iperf.csv)
+  3. 'output_mathis_C_iperf.csv' has the total bandwidth, total number of retransmits, total congestion window halving events, 'C' value using packet loss rate, 'C' value using congestion window halving rate, ratio of packets dropped at the router to congestion window halving event.
      `time_interval,time_duration,ports,sum(y_values),total_cwnd_half,total_retransmission,total_retransmission/total_cwnd_half,np.nanmean(list_ratio),reg_simple1.intercept_,reg_simple1.coef_[0],reg_simple2.intercept_,reg_simple2.coef_[0],router_dropped,router_sent,router_dropped/total_cwnd_half
-0.01,1800,1000,10045527000,328005,150056,0.457480831084892,0.4592942121018375,0.0,2.6682251202316913,0.0,3.985303969272882,98829,1686597751,0.30130333379064345`
-  3. 'linear_reg_plot.pdf' contains two plots showing
+0.01,1800,100,1007285000,40252,28098,0.6980522706946238,0.6990517824743044,0.0,2.461817708796,0.0,2.963975430284586,22041,168160878,0.547575275762695`
+  4. 'linear_reg_plot.pdf' contains two plots showing
      
      a. x=mss/rtt\*sqrt(packet loss rate) vs actual bandwidth per flow; regression line and x=mss/rtt\*sqrt(packet loss rate) vs predicted bandwidth per flow.
      
      b. x=mss/rtt\*sqrt(cwnd halving rate) vs actual bandwidth per flow; linear regression line and x=mss/rtt\*sqrt(cwnd halving rate) vs predicted bandwidth per flow.
      
-      Example output from running the command is [linear_reg_plot_core_1000.pdf](https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/blob/main/cloudlab-outputs/linear_reg_plot_core_1000.pdf)
+      Example output from running the command is [[linear_reg_plot_core_100.pdf]](https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/blob/main/cloudlab-outputs/linear_reg_plot_100.pdf)
+
+To validate this finding on FABRIC:
+
+* In the Jupyter environment, select File > New > Terminal and in this terminal, run `https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP`
+* Open fabric-notebook subdirectory inside IMC directory.
+* Run the notebook `00-reserve.ipynb` to reserve the resources. This will reserve 10 sender-reciver pair and a router. All the required dependencies or modules will be installed. [Example notebook](https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/blob/main/fabric-outputs/00-reserve.ipynb)
+* Run the notebook `01-validate.ipynb' and confirm that you see about 24-28 Gbps sum throughput for multiple flows (on average 2.5 Gbps for each of the 10 flows), 8-17 Gbps throughput for single flow, and 0-1 ms RTT.
+[Example notebook](https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/blob/main/fabric-outputs/01-validate.ipynb)
+* Run the notebook `02-setup-intermediate.ipynb` and confirm that you see about **1 Gbps** sum throughput for multiple flows (on average 100 Mbps for each of the 10 flows), 1 Gbps throughput for single flow, and 0-2 ms RTT. 
+[[Example notebook]](https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/blob/main/fabric-outputs/03-setup-intermediate.ipynb)
+
+* Run the notebook `get_mathis_constant.ipynb`. Set the parameters as mentioned in the notebook to run experiments with reno at 20ms delay  
+[Example notebook](https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/blob/main/fabric-outputs/get_mathis_constant.ipynb)
+
+Discussion:
+
+Experiment results from CloudLab:
+[Mathis_C_CloudLab_Intermediate.csv](https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/blob/main/cloudlab-outputs/Mathis_C_CloudLab_Intermediate.txt)
+
+Experiment results from FABRIC:
+[Mathis_C_FABRIC_Intermediate.csv](https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/blob/main/fabric-outputs/Mathis_C_FABRIC.csv)
 
 
+## Finding 2
 
+> NewReno and Cubic show high intra-CCA fairness in CoreScale, in line with past research. BBR shows poor intra-CCA fairness in CoreScale, contradicting previous research in the edge setting.
 
-     
-[Example notebook](https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/blob/main/fabric-outputs/04-setup-edge.ipynb)
+To validate this finding on CloudLab:
+
+* Open the [CloudLab profile](https://www.cloudlab.us/p/nyunetworks/imc-revisiting). Leave parameters at their default settings, and reserve resources at CloudLab Utah. Wait for resources to come up and for startup scripts to be complete. Open an SSH terminal at the router.
+* On the router: run `bash /local/repository/cloudlab-scripts/validate.sh` and confirm that you see about 24-25 Gbps sum throughput for multiple flows (on average 2.5 Gbps for each of the 10 flows), 8-10 Gbps throughput for single flow, and 0-1 ms RTT.
+* On the router: run `bash /local/repository/cloudlab-scripts/setup-intremediate.sh` and confirm that you see about **1 Gbps** sum throughput for multiple flows (on average 100 Mbps for each of the 10 flows), 1 Gbps throughput for single flow, and 0-2 ms RTT.
+* On the router: run `bash /local/repository/cloudlab-scripts/generate-flows.sh 20 1000000 1 10 1800 reno 1 1`.
+  'jfi.csv' file is created (if there is none otherwise append the current result in new line). It has cca, duration of expt(sec), base RTT(ms)', total bandwidth(Kbps), sum of square of bandwidth, flow count and JFI.
+
+  Example output from running the command is 
+  `CCA,Duration of Expt(sec),Base RTT(ms),Total Bandwidth(Kbps),Sum of sq of BW,Flow Count,JFI
+  reno,1800,20,1007285,10237642371,100,0.9910710244177956`
+* On the router: run `bash /local/repository/cloudlab-scripts/generate-flows.sh 20 1000000 1 10 1800 cubic 1 1`.
+  
+  Example output from running the command is
+  `CCA,Duration of Expt(sec),Base RTT(ms),Total Bandwidth(Kbps),Sum of sq of BW,Flow Count,JFI
+  cubic,1800,20,1016003,10405556769,100,0.9920296615787941`
+* On the router: run `bash /local/repository/cloudlab-scripts/generate-flows.sh 20 1000000 1 10 1800 bbr 1 1`.
+  
+  Example output from running the command is
+  CCA,Duration of Expt(sec),Base RTT(ms),Total Bandwidth(Kbps),Sum of sq of BW,Flow Count,JFI
+  bbr,1800,20,979619,9773812125,100,0.9818619110821102`
+
+To validate this finding on FABRIC:
+
+* In the Jupyter environment, select File > New > Terminal and in this terminal, run `https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP`
+* Open fabric-notebook subdirectory inside IMC directory.
+* Run the notebook `00-reserve.ipynb` to reserve the resources. This will reserve 10 sender-reciver pair and a router. All the required dependencies or modules will be installed.
+[Example notebook](https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/blob/main/fabric-outputs/00-reserve.ipynb)
+* Run the notebook `01-validate.ipynb' and confirm that you see about 24-28 Gbps sum throughput for multiple flows (on average 2.5 Gbps for each of the 10 flows), 8-17 Gbps throughput for single flow, and 0-1 ms RTT.
+[Example notebook](https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/blob/main/fabric-outputs/01-validate.ipynb)
+* Run the notebook `02-setup-intermediate.ipynb` and confirm that you see about **1 Gbps** sum throughput for multiple flows (on average 100 Mbps for each of the 10 flows), 1 Gbps throughput for single flow, and 0-2 ms RTT. 
 * Run the notebook `intra-cca-fairness.ipynb`. Vary the parameters as mentioned in the notebook to run experiments with reno, bbr and cubic.
+[[Example notebook]](https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/blob/main/fabric-outputs/intra-cca-fairness.ipynb)
+
+Discussion:
+As per original paper:
+1. NewReno & Cubic continue to show high intra-CCA fairness in CoreScale with a JFI > 0.99, as expected from past research.
+2. BBR surprisingly shows intra-CCA unfairness in CoreScale, with JFIs as low as 0.4, which is not expected from past research. Milder unfairness also occurs when more than 10 flows compete in EdgeScale, with JFI’s as low as 0.7.
+   <img width="441" alt="image" src="https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/assets/91571551/38fb619e-5abf-42a7-abe6-c35e918497e9">
+
+As per experiment on CloudLab:
+1. NewReno and Cubic show high intra-CCA fairness in CoreScale and EdgeScale with a JFI > 0.97
+2. BBR shows intra-CCA fairness in both EdgeScale and CoreScale with JFI > 0.97
+   [JFI_CloudLab_intermediate.csv](https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/blob/main/cloudlab-outputs/JFI_Cloudlab_intermediate.csv)
+
+As per experiment on FABRIC:
+1. NewReno and Cubic show high intra-CCA fairness in CoreScale and EdgeScale with a JFI > 0.93 (cubic in progress)
+2. BBR shows intra-CCA fairness in both EdgeScale and CoreScale with JFI > 0.99 (in progress)
+   [JFI_FABRIC_intermediate.csv](https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/blob/main/fabric-outputs/JFI_FABRIC_Intermediate.csv)
