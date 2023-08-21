@@ -38,7 +38,10 @@ request = pc.makeRequestRSpec()
 node_router = request.RawPC('router')
 node_router.disk_image = 'urn:publicid:IDN+emulab.net+image+emulab-ops//UBUNTU22-64-STD'
 node_router.hardware_type = params.rtrtype
+bs_node = node_router.Blockstore("bs_node_router", "/mydata")
+bs_node.size = "0GB"
 node_router.addService(pg.Execute(shell="bash", command="bash /local/repository/setup-scripts/mlnx-install.sh; bash /local/repository/setup-scripts/install.sh"))
+node_router.addService(pg.Execute(shell="bash", command="sudo chmod a+r /data; sudo chmod a+w /data"))
 
 node_router.installRootKeys(True, True)
 iface1 = node_router.addInterface('interface-r-send', pg.IPv4Address('10.10.1.1','255.255.255.0'))
@@ -66,7 +69,7 @@ for i in range(params.n):
     bs_node = node_sender.Blockstore("bs_node_" + str(i), "/mydata")
     bs_node.size = "0GB"
     node_sender.installRootKeys(True, True)
-    node_sender.addService(pg.Execute(shell="bash", command="sudo modprobe tcp_bbr"))
+    node_sender.addService(pg.Execute(shell="bash", command="sudo chmod a+r /data; sudo chmod a+w /data; sudo modprobe tcp_bbr"))
     node_sender.addService(pg.Execute(shell="bash", command="bash /local/repository/setup-scripts/install.sh; bash /local/repository/endpoint-scripts/install_iperf.sh"))
     iface0 = node_sender.addInterface('interface-send-' + str(i), pg.IPv4Address('10.10.1.1' + str(i) ,'255.255.255.0'))
     iface0.bandwidth = 10000000
