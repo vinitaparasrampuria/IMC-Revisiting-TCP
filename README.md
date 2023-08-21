@@ -262,7 +262,13 @@ As per our experiment on CloudLab, we have
 
 ![Cubic Vs Reno _ 200ms RTT](https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/assets/10760836/e4876c45-e82b-4e0d-8c82-a6ee8f11ad3b)
 
-2) BBR seems to be highly FAIR when competing with Loss-based CCA. A single BBR flow takes only 1% of the total throughput when competing with thousands of NewReno or Cubic flows. 
+2) BBR seems to be highly FAIR when competing with Loss-based CCA. A single BBR flow takes only 1% of the total throughput when competing with thousands of NewReno or Cubic flows.
+
+count of flows of reno is 999
+sum of Bandwidth of reno is 9409565 Kbits/sec
+count of flows of bbr is 1
+sum of Bandwidth of bbr is 90762 Kbits/sec
+BBR Throughput share = BBRTP/(RENO+BBR) = 0.00955356589 = 1% 
 
 
 
