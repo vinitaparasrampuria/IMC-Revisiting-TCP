@@ -35,48 +35,32 @@ list_ratio_ss=[]
 list_ratio_iperf=[]
 
 
-# csv_filename="/local/repository/cloudlab-scripts/packet_loss_iperf.csv"
-# if not os.path.isfile(csv_filename):
-#     with open(csv_filename, 'a', newline='') as csvfile:
-#       writer = csv.writer(csvfile)
-#       header = 'port', 'mean_rtt', 'bandwidth_port', 'port_retrans', 'cwn_half_port', 'packet_loss', 'x1', 'cwnd_half_rate','x2','ratio'
-#       writer.writerow(header)
-   
-# output_filename='/local/repository/cloudlab-scripts/output_mathis_C_iperf.csv'
-# if not os.path.isfile(output_filename):
-#     with open(output_filename, 'a', newline='') as csvfile:
-#       writer = csv.writer(csvfile)
-#       header = 'time_interval', 'time_duration' ,'ports', 'sum(y_values)', 'total_cwnd_half', 'total_retransmission', 'total_retransmission/total_cwnd_half', 'np.nanmean(list_ratio)', 'reg_simple1.intercept_', 'reg_simple1.coef_[0]', 'reg_simple2.intercept_', 'reg_simple2.coef_[0]', 'router_dropped', 'router_sent', 'router_dropped/total_cwnd_half'
-#       writer.writerow(header)
-
-csv_filename="/local/repository/cloudlab-scripts/packet_loss.csv"
+csv_filename="packet_loss.csv"
 if not os.path.isfile(csv_filename):
     with open(csv_filename, 'a', newline='') as csvfile:
       writer = csv.writer(csvfile)
       header = 'port', 'data_seg_out', 'mean_rtt', 'bandwidth_port', 'retrans_ss', 'retrans_iperf', 'cwn_half_port', 'packet_loss1', 'x1', 'packet_loss2', 'x2', 'packet_loss3', 'x3', 'packet_loss4', 'x4', 'cwnd_half_rate_ss','x5', 'cwnd_half_rate_iperf', 'x6', 'ratio_ss', 'ratio_iperf'
       writer.writerow(header)
    
-output_filename='/local/repository/cloudlab-scripts/output_mathis_C.csv'
+output_filename='output_mathis_C.csv'
 if not os.path.isfile(output_filename):
     with open(output_filename, 'a', newline='') as csvfile:
       writer = csv.writer(csvfile)
-      header = 'time_duration', 'ports', 'sum(y_values)', 'total_cwnd_half', 'total_retransmission_ss', 'total_retransmission_iperf', 'total_retransmission_ss/total_cwnd_half', 'total_retransmission_iperf/total_cwnd_half', 'np.nanmean(list_ratio_ss)', 'np.nanmean(list_ratio_iperf)', 'reg_simple1.intercept_', 'reg_simple1.coef_[0]', 'reg_simple2.intercept_', 'reg_simple2.coef_[0]', 'reg_simple3.intercept_', 'reg_simple3.coef_[0]', 'reg_simple4.intercept_', 'reg_simple4.coef_[0]','reg_simple5.intercept_', 'reg_simple5.coef_[0]','reg_simple6.intercept_', 'reg_simple6.coef_[0]', 'router_dropped', 'router_sent', 'router_dropped/total_cwnd_half'
+      header = 'time_duration', 'ports', 'sum(y_values)', 'total_cwnd_half', 'total_retransmission_ss', 'total_retransmission_iperf', 'total_retransmission_ss/total_cwnd_half', 'total_retransmission_iperf/total_cwnd_half', 'np.nanmean(list_ratio_ss)', 'np.nanmean(list_ratio_iperf)', 'reg_simple1.intercept_', 'reg_simple1.coef_[0]', 'reg_simple2.intercept_', 'reg_simple2.coef_[0]', 'reg_simple3.intercept_', 'reg_simple3.coef_[0]', 'reg_simple4.intercept_', 'reg_simple4.coef_[0]','reg_simple5.intercept_', 'reg_simple5.coef_[0]','reg_simple6.intercept_', 'reg_simple6.coef_[0]', 'router_dropped', 'router_sent', 'router_dropped/total_cwnd_half', 'mdape1', 'mdape2', 'mdape3','mdape4', 'mdape5', 'mdape6'
       writer.writerow(header)
 
 
-for i in range (0,10):
-  dat_ss = pd.read_csv("/local/repository/cloudlab-scripts/result-"+cca1+"/data-cwn-10.10.2.1"+str(i)+"-file.txt", header=None, names=['port', 'cwnd','rtt','data_seg','retrans'])
-  #dat_iperf= pd.read_csv("/local/repository/cloudlab-scripts/result-"+cca1+"/output-10.10.2.1"+str(i)+".csv", header=None, names=['id','port','duration','time_unit','transfer_data','data_unit','bandwidth','BW_unit','retrans'] )
-  #dat_rtt = pd.read_csv("/local/repository/cloudlab-scripts/result-"+cca1+"/data-cwn-10.10.2.1"+str(i)+"-file.txt",header=None, names=['port', 'cwnd' , 'rtt'])
-  dat_cwn_iperf = pd.read_csv("/local/repository/cloudlab-scripts/result-"+cca1+"/data-cwn-10.10.2.1"+str(i)+".csv",header=0, names=['socket', 'port','cwnd'])
-  dat_retrans_iperf= pd.read_csv("/local/repository/cloudlab-scripts/result-"+cca1+"/data-iperf-10.10.2.1"+str(i)+".csv",header=0, names=['socket', 'port', 'time', 'time_unit', 'transfer', 'transfer_unit', 'bitrate', 'bitrate_unit', 'retrans'] )
+for i in range (0,1):
+  dat_ss = pd.read_csv("data-cwn-10.10.2.1"+str(i)+"-file.txt", header=None, names=['port', 'cwnd','rtt','data_seg','retrans'])
+  dat_cwn_iperf = pd.read_csv("data-cwn-10.10.2.1"+str(i)+".csv",header=0, names=['socket', 'port','cwnd'])
+  dat_retrans_iperf= pd.read_csv("data-iperf-10.10.2.1"+str(i)+".csv",header=0, names=['socket', 'port', 'time', 'time_unit', 'transfer', 'transfer_unit', 'bitrate', 'bitrate_unit', 'retrans'] )
     
   port_un=pd.unique(dat_cwn_iperf.port)
   count_port=len(port_un)
   ports.append(count_port)
   for p in port_un:
     dat_flow = dat_cwn_iperf[dat_cwn_iperf.port==p]
-    dat_flow_iperf=dat_retrans_iperf[dat_iperf.port==p]
+    dat_flow_iperf=dat_retrans_iperf[dat_retrans_iperf.port==p]
     dat_flow_ss=dat_ss[dat_ss.port==p]
     #calculate congestion window halving events
 
@@ -86,26 +70,22 @@ for i in range (0,10):
     list_cwnd_half.append(cwn_half_port)
 
     #method-1: calculation of packet_loss rate using data_seg_out from ss and retrans from ss data
-    data_seg_out=dat_flow_ss['data_seg'].iloc[len(dat_flow) - 1]
-    # meas_rtt=dat_flow['rtt'].str.split('/').str[0]
-    # mean_rtt=np.nanmean(pd.to_numeric(meas_rtt))
-      
+    data_seg_out=dat_flow_ss['data_seg'].iloc[len(dat_flow) - 1]   
     mean_rtt=np.nanmean(dat_flow_ss['rtt'])
     retrans_ss=dat_flow_ss['retrans'].iloc[len(dat_flow) - 1]
-    #port_retrans1 = int(meas_retrans.split('/')[1]) if pd.notnull(meas_retrans) else meas_retrans
-    #list_retrans1.append(port_retrans1)
-    list_retrans1.append(retrans_ss)
+    list_retrans_ss.append(retrans_ss)
     packet_loss1=retrans_ss/data_seg_out
-    x1=(1448*8*1000)/(mean_rtt*np.sqrt(packet_loss1))
+    if packet_loss1>0:
+      x1=(1448*8*1000)/(mean_rtt*np.sqrt(packet_loss1))
 
 
     # method-2: calculation of packet_loss rate using transfer and retrans from iperf3 data
     if dat_flow_iperf.shape[0] > 0 :
-      exponent=9 if dat_flow_iperf['data_unit'].iloc[0]=='GBytes' else 6
+      exponent=9 if dat_flow_iperf['transfer_unit'].iloc[0]=='GBytes' else 6
     retrans_iperf=pd.to_numeric(dat_flow_iperf['retrans'].iloc[0]) if dat_flow_iperf.shape[0] > 0 else np.nan
-    transfered_data=pd.to_numeric(dat_flow_iperf['transfer_data'].iloc[0])*pow(10,exponent) if dat_flow_iperf.shape[0] > 0 else np.nan
+    transfered_data=pd.to_numeric(dat_flow_iperf['transfer'].iloc[0])*pow(10,exponent) if dat_flow_iperf.shape[0] > 0 else np.nan
     packet_loss2=(retrans_iperf*1500)/(transfered_data)
-    list_retrans2.append(retrans_iperf)
+    list_retrans_iperf.append(retrans_iperf)
     x2=(1448*8*1000)/(mean_rtt*np.sqrt(packet_loss2))
 
      # method-3: calculation of packet_loss rate using transfer data from iperf and retrans from ss data
@@ -130,7 +110,7 @@ for i in range (0,10):
       ratio_iperf=retrans_iperf/cwn_half_port
       list_ratio_ss.append(ratio_ss)
       list_ratio_iperf.append(ratio_iperf)
-    bandwidth_port=pd.to_numeric(dat_flow_iperf['bandwidth'].iloc[0])*1000 if dat_flow_iperf.shape[0] > 0 else np.nan
+    bandwidth_port=pd.to_numeric(dat_flow_iperf['bitrate'].iloc[0])*1000 if dat_flow_iperf.shape[0] > 0 else np.nan
 
     if not np.isnan(bandwidth_port):
       x1_values.append(x1)
@@ -204,15 +184,6 @@ reg_simple6 = LinearRegression(fit_intercept = False).fit(x6_values, y_values)
 print("Intercept: " , reg_simple6.intercept_)
 print("Coefficient list: ", reg_simple6.coef_)
 
-
-with open(output_filename, 'a', newline='') as csvfile:
-  writer = csv.writer(csvfile)
-  header = 'time_duration', 'ports', 'sum(y_values)', 'total_cwnd_half', 'total_retransmission_ss', 'total_retransmission_iperf', 'total_retransmission_ss/total_cwnd_half', 'total_retransmission_iperf/total_cwnd_half', 'np.nanmean(list_ratio_ss)', 'np.nanmean(list_ratio_iperf)', 'reg_simple1.intercept_', 'reg_simple1.coef_[0]', 'reg_simple2.intercept_', 'reg_simple2.coef_[0]', 'reg_simple3.intercept_', 'reg_simple3.coef_[0]', 'reg_simple4.intercept_', 'reg_simple4.coef_[0]','reg_simple5.intercept_', 'reg_simple5.coef_[0]','reg_simple6.intercept_', 'reg_simple6.coef_[0]', 'router_dropped', 'router_sent', 'router_dropped/total_cwnd_half'
-     
-  columns = duration, sum(ports), sum(y_values), total_cwnd_half, total_retransmission_ss, total_retransmission_iperf, total_retransmission_ss/total_cwnd_half, total_retransmission_iperf/total_cwnd_half, np.nanmean(list_ratio_ss), np.nanmean(list_ratio_iperf), reg_simple1.intercept_, reg_simple1.coef_[0], reg_simple2.intercept_, reg_simple2.coef_[0], reg_simple3.intercept_, reg_simple3.coef_[0], reg_simple4.intercept_, reg_simple4.coef_[0], reg_simple5.intercept_, reg_simple5.coef_[0], reg_simple6.intercept_, reg_simple6.coef_[0], dropped, sent, dropped/total_cwnd_half
-  writer.writerow(columns)
-
-
 y_hat1 = reg_simple1.predict(x1_values)
 
 y_hat2 = reg_simple2.predict(x2_values)
@@ -225,8 +196,24 @@ y_hat5 = reg_simple5.predict(x5_values)
 
 y_hat6 = reg_simple6.predict(x6_values)
 
+mdape1=np.median((np.abs(np.subtract(y_values, y_hat1)/ y_values))) * 100
+mdape2=np.median((np.abs(np.subtract(y_values, y_hat2)/ y_values))) * 100
+mdape3=np.median((np.abs(np.subtract(y_values, y_hat3)/ y_values))) * 100
+mdape4=np.median((np.abs(np.subtract(y_values, y_hat4)/ y_values))) * 100
+mdape5=np.median((np.abs(np.subtract(y_values, y_hat5)/ y_values))) * 100
+mdape6=np.median((np.abs(np.subtract(y_values, y_hat6)/ y_values))) * 100
 
-with PdfPages("/local/repository/cloudlab-scripts/linear_reg_plot.pdf") as pdf:
+
+
+with open(output_filename, 'a', newline='') as csvfile:
+  writer = csv.writer(csvfile)   
+  columns = duration, sum(ports), sum(y_values), total_cwnd_half, total_retransmission_ss, total_retransmission_iperf, total_retransmission_ss/total_cwnd_half, total_retransmission_iperf/total_cwnd_half, np.nanmean(list_ratio_ss), np.nanmean(list_ratio_iperf), reg_simple1.intercept_, reg_simple1.coef_[0], reg_simple2.intercept_, reg_simple2.coef_[0], reg_simple3.intercept_, reg_simple3.coef_[0], reg_simple4.intercept_, reg_simple4.coef_[0], reg_simple5.intercept_, reg_simple5.coef_[0], reg_simple6.intercept_, reg_simple6.coef_[0], dropped, sent, dropped/total_cwnd_half, mdape1, mdape2, mdape3, mdape4, mdape5, mdape6
+  writer.writerow(columns)
+
+
+
+
+with PdfPages("linear_reg_plot.pdf") as pdf:
   plt.rcParams['figure.figsize'] = (8,6)
 
   plt.scatter(x=x1_values.squeeze(), y=y_values, color='C4', alpha=1, s=10, label='actual values')
@@ -301,4 +288,5 @@ with PdfPages("/local/repository/cloudlab-scripts/linear_reg_plot.pdf") as pdf:
   pdf.savefig()  # saves the current figure into a pdf page
   plt.show()
   plt.close()
+
 
