@@ -33,9 +33,23 @@ with open("sender-cwn1-10.10.2.1"+ip+"-file.txt", 'r') as file:
           rtt = int(rtt_match.group(1))
           print(f"rtt value: {rtt}")
       else:
-        rtt=None
+          rtt=None
+
+      data_seg_out_match = re.search(r"data_segs_out:(\d+)", line2)
+      if rtt_match:
+          data_segs_out = int(data_seg_out_match.group(1))
+      else:
+          data_segs_out = None
+              
+      retrans_match = re.search(r"retrans:(\d+)", line2)
+      if retrans_match:
+          retrans = int(retrans_match.group(1))
+      else:
+          retrans = None
+
+        
 
       with open(output_filename, 'a', newline='') as csvfile:
         writer = csv.writer(csvfile)
-        columns = ip1_match.group(1)+ip2_match.group(1), cwnd , rtt
+        columns = ip1_match.group(1)+ip2_match.group(1), cwnd , rtt, data_segs_out, retrans
         writer.writerow(columns)
