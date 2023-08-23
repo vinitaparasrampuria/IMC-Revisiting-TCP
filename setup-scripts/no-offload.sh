@@ -8,5 +8,5 @@ for i in $ifs; do
   sudo ethtool -K $i lro off  
   sudo ethtool -K $i gso off  
   sudo ethtool -K $i tso off
-  sudo ethtool -K $i ufo off
+  #sudo ethtool -K $i ufo off
 done
