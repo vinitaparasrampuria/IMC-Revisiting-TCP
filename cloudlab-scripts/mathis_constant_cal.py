@@ -70,9 +70,9 @@ for i in range (0,1):
     list_cwnd_half.append(cwn_half_port)
 
     #method-1: calculation of packet_loss rate using data_seg_out from ss and retrans from ss data
-    data_seg_out=dat_flow_ss['data_seg'].iloc[len(dat_flow) - 1]   
+    data_seg_out=dat_flow_ss['data_seg'].iloc[len(dat_flow_ss) - 1]   
     mean_rtt=np.nanmean(dat_flow_ss['rtt'])
-    retrans_ss=dat_flow_ss['retrans'].iloc[len(dat_flow) - 1]
+    retrans_ss=dat_flow_ss['retrans'].iloc[len(dat_flow_ss) - 1]
     list_retrans_ss.append(retrans_ss)
     packet_loss1=retrans_ss/data_seg_out
     if packet_loss1>0:
@@ -126,8 +126,8 @@ for i in range (0,1):
         writer.writerow(columns)
 
 total_cwnd_half=np.nansum(list_cwnd_half)
-total_retransmission_ss=np.nansum(retrans_ss)
-total_retransmission_iperf=np.nansum(retrans_iperf)
+total_retransmission_ss=np.nansum(list_ratio_ss)
+total_retransmission_iperf=np.nansum(list_retrans_iperf)
 print(total_cwnd_half)
 
 print(sum(ports))
