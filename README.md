@@ -372,3 +372,25 @@ As per experiment on FABRIC:
 1. NewReno and Cubic show high intra-CCA fairness in CoreScale and EdgeScale with a JFI > 0.93 (cubic in progress)
 2. BBR shows intra-CCA fairness in both EdgeScale and CoreScale with JFI > 0.99 (in progress)
    [JFI_FABRIC_intermediate.csv](https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/blob/main/fabric-outputs/JFI_FABRIC_Intermediate.csv)
+
+
+Finding 3: 
+
+> Cubic achieves 70 to 80% of total throughput when competing with an equal number of NewReno flows at CoreScale, while BBR is highly unfair to loss-based CCA, i.e., NewReno and Cubic. These results are in line with past research in the edge setting.
+
+To validate this finding on CloudLab:
+* Open the [CloudLab profile](https://www.cloudlab.us/p/nyunetworks/imc-revisiting). Leave parameters at their default settings, and reserve resources at CloudLab Utah. Wait for resources to come up and for startup scripts to be complete. Open an SSH terminal at the router.
+* On the router: run `bash /local/repository/cloudlab-scripts/validate.sh` and confirm that you see about 24-25 Gbps sum throughput for multiple flows (on average 2.5 Gbps for each of the 10 flows), 8-10 Gbps throughput for single flow, and 0-1 ms RTT.
+* On the router: run `bash /local/repository/cloudlab-scripts/setup-intremediate.sh` and confirm that you see about **1 Gbps** sum throughput for multiple flows (on average 100 Mbps for each of the 10 flows), 1 Gbps throughput for single flow, and 0-2 ms RTT.
+* On the router: run `bash /local/repository/cloudlab-scripts/generate-flows.sh 20 10000000 3 10 1800 reno 1 1 bbr`.
+
+* Example output from running the command is
+  `count of flows of reno is 99, sum of Bandwidth of reno is 1731767 Kbits/sec, count of flows of bbr is 1, sum of Bandwidth of bbr is 37065 Kbits/sec`
+
+Discussion:
+As per the original paper: BBR is highly unfair to loss-based CCA, i.e., NewReno and Cubic. A single BBR flow takes 40% of the total throughput when competing with thousands of NewReno or Cubic flows. 
+
+According to our results: 
+
+<img width="897" alt="Screenshot 2023-08-23 at 10 27 32 AM" src="https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/assets/10760836/4689a5f1-7806-4b2c-b258-67400171c13b">
+
