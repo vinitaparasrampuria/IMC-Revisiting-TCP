@@ -50,7 +50,7 @@ if not os.path.isfile(output_filename):
       writer.writerow(header)
 
 
-for i in range (0,1):
+for i in range (0,sender):
   dat_ss = pd.read_csv("data-cwn-10.10.2.1"+str(i)+"-file.txt", header=None, names=['port', 'cwnd','rtt','data_seg','retrans'])
   dat_cwn_iperf = pd.read_csv("data-cwn-10.10.2.1"+str(i)+".csv",header=0, names=['socket', 'port','cwnd'])
   dat_retrans_iperf= pd.read_csv("data-iperf-10.10.2.1"+str(i)+".csv",header=0, names=['socket', 'port', 'time', 'time_unit', 'transfer', 'transfer_unit', 'bitrate', 'bitrate_unit', 'retrans'] )
