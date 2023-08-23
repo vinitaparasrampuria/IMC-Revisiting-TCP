@@ -42,7 +42,7 @@ bs_node = node_router.Blockstore("bs_node_router", "/mydata")
 bs_node.size = "0GB"
 node_router.addService(pg.Execute(shell="bash", command="bash /local/repository/setup-scripts/mlnx-install.sh; bash /local/repository/setup-scripts/install.sh"))
 node_router.addService(pg.Execute(shell="bash", command="sudo chmod a+r /mydata; sudo chmod a+w /mydata"))
-#node_router.addService(pg.Execute(shell="bash", command="bash /local/repository/setup-scripts/no-offload.sh"))
+node_router.addService(pg.Execute(shell="bash", command="bash /local/repository/setup-scripts/no-offload.sh"))
 
 node_router.installRootKeys(True, True)
 iface1 = node_router.addInterface('interface-r-send', pg.IPv4Address('10.10.1.1','255.255.255.0'))
@@ -72,7 +72,7 @@ for i in range(params.n):
     node_sender.installRootKeys(True, True)
     node_sender.addService(pg.Execute(shell="bash", command="sudo chmod a+r /mydata; sudo chmod a+w /mydata; sudo modprobe tcp_bbr"))
     node_sender.addService(pg.Execute(shell="bash", command="bash /local/repository/setup-scripts/install.sh; bash /local/repository/endpoint-scripts/install_iperf.sh"))
-    #node_sender.addService(pg.Execute(shell="bash", command="bash /local/repository/setup-scripts/no-offload.sh"))
+    node_sender.addService(pg.Execute(shell="bash", command="bash /local/repository/setup-scripts/no-offload.sh"))
     iface0 = node_sender.addInterface('interface-send-' + str(i), pg.IPv4Address('10.10.1.1' + str(i) ,'255.255.255.0'))
     iface0.bandwidth = 10000000
     link_0.addInterface(iface0)
