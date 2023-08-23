@@ -30,6 +30,6 @@ for i in `seq 1 $num_clients`; do
 
 	# Run iperf3
 	#iperf3 -c $server_ip -p $server_port -t $test_duration -C $cca -P $flows -O 60 -i $interval -J &>$report_file &
- 	iperf3 -c $server_ip -p $server_port -t $test_duration -C $cca -P $flows -O 60 -i $interval --format k &>$report_file &
+ 	iperf3 -c $server_ip -p $server_port -t $test_duration -C $cca -P $flows -i $interval --format k &>$report_file &
 	sleep $(( ( RANDOM % 12 )  + 2 ))
 done
