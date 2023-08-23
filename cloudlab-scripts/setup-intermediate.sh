@@ -17,10 +17,10 @@ done
 
 for i in {0..9}
 do
-   sudo ssh -o StrictHostKeyChecking=no root@sender-$i "nohup iperf3 -t 60 -P 10 -c 10.10.2.1$i > /dev/null 2>&1 &"
+   sudo ssh -o StrictHostKeyChecking=no root@sender-$i "nohup iperf3 -t 120 -c 10.10.2.1$i > /dev/null 2>&1 &"
 done
 
-sleep 65
+sleep 130
 
 
 for i in {0..9}
