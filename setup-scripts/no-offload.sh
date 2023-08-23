@@ -1,5 +1,6 @@
 # Get a list of all experiment interfaces, excluding loopback
-ifs=$(netstat -i | tail -n+3 | grep -Ev "lo" | cut -d' ' -f1 | tr '\n' ' ')
+#ifs=$(netstat -i | tail -n+3 | grep -Ev "lo" | cut -d' ' -f1 | tr '\n' ' ')
+ifs=$(find /sys/class/net -type l |grep -Ev "lo" | cut -d'/' -f5 | tr '\n' ' ')
 
 # Turn off offloading of all kinds, if possible!
 for i in $ifs; do 
