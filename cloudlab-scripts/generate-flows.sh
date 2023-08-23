@@ -91,6 +91,8 @@ then
       # instead of running iperf3 directly, run 'bash /local/repository/endpoint-scripts/iperf-parallel-senders'
       # with appropriate arguments
       sudo ssh -o StrictHostKeyChecking=no root@sender-$i /bin/bash << EOF
+      sudo ssh -o StrictHostKeyChecking=no root@sender-$i "rm -f /mydata/*"
+      cd /mydata
       sudo killall iperf3
       bash /local/repository/endpoint-scripts/iperf-parallel-senders.sh 10.10.2.1$i $num_clients $test_duration $cca1 $flows $interval > /dev/null 2>&1 &
 EOF
@@ -186,6 +188,7 @@ if [ $type == 1 ]; then
    for i in {0..9}
    do
       sudo ssh -o StrictHostKeyChecking=no root@sender-$i /bin/bash << EOF
+      cd /mydata
       python3 /local/repository/endpoint-scripts/process_cwn_file.py $i > /dev/null 2>&1 &
       python3 /local/repository/endpoint-scripts/process_iperf_normal.py $i $num_clients $test_duration $cca1 $flows > /dev/null 2>&1 &
 EOF
@@ -194,7 +197,7 @@ EOF
    
    for i in {0..9}
    do
-      sudo scp -o StrictHostKeyChecking=no -r root@sender-$i:./data* /local/repository/cloudlab-scripts/result-${cca1}/.
+      sudo scp -o StrictHostKeyChecking=no -r root@sender-$i:/mydata/data* /local/repository/cloudlab-scripts/result-${cca1}/.
    done
 elif [ $type == 2 ] || [ $type == 3 ]; then
    for i in {0..9}
