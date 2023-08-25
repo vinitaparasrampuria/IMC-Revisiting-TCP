@@ -91,7 +91,7 @@ then
       # instead of running iperf3 directly, run 'bash /local/repository/endpoint-scripts/iperf-parallel-senders'
       # with appropriate arguments
       sudo ssh -o StrictHostKeyChecking=no root@sender-$i /bin/bash << EOF
-      sudo ssh -o StrictHostKeyChecking=no root@sender-$i "rm -f /mydata/*"
+      rm -f /mydata/*
       cd /mydata
       sudo killall iperf3
       bash /local/repository/endpoint-scripts/iperf-parallel-senders.sh 10.10.2.1$i $num_clients $test_duration $cca1 $flows $interval > /dev/null 2>&1 &
