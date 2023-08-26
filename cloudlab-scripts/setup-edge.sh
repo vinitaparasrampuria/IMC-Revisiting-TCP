@@ -30,7 +30,7 @@ done
 echo "Capacity test with one flow"
 
 sudo ssh -o StrictHostKeyChecking=no root@receiver-0 'iperf3 -s -1 -f g -D'
-sudo ssh -o StrictHostKeyChecking=no root@sender-0  "iperf3 -t 60 -i 60 -P 10 -c 10.10.2.10"
+sudo ssh -o StrictHostKeyChecking=no root@sender-0  "iperf3 -t 60 -i 60 -c 10.10.2.10"
 
 
 echo "Latency test"
