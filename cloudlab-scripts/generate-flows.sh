@@ -194,6 +194,24 @@ if [ $type == 1 ]; then
 EOF
    done
    sleep 600
+   while [ True ]; 
+   do 
+      sleep 120
+      j=False
+      for i in {0..9} 
+      do 
+         res=$(sudo ssh -o StrictHostKeyChecking=no root@sender-$i  pgrep -af python) 
+      if [[ $res == *"process"* ]]; 
+      then 
+         j=True
+      fi
+      done
+   if [[ $j == True ]];
+      then continue 
+   else 
+      break
+   fi
+   done
    
    for i in {0..9}
    do
