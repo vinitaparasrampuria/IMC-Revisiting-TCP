@@ -19,7 +19,7 @@ flows=$5
 # E.g. 1,0.01
 interval=$6
 
-options="$*"
+omit=$7
 
 # Run iperf multiple times
 bash /local/repository/endpoint-scripts/call_func.sh $server_ip > /dev/null 2>&1 &
@@ -32,6 +32,6 @@ for i in `seq 1 $num_clients`; do
 
 	# Run iperf3
 	#iperf3 -c $server_ip -p $server_port -t $test_duration -C $cca -P $flows -O 60 -i $interval -J &>$report_file &
-  	nohup iperf3 -c $server_ip -p $server_port -t $test_duration -C $cca -P $flows -i $interval --forceflush --format k $options >>$report_file  2>&1 &
+  	nohup iperf3 -c $server_ip -p $server_port -t $test_duration -C $cca -P $flows -i $interval --forceflush --format k -O $omit >>$report_file  2>&1 &
 	# sleep $(( ( RANDOM % 12 )  + 2 ))
 done
