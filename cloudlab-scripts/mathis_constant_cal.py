@@ -49,6 +49,7 @@ for i in range (0,sender):
     dat_combo.loc[dat_combo['port']==p, 'cwnd_halve']=cwn_half_port
 
   dat_exp  = pd.concat([dat_exp, dat_combo], ignore_index=True)
+dat_exp=dat_exp.convert_dtypes()
 dat_exp['retrans_iperf'] = pd.to_numeric(dat_exp['retrans_iperf'], errors='coerce').fillna(0)
 dat_exp = dat_exp.assign(p_ss_retrans = dat_exp['retrans_ss']/dat_exp['data_seg'])
 dat_exp = dat_exp.assign(p_iperf_retrans = dat_exp['retrans_iperf']/dat_exp['data_seg'])
