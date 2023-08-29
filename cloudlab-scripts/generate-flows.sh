@@ -192,7 +192,9 @@ if [ $type == 1 ]; then
    do
       sudo ssh -o StrictHostKeyChecking=no root@sender-$i /bin/bash << EOF
       cd /mydata
+      if [ $cca1 == 'reno' ]; then
       python3 /local/repository/endpoint-scripts/process_cwn_file.py $i > /dev/null 2>&1 &
+      fi
       python3 /local/repository/endpoint-scripts/process_iperf_normal.py $i $num_clients $test_duration $cca1 $flows > /dev/null 2>&1 &
 EOF
    done
