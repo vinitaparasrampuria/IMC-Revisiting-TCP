@@ -123,10 +123,10 @@ predicted_bw_router = LinearRegression(fit_intercept = False).fit(
   dat_exp['bitrate']*1000.0
 ).predict(x_router)
 
-mdape_ss=np.median((np.abs(np.subtract(dat_exp['bitrate']*1000.0, predicted_bw_ss)/ dat_exp['bitrate']*1000.0))) * 100
-mdape_iperf=np.median((np.abs(np.subtract(dat_exp['bitrate']*1000.0, predicted_bw_iperf)/ dat_exp['bitrate']*1000.0))) * 100
-mdape_cwnd=np.median((np.abs(np.subtract(dat_exp['bitrate']*1000.0, predicted_bw_cwnd)/ dat_exp['bitrate']*1000.0))) * 100
-mdape_router=np.median((np.abs(np.subtract(dat_exp['bitrate']*1000.0, predicted_bw_router)/ dat_exp['bitrate']*1000.0))) * 100
+mdape_ss=np.median((np.abs(np.subtract(dat_exp['bitrate']*1000.0, predicted_bw_ss)/ (dat_exp['bitrate']*1000.0)))) * 100
+mdape_iperf=np.median((np.abs(np.subtract(dat_exp['bitrate']*1000.0, predicted_bw_iperf)/ (dat_exp['bitrate']*1000.0)))) * 100
+mdape_cwnd=np.median((np.abs(np.subtract(dat_exp['bitrate']*1000.0, predicted_bw_cwnd)/ (dat_exp['bitrate']*1000.0)))) * 100
+mdape_router=np.median((np.abs(np.subtract(dat_exp['bitrate']*1000.0, predicted_bw_router)/ (dat_exp['bitrate']*1000.0)))) * 100
 
 with open(output_filename, 'a', newline='') as csvfile:
   writer = csv.writer(csvfile)   
@@ -138,9 +138,9 @@ with open(output_filename, 'a', newline='') as csvfile:
 with PdfPages("linear_reg_plot.pdf") as pdf:
   plt.rcParams['figure.figsize'] = (8,6)
 
-  plt.scatter(x=x_retrans_ss.squeeze(), y=dat_exp['bitrate']*1000.0, color='C4', alpha=1, s=10, label='actual values')
-  plt.scatter(x=x_retrans_ss.squeeze(), y=predicted_bw_ss, color='C3',  alpha=1, s=10, label='predicted_values')
-  plt.plot(x_retrans_ss.squeeze(), predicted_bw_ss, color='C2', linewidth=0.5, label='fit')
+  plt.scatter(x=x_retrans_ss, y=dat_exp['bitrate']*1000.0, color='C4', alpha=1, s=10, label='actual values')
+  plt.scatter(x=x_retrans_ss, y=predicted_bw_ss, color='C3',  alpha=1, s=10, label='predicted_values')
+  plt.plot(x_retrans_ss, predicted_bw_ss, color='C2', linewidth=0.5, label='fit')
   plt.xlabel("x=mss/rtt*sqrt(packet_loss_rate)") 
   plt.ylabel("y=bandwidth(bits/sec)")
   plt.title("Method-1 calculation of packet_loss rate using data_seg_out from ss and retrans from ss data")
@@ -149,9 +149,9 @@ with PdfPages("linear_reg_plot.pdf") as pdf:
   plt.show()
   plt.close()
 
-  plt.scatter(x=x_retrans_iperf.squeeze(), y=dat_exp['bitrate']*1000.0, color='C4', s=10, label='actual values')
-  plt.scatter(x=x_retrans_iperf.squeeze(), y=predicted_bw_iperf, color='C3', s=10, label='predicted_values')
-  plt.plot(x_retrans_iperf.squeeze(), predicted_bw_iperf, color='C2', linewidth=0.5, label='fit')
+  plt.scatter(x=x_retrans_iperf, y=dat_exp['bitrate']*1000.0, color='C4', s=10, label='actual values')
+  plt.scatter(x=x_retrans_iperf, y=predicted_bw_iperf, color='C3', s=10, label='predicted_values')
+  plt.plot(x_retrans_iperf, predicted_bw_iperf, color='C2', linewidth=0.5, label='fit')
   plt.xlabel("x=mss/rtt*sqrt(packet_loss_rate)") 
   plt.ylabel("y=bandwidth(bits/sec)")
   plt.title("Method-2: calculation of packet_loss rate using data_seg_out from ss and retrans from iperf3 data")
@@ -161,9 +161,9 @@ with PdfPages("linear_reg_plot.pdf") as pdf:
   plt.close()
 
 
-  plt.scatter(x=x_cwnd.squeeze(), y=dat_exp['bitrate']*1000.0, color='C4', alpha=1, s=10, label='actual values')
-  plt.scatter(x=x_cwnd.squeeze(), y=predicted_bw_cwnd, color='C3',  alpha=1, s=10, label='predicted_values')
-  plt.plot(x_cwnd.squeeze(), predicted_bw_cwnd, color='C2', linewidth=0.5, label='fit')
+  plt.scatter(x=x_cwnd, y=dat_exp['bitrate']*1000.0, color='C4', alpha=1, s=10, label='actual values')
+  plt.scatter(x=x_cwnd, y=predicted_bw_cwnd, color='C3',  alpha=1, s=10, label='predicted_values')
+  plt.plot(x_cwnd, predicted_bw_cwnd, color='C2', linewidth=0.5, label='fit')
   plt.xlabel("x=mss/rtt*sqrt(packet_loss_rate)")
   plt.ylabel("y=bandwidth(bits/sec)")
   plt.title("Method-3: calculation of packet_loss rate using data_seg_out from ss and cwnd from iperf3 data")
@@ -172,9 +172,9 @@ with PdfPages("linear_reg_plot.pdf") as pdf:
   plt.show()
   plt.close()
 
-  plt.scatter(x=x_router.squeeze(), y=dat_exp['bitrate']*1000.0, color='C4', alpha=1, s=10, label='actual values')
-  plt.scatter(x=x_router.squeeze(), y=predicted_bw_router, color='C3',  alpha=1, s=10, label='predicted_values')
-  plt.plot(x_router.squeeze(), predicted_bw_router, color='C2', linewidth=0.5, label='fit')
+  plt.scatter(x=x_router, y=dat_exp['bitrate']*1000.0, color='C4', alpha=1, s=10, label='actual values')
+  plt.scatter(x=x_router, y=predicted_bw_router, color='C3',  alpha=1, s=10, label='predicted_values')
+  plt.plot(x_router, predicted_bw_router, color='C2', linewidth=0.5, label='fit')
   plt.xlabel("x=mss/rtt*sqrt(packet_loss_rate)")
   plt.ylabel("y=bandwidth(bits/sec)")
   plt.title("Method-4: calculation of packet_loss rate using packet drop rate at the router")
