@@ -96,7 +96,7 @@ if not os.path.isfile(output_filename):
       writer = csv.writer(csvfile)
       header = 'time_duration', 'ports', 'BW', 'total_data_seg_out','total_cwnd_half', 'total_retransmission_ss',\
         'total_retransmission_iperf', 'total_retransmission_ss/total_cwnd_half', 'total_retransmission_iperf/total_cwnd_half',\
-        'C_ss', 'C_iperf', 'C_cwnd', 'C_router' 'router_dropped', 'router_sent', 'router_dropped/total_cwnd_half', \
+        'C_ss', 'C_iperf', 'C_cwnd', 'C_router', 'router_dropped', 'router_sent', 'router_dropped/total_cwnd_half', \
         'mdape_ss', 'mdape_iperf', 'mdape_cwnd', 'mdape_router'
       writer.writerow(header)
       
