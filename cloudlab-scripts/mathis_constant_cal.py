@@ -44,7 +44,7 @@ for i in range (0,sender):
     dat_flow = dat_cwn_iperf[dat_cwn_iperf.port==p]
     #calculate congestion window halving events
     x = dat_flow.cwnd.diff().values
-    x[np.where(x==0)] = 1
+    x = x[x!=0]
     cwn_half_port=np.sum((np.diff(np.sign(x))) == -2)
     dat_combo.loc[dat_combo['port']==p, 'cwnd_halve']=cwn_half_port
 
