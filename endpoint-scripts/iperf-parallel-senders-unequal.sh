@@ -21,6 +21,7 @@ cca2=$6
 #iperf3 output interval
 interval=$7
 
+omit=$8
 
 # Run iperf multiple times
 if [ $num_clients -ne 1 ]; then
@@ -31,15 +32,22 @@ if [ $num_clients -ne 1 ]; then
                 # Report file includes server ip, server port and test duration
                 report_file=sender-${server_ip}-${server_port}-${test_duration}-${cca1}.txt
                 # Run iperf3
-                iperf3 -c $server_ip -p $server_port -t $test_duration -C $cca1 -P $flows -i $interval --format k &>$report_file &
+                nohup iperf3 -c $server_ip -p $server_port -t $test_duration -C $cca1 -P $flows -i $interval --forceflush --format k -O $omit >>$report_file  2>&1 &
         done
+        
         server_port=$(($base_port+$num_clients))
-        report_file=sender-${server_ip}-$((server_port))-${test_duration}-${cca1}.txt
-        iperf3 -c $server_ip -p $((server_port)) -t $test_duration -C $cca1 -P $((flows-1)) -i $interval --format k &>$report_file &
-        report_file=sender-${server_ip}-$((server_port+1))-${test_duration}-${cca2}.txt
-        iperf3 -c $server_ip -p $((server_port+1)) -t $test_duration -C $cca2 -P 1 -i $interval --format k &>$report_file &
+        if [ $flows -ne 1 ]; then
+                report_file=sender-${server_ip}-$((server_port))-${test_duration}-${cca1}.txt
+                nohup iperf3 -c $server_ip -p $((server_port)) -t $test_duration -C $cca1 -P $((flows-1)) -i $interval --forceflush --format k -O $omit >>$report_file  2>&1 &
+                report_file=sender-${server_ip}-$((server_port+1))-${test_duration}-${cca2}.txt
+                nohup iperf3 -c $server_ip -p $((server_port+1)) -t $test_duration -C $cca2 -P 1 -i $interval --forceflush --format k -O $omit >>$report_file  2>&1 &
+        else 
+                report_file=sender-${server_ip}-$((server_port))-${test_duration}-${cca2}.txt
+                nohup iperf3 -c $server_ip -p $((server_port)) -t $test_duration -C $cca2 -P 1 -i $interval --forceflush --format k -O $omit >>$report_file  2>&1 &
+        fi 
+                
 else
         server_port=$(($base_port+$num_clients))
         report_file=sender-${server_ip}-$((server_port))-${test_duration}-${cca2}.txt
-        iperf3 -c $server_ip -p $((server_port)) -t $test_duration -C $cca2 -P 1 -i $interval --format k &>$report_file &
+        nohup iperf3 -c $server_ip -p $((server_port)) -t $test_duration -C $cca2 -P 1 -i $interval --forceflush --format k -O $omit >>$report_file  2>&1 &
 fi
