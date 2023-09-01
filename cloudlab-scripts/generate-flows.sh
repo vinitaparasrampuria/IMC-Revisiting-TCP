@@ -238,15 +238,23 @@ if [ $type == 1 ]; then
   
 elif [ $type == 2 ] || [ $type == 3 ];
 then
-   sum1=$(grep -r -E "[0-9].*0.00-[0-9].*sender" --include *${cca1}.txt /local/repository/cloudlab-scripts/result-${cca1}-${cca2} |tr '[' ' ' |awk -F ' ' '{sum+=$7} END {print sum}')
+   sum_cca1=$(grep -r -E "[0-9].*0.00-[0-9].*sender" --include *${cca1}.txt /local/repository/cloudlab-scripts/result-${cca1}-${cca2} |tr '[' ' ' |awk -F ' ' '{sum+=$7} END {print sum}')
    count1=$(grep -r -E "[0-9].*0.00-[0-9].*sender" --include *${cca1}.txt /local/repository/cloudlab-scripts/result-${cca1}-${cca2} |tr '[' ' ' |awk -F ' ' '{count+=1}END {print count}')
    echo count of flows of $cca1 is $count1
-   echo sum of Bandwidth of $cca1 is $sum1 Kbits/sec
+   echo sum of Bandwidth of $cca1 is $sum_cca1 Kbits/sec
 
-   sum2=$(grep -r -E "[0-9].*0.00-[0-9].*sender" --include *${cca2}.txt /local/repository/cloudlab-scripts/result-${cca1}-${cca2} |tr '[' ' ' |awk -F ' ' '{sum+=$7} END {print sum}')
+   sum_cca2=$(grep -r -E "[0-9].*0.00-[0-9].*sender" --include *${cca2}.txt /local/repository/cloudlab-scripts/result-${cca1}-${cca2} |tr '[' ' ' |awk -F ' ' '{sum+=$7} END {print sum}')
    count2=$(grep -r -E "[0-9].*0.00-[0-9].*sender" --include *${cca2}.txt /local/repository/cloudlab-scripts/result-${cca1}-${cca2} |tr '[' ' ' |awk -F ' ' '{count+=1}END {print count}')
    echo count of flows of $cca2 is $count2
-   echo sum of Bandwidth of $cca2 is $sum2 Kbits/sec
+   echo sum of Bandwidth of $cca2 is $sum_cca2 Kbits/sec
+   total_bandwidth=$((sum_cca1+sum_cca2))
+   tput_filename=/local/repository/cloudlab-scripts/inter-cca-tput.csv
+   if test -f "$tput_filename"; then
+      echo $cca1, $cca2, $total_bandwidth, $delay, $sum_cca1, $count1, $sum_cca2, $count2, $((cca1/total_bandwidth))  >> $jfi_filename
+   else
+      echo "CCA1,CCA2,Total Bandwidth(Kbps),Base RTT(ms),Sum of CCA1,CCA1 Flow Count,Sum of CCA2,CCA2 Flow Count,Throughput%" >> $jfi_filename;
+      echo $cca1, $cca2, $total_bandwidth, $delay, $sum_cca1, $count1, $sum_cca2, $count2, $((cca1/total_bandwidth))  >> $jfi_filename
+   fi
 else
    echo "Wrong input"
 fi
