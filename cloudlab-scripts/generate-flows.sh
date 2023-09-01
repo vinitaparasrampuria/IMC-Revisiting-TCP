@@ -198,7 +198,6 @@ if [ $type == 1 ]; then
       python3 /local/repository/endpoint-scripts/process_iperf_normal.py $i $num_clients $test_duration $cca1 $flows > /dev/null 2>&1 &
 EOF
    done
-   sleep 600
    while [ True ]; 
    do 
       sleep 120
