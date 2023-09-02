@@ -7,6 +7,7 @@ do
 sstxt=$(ss --no-header -ein dst $ip)
 if [ ! -z "$sstxt" ]; then
 		echo "$sstxt" >> sender-cwn1-$ip-file.txt
+  		sleep 1
 else
 	break
 fi
