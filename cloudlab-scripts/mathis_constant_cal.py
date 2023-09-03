@@ -19,6 +19,7 @@ cca=sys.argv[3]
 n_seg_dropped=int(sys.argv[4])
 n_seg_sent=int(sys.argv[5])
 duration=int(sys.argv[6])
+rtt=int(sys.argv[7])
 
 
 dat_exp = pd.DataFrame( columns=['port',
@@ -94,7 +95,7 @@ output_filename='/local/repository/cloudlab-scripts/output_mathis_C.csv'
 if not os.path.isfile(output_filename):
     with open(output_filename, 'a', newline='') as csvfile:
       writer = csv.writer(csvfile)
-      header = 'time_duration', 'ports', 'BW', 'total_data_seg_out','total_cwnd_half', 'total_retransmission_ss',\
+      header = 'time_duration', 'ports', 'Base_RTT(ms)', 'BW', 'total_data_seg_out','total_cwnd_half', 'total_retransmission_ss',\
         'total_retransmission_iperf', 'total_retransmission_ss/total_cwnd_half', 'total_retransmission_iperf/total_cwnd_half',\
         'C_ss', 'C_iperf', 'C_cwnd', 'C_router', 'router_dropped', 'router_sent', 'router_dropped/total_cwnd_half', \
         'mdape_ss', 'mdape_iperf', 'mdape_cwnd', 'mdape_router'
@@ -130,7 +131,7 @@ mdape_router=np.median((np.abs(np.subtract(dat_exp['bitrate']*1000.0, predicted_
 
 with open(output_filename, 'a', newline='') as csvfile:
   writer = csv.writer(csvfile)   
-  columns = duration, p, bw, seg, cwn_halve_sum, retrans_ss_sum,retrans_iperf_sum, retrans_ss_sum/cwn_halve_sum,\
+  columns = duration, p, rtt, bw, seg, cwn_halve_sum, retrans_ss_sum,retrans_iperf_sum, retrans_ss_sum/cwn_halve_sum,\
     retrans_iperf_sum/cwn_halve_sum, coef_retrans_ss[0], coef_retrans_iperf[0], coef_cwnd_halve[0], coef_router_dropped[0],\
     n_seg_dropped, n_seg_sent, n_seg_dropped/cwn_halve_sum, mdape_ss, mdape_iperf,  mdape_cwnd, mdape_router
   writer.writerow(columns)
