@@ -255,12 +255,14 @@ then
    echo count of flows of $cca2 is $count2
    echo sum of Bandwidth of $cca2 is $sum_cca2 Kbits/sec
    total_bandwidth=$((sum_cca1+sum_cca2))
+   tput_ratio=$(echo "scale=4; $sum_cca1/$total_bandwidth" | bc)
+   tout_percent=$(echo "scale=4; $tput_ratio*100" | bc)
    tput_filename=/local/repository/cloudlab-scripts/inter-cca-tput.csv
    if test -f "$tput_filename"; then
-      echo $cca1, $cca2, $total_bandwidth, $delay, $sum_cca1, $count1, $sum_cca2, $count2, $((cca1/total_bandwidth))  >> $tput_filename
+      echo $cca1, $cca2, $total_bandwidth, $delay, $sum_cca1, $count1, $sum_cca2, $count2, $tout_percent  >> $tput_filename
    else
       echo "CCA1,CCA2,Total Bandwidth(Kbps),Base RTT(ms),Sum of CCA1,CCA1 Flow Count,Sum of CCA2,CCA2 Flow Count,Throughput%" >> $tput_filename;
-      echo $cca1, $cca2, $total_bandwidth, $delay, $sum_cca1, $count1, $sum_cca2, $count2, $((cca1/total_bandwidth))  >> $tput_filename
+      echo $cca1, $cca2, $total_bandwidth, $delay, $sum_cca1, $count1, $sum_cca2, $count2, $tout_percent  >> $tput_filename
    fi
 else
    echo "Wrong input"
