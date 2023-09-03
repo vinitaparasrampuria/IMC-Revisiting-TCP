@@ -233,7 +233,7 @@ fi
 if [ $type == 1 ]; then
    python3 /local/repository/cloudlab-scripts/get_JFI.py 10 $num_clients $cca1 $test_duration $delay
    if [ $cca1 == 'reno' ]; then
-      python3 /local/repository/cloudlab-scripts/mathis_constant_cal.py 10 $num_clients $cca1 $dropped $sent $test_duration
+      python3 /local/repository/cloudlab-scripts/mathis_constant_cal.py 10 $num_clients $cca1 $dropped $sent $test_duration $delay
    fi
   
 elif [ $type == 2 ] || [ $type == 3 ];
