@@ -103,13 +103,15 @@ EOF
  elif [ $type == 2 ];
  then
       #empty the result folder
-      rm -f result-${cca1}-${cca2}/*
-      rmdir result-${cca1}-${cca2}*
+      rm -f /mydata/result-${cca1}-${cca2}/*
+      rmdir /mydata/result-${cca1}-${cca2}*
       #make a new directory to store the results
-      mkdir /local/repository/cloudlab-scripts/result-${cca1}-${cca2}
+      mkdir /mydata/result-${cca1}-${cca2}
       for i in {0..4}
       do
          sudo ssh -o StrictHostKeyChecking=no root@sender-$i /bin/bash << EOF
+         rm -f /mydata/*
+         cd /mydata
          sudo killall iperf3
          bash /local/repository/endpoint-scripts/iperf-parallel-senders.sh 10.10.2.1$i $num_clients $test_duration $cca1 $flows $interval $omit > /dev/null 2>&1 &
 EOF
@@ -117,6 +119,8 @@ EOF
       for i in {5..9}
       do
          sudo ssh -o StrictHostKeyChecking=no root@sender-$i /bin/bash << EOF
+         rm -f /mydata/*
+         cd /mydata
          sudo killall iperf3
          bash /local/repository/endpoint-scripts/iperf-parallel-senders.sh 10.10.2.1$i $num_clients $test_duration $cca2 $flows $interval $omit > /dev/null 2>&1 &
 EOF
@@ -124,20 +128,23 @@ EOF
  elif [ $type == 3 ];
  then
       #empty the result folder
-      rm -f result-${cca1}-${cca2}/*
-      rmdir result-${cca1}-${cca2}*
+      rm -f /mydata/result-${cca1}-${cca2}/*
+      rmdir mydata/result-${cca1}-${cca2}*
       #make a new directory to store the results
-      mkdir /local/repository/cloudlab-scripts/result-${cca1}-${cca2}
+      mkdir /mydata/result-${cca1}-${cca2}
       for i in {0..8}
       do
          sudo ssh -o StrictHostKeyChecking=no root@sender-$i /bin/bash << EOF
+         rm -f /mydata/*
+         cd /mydata
          sudo killall iperf3
          bash /local/repository/endpoint-scripts/iperf-parallel-senders.sh 10.10.2.1$i $num_clients $test_duration $cca1 $flows $interval $omit > /dev/null 2>&1 &
 EOF
        done
          sudo ssh -o StrictHostKeyChecking=no root@sender-9 /bin/bash << EOF
+         rm -f /mydata/*
+         cd /mydata
          sudo killall iperf3
-         sleep 10
          bash /local/repository/endpoint-scripts/iperf-parallel-senders-unequal.sh 10.10.2.19 $num_clients $test_duration $cca1 $flows $cca2 $interval $omit > /dev/null 2>&1 &
 EOF
 else
@@ -224,7 +231,7 @@ EOF
 elif [ $type == 2 ] || [ $type == 3 ]; then
    for i in {0..9}
    do
-      sudo scp -o StrictHostKeyChecking=no -r root@sender-$i:./sender* /local/repository/cloudlab-scripts/result-${cca1}-${cca2}/.
+      sudo scp -o StrictHostKeyChecking=no -r root@sender-$i:/mydata/sender* /mydata/result-${cca1}-${cca2}/.
    done
 else
    echo "Wrong input"
@@ -238,13 +245,13 @@ if [ $type == 1 ]; then
   
 elif [ $type == 2 ] || [ $type == 3 ];
 then
-   sum_cca1=$(grep -r -E "[0-9].*0.00-[0-9].*sender" --include *${cca1}.txt /local/repository/cloudlab-scripts/result-${cca1}-${cca2} |tr '[' ' ' |awk -F ' ' '{sum+=$7} END {print sum}')
-   count1=$(grep -r -E "[0-9].*0.00-[0-9].*sender" --include *${cca1}.txt /local/repository/cloudlab-scripts/result-${cca1}-${cca2} |tr '[' ' ' |awk -F ' ' '{count+=1}END {print count}')
+   sum_cca1=$(grep -r -E "[0-9].*0.00-[0-9].*sender" --include *${cca1}.txt /mydata/result-${cca1}-${cca2} |tr '[' ' ' |awk -F ' ' '{sum+=$7} END {print sum}')
+   count1=$(grep -r -E "[0-9].*0.00-[0-9].*sender" --include *${cca1}.txt /mydata/result-${cca1}-${cca2} |tr '[' ' ' |awk -F ' ' '{count+=1}END {print count}')
    echo count of flows of $cca1 is $count1
    echo sum of Bandwidth of $cca1 is $sum_cca1 Kbits/sec
 
-   sum_cca2=$(grep -r -E "[0-9].*0.00-[0-9].*sender" --include *${cca2}.txt /local/repository/cloudlab-scripts/result-${cca1}-${cca2} |tr '[' ' ' |awk -F ' ' '{sum+=$7} END {print sum}')
-   count2=$(grep -r -E "[0-9].*0.00-[0-9].*sender" --include *${cca2}.txt /local/repository/cloudlab-scripts/result-${cca1}-${cca2} |tr '[' ' ' |awk -F ' ' '{count+=1}END {print count}')
+   sum_cca2=$(grep -r -E "[0-9].*0.00-[0-9].*sender" --include *${cca2}.txt /mydata/result-${cca1}-${cca2} |tr '[' ' ' |awk -F ' ' '{sum+=$7} END {print sum}')
+   count2=$(grep -r -E "[0-9].*0.00-[0-9].*sender" --include *${cca2}.txt /mydata/result-${cca1}-${cca2} |tr '[' ' ' |awk -F ' ' '{count+=1}END {print count}')
    echo count of flows of $cca2 is $count2
    echo sum of Bandwidth of $cca2 is $sum_cca2 Kbits/sec
    total_bandwidth=$((sum_cca1+sum_cca2))
