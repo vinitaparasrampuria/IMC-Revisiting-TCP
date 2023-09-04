@@ -245,6 +245,7 @@ if [ $type == 1 ]; then
   
 elif [ $type == 2 ] || [ $type == 3 ];
 then
+   cd /mydata
    sum_cca1=$(grep -r -E "[0-9].*0.00-[0-9].*sender" --include *${cca1}.txt /mydata/result-${cca1}-${cca2} |tr '[' ' ' |awk -F ' ' '{sum+=$7} END {print sum}')
    count1=$(grep -r -E "[0-9].*0.00-[0-9].*sender" --include *${cca1}.txt /mydata/result-${cca1}-${cca2} |tr '[' ' ' |awk -F ' ' '{count+=1}END {print count}')
    echo count of flows of $cca1 is $count1
@@ -264,6 +265,7 @@ then
       echo "CCA1,CCA2,Total Bandwidth(Kbps),Base RTT(ms),Sum of CCA1,CCA1 Flow Count,Sum of CCA2,CCA2 Flow Count,Throughput%" >> $tput_filename;
       echo $cca1, $cca2, $total_bandwidth, $delay, $sum_cca1, $count1, $sum_cca2, $count2, $tout_percent  >> $tput_filename
    fi
+   cd /local/repository/cloudlab-scripts/
 else
    echo "Wrong input"
 fi
