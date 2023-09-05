@@ -1,4 +1,5 @@
 pip install pdfkit
+pip install reportlab
 
 from reportlab.lib.pagesizes import letter
 from reportlab.lib.units import inch
