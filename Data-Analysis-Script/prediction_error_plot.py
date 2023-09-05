@@ -7,8 +7,9 @@ dict_scale={'Edge':[0,50],'Intermediate':[90,500],'Core':[950,5000]}
 dict_flows={'Edge':[10,30,50],'Intermediate':[100,300,500],'Core':[1000,3000,5000]}
 rtt=[20,100,200]
 
-
-dat = pd.read_csv("C_CloudLab.csv", header=0,
+#change the filename, default filename in which the data is stored is "output_mathis_C.csv"
+filename="C_CloudLab.csv"
+dat = pd.read_csv(filename, header=0,
                       names=['time_duration', 'ports', 'base_rtt', 'BW', 'total_data_seg_out','total_cwnd_half', 'total_retransmission_ss',\
         'total_retransmission_iperf', 'total_retransmission_ss_to_total_cwnd_half', 'total_retransmission_iperf_to_total_cwnd_half',\
         'C_ss', 'C_iperf', 'C_cwnd', 'C_router', 'router_dropped', 'router_sent', 'router_dropped_to_total_cwnd_half', \
@@ -29,9 +30,10 @@ with PdfPages("MedianError_plot.pdf") as pdf:
         fig, ax1 = plt.subplots()
         ax1.set_axisbelow(True)
         ax1.grid()
-        xvals_core = dat[(dict_scale[key][0] <= dat['ports']) & (dat['ports'] <= dict_scale[key][1]) & (dat['base_rtt']==r)]
-        bar1 = ax1.bar(ind, xvals_core.mdape_router, width, color = 'chocolate')
-        bar2 = ax1.bar(ind+width+0.02, xvals_core.mdape_cwnd, width, color = 'blue')
+        xvals = dat[(dict_scale[key][0] <= dat['ports']) & (dat['ports'] <= dict_scale[key][1]) & (dat['base_rtt']==r)]
+        xvals=xvals.sort_values(by=['ports'])
+        bar1 = ax1.bar(ind, xvals.mdape_router, width, color = 'chocolate')
+        bar2 = ax1.bar(ind+width+0.02, xvals.mdape_cwnd, width, color = 'blue')
         ax1.set_xlabel("Flow Count")
         ax1.set_ylabel('Error (%)')
         ax1.set_title(key+"Scale at Base RTT of "+str(r)+"ms")
@@ -40,6 +42,7 @@ with PdfPages("MedianError_plot.pdf") as pdf:
         ax1.set_ylim(0,20)
 
         xvals_edge = dat[(dict_scale['Edge'][0] <= dat['ports']) & (dat['ports'] <= dict_scale['Edge'][1]) & (dat['base_rtt']==r)]
+        xvals_edge=xvals_edge.sort_values(by=['ports'])
         ax2 = ax1.twiny()
         ax2.tick_params(top=False, right=False, labelright=False, labeltop=False, gridOn=False)
         ax3 = ax2.twinx()
