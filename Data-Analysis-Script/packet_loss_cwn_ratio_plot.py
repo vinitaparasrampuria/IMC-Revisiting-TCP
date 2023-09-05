@@ -9,8 +9,9 @@ dict_scale={'Edge':[0,50],'Intermediate':[90,500],'Core':[950,5000]}
 dict_flows={'Edge':[10,30,50],'Intermediate':[100,300,500],'Core':[1000,3000,5000]}
 rtt=[20,100,200]
 
-
-dat = pd.read_csv("C_CloudLab.csv", header=0, 
+#change the filename, default filename in which the data is stored is "output_mathis_C.csv"
+filename="C_CloudLab.csv"
+dat = pd.read_csv(filename, header=0, 
                       names=['time_duration', 'ports', 'base_rtt', 'BW', 'total_data_seg_out','total_cwnd_half', 'total_retransmission_ss',\
         'total_retransmission_iperf', 'total_retransmission_ss_to_total_cwnd_half', 'total_retransmission_iperf_to_total_cwnd_half',\
         'C_ss', 'C_iperf', 'C_cwnd', 'C_router', 'router_dropped', 'router_sent', 'router_dropped_to_total_cwnd_half', \
@@ -29,8 +30,8 @@ with PdfPages("Ratio_plot.pdf") as pdf:
         plt.xlabel("Flow Count")
         plt.ylabel('JFI')
         plt.title(key+"Scale at base RTT of "+str(r)+"ms")        
-        plt.ylim(0,10)
-        plt.yticks(np.arange(0,10,2.5))
+        plt.ylim(0,max(20,max(xvals.router_dropped_to_total_cwnd_half)+2.5))
+        plt.yticks(np.arange(0,max(20,max(xvals.router_dropped_to_total_cwnd_half)+2.5),5))
         plt.xticks(dict_flows[key])
         pdf.savefig(bbox_inches="tight")
         plt.show()
