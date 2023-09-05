@@ -12,6 +12,8 @@ dict_scale={'Edge':[0,50],'Intermediate':[90,500],'Core':[950,5000]}
 dict_flows={'Edge':[10,30,50],'Intermediate':[100,300,500],'Core':[1000,3000,5000]}
 rtt=[20,100,200]
 
+#change the filename, default filename in which the data is stored is "jfi.csv"
+filename="JFI_CloudLab.csv"
 jfi_dat = pd.read_csv("JFI_CloudLab.csv", header=0, names=['cca', 'duration','rtt','BW','sq_BW', 'flow_count', 'jfi'])
 cca=pd.unique(jfi_dat.cca)
 flows=pd.unique(jfi_dat.flow_count)
