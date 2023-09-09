@@ -204,7 +204,7 @@ To validate this finding on CloudLab:
   
   
 * On the router: run `bash /local/repository/cloudlab-scripts/setup-edge.sh` and confirm that you see about **100 Mbps** sum throughput for multiple flows (on average 10 Mbps for each of the 10 flows), 100 Mbps throughput for single flow, and 0-2 ms RTT.
-  * On the router: run `bash /local/repository/cloudlab-scripts/generate-flows.sh 20 1000000 1 1 10800 bbr 1 1 0` to generate 10 bbr flows at 20ms delay.
+* On the router: run `bash /local/repository/cloudlab-scripts/generate-flows.sh 20 1000000 1 1 10800 bbr 1 1 0` to generate 10 bbr flows at 20ms delay.
 * On the router: run `bash /local/repository/cloudlab-scripts/generate-flows.sh 20 1000000 1 3 10800 bbr 1 1 0` to generate 30 bbr flows at 20ms delay.
 * On the router: run `bash /local/repository/cloudlab-scripts/generate-flows.sh 20 1000000 1 5 10800 bbr 1 1 0` to generate 50 bbr flows at 20ms delay.
 * On the router: run `bash /local/repository/cloudlab-scripts/generate-flows.sh 20 1000000 1 1 10800 bbr 1 1 0` to generate 10 bbr flows at 100ms delay.
