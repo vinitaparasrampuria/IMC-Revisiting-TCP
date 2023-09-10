@@ -595,17 +595,11 @@ As per experiment on CloudLab:
 1. Cubic achieves 70 to 80% of total throughput when competing with an equal number of NewReno flows at CoreScale, in line with past research.
 2. BBR is high unfair to loss-based CCA, i.e., NewReno and Cubic, contradicting past research. 
 
-![Cubic Vs Reno _ 20ms RTT](https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/assets/10760836/84804668-7965-46f7-afce-ff7dd4cd2f3f)
 
-![Cubic Vs Reno _ 100ms RTT](https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/assets/10760836/7a81c67a-4a01-47cd-aab0-f73e84fc3ab3)
-
-![Cubic Vs Reno _ 200ms RTT](https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/assets/10760836/e4876c45-e82b-4e0d-8c82-a6ee8f11ad3b)
+![equal_reno_bbr](https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/assets/10760836/5959c66d-46f8-4ebe-bfc2-6b778c6799a0)
 
 
 
-<img width="394" alt="Screenshot 2023-08-21 at 9 28 02 AM" src="https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/assets/10760836/1077ba81-6f8c-470f-b45f-b626933fc6bf">
-
-<img width="816" alt="Screenshot 2023-08-21 at 9 45 31 AM" src="https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/assets/10760836/0b17c093-2bb2-4cf1-b9a3-b78eeee515bc">
 
 
 ## Extension to intermediate settings
