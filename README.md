@@ -408,59 +408,197 @@ All the above plots can be found at [JFI_Plots_FABRIC.pdf](https://github.com/vi
 
 ## Finding 3
 
-> Cubic achieves 70 to 80% of total throughput when competing with an equal number of NewReno flows at CoreScale, while BBR is highly unfair to loss-based CCA, i.e., NewReno and Cubic. These results are in line with past research in the edge setting.
+> Cubic achieves 70 to 80% of total throughput when competing with an equal number of NewReno flows at CoreScale, in line with past research., while BBR is high fairness to loss-based CCA, i.e., NewReno and Cubic, contradicting previous research. 
 
 To validate this finding on CloudLab:
 
-* Open the CloudLab profile. Leave parameters at their default settings, and reserve resources at CloudLab Utah. Wait for resources to come up and for startup scripts to be complete. Open an SSH terminal at the router.
+* Open the [CloudLab profile](https://www.cloudlab.us/p/nyunetworks/imc-revisiting). Leave parameters at their default settings, and reserve resources at CloudLab Utah. Wait for resources to come up and for startup scripts to be complete. Open an SSH terminal at the router.
+* On the router: run `bash /local/repository/cloudlab-scripts/validate.sh` and confirm that you see about 24-25 Gbps sum throughput for multiple flows (on average 2.5 Gbps for each of the 10 flows), 5-8 Gbps throughput for single flow, and 0-1 ms RTT. [Sample output](https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/blob/main/cloudlab-outputs/validate_output.txt)
+* On the router: run `bash /local/repository/cloudlab-scripts/setup-core.sh` and confirm that you see about **10 Gbps** sum throughput for multiple flows (on average 1 Gbps for each of the 10 flows), 5-8 Gbps throughput for single flow, and 0-2 ms RTT.[Sample output](https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/blob/main/cloudlab-outputs/setup_core_output.txt)
 
-* On the router: run bash /local/repository/cloudlab-scripts/validate.sh and confirm that you see about 24-25 Gbps sum throughput for multiple flows (on average 2.5 Gbps for each of the 10 flows), 8-10 Gbps throughput for single flow, and 0-1 ms RTT.
 
-* On the router: run bash /local/repository/cloudlab-scripts/setup-core.sh and confirm that you see about 10 Gbps sum throughput for multiple flows (on average 1 Gbps for each of the 10 flows), 7-10 Gbps throughput for single flow, and 0-2 ms RTT. 
 
-* To validate this: "Cubic achieves 70 to 80% of total throughput when competing with an equal number of NewReno flows at CoreScale", On the router run: bash generate-flows.sh 20 10000000 2 10 1800 reno 10 1 cubic
+* On the router: run `bash generate-flows.sh 20 10000000 2 100 10800 reno 1 1 0 cubic` to generate 500 flows of newreno and 500 flows of cubic at 20ms delay.
+Output is printed in the terminal. It has cca, duration of expt(sec), base RTT(ms)', total sum bandwidth(Kbps), flow count. 
+* On the router: run `bash generate-flows.sh 100 10000000 2 100 10800 reno 1 1 0 cubic` to generate 500 flows of newreno and 500 flows of cubic at 100ms delay.
+* On the router: run `bash generate-flows.sh 200 10000000 2 100 10800 reno 1 1 0 cubic` to generate 500 flows of newreno and 500 flows of cubic at 200ms delay.
+* On the router: run `bash generate-flows.sh 20 10000000 2 300 10800 reno 1 1 0 cubic` to generate 1500 flows of newreno and 1500 flows of cubic at 20ms delay.
+* On the router: run `bash generate-flows.sh 100 10000000 2 300 10800 reno 1 1 0 cubic` to generate 1500 flows of newreno and 1500 flows of cubic  at 100ms delay.
+* On the router: run `bash generate-flows.sh 200 10000000 2 300 10800 reno 1 1 0 cubic` to generate 1500 flows of newreno and 1500 flows of cubic at 200ms delay.
+* On the router: run `bash generate-flows.sh 20 10000000 2 500 10800 reno 1 1 0 cubic` to generate 2500 flows of newreno and 2500 flows of cubic at 20ms delay.
+* On the router: run `bash generate-flows.sh 100 10000000 2 500 10800 reno 1 1 0 cubic` to generate 2500 flows of newreno and 2500 flows of cubic at 100ms delay.
+* On the router: run `bash generate-flows.sh 200 10000000 2 500 10800 reno 1 1 0 cubic` to generate 2500 flows of newreno and 2500 flows of cubic at 200ms delay.
 
-Example output from running the command is 
-count of flows of reno is 500
-sum of Bandwidth of reno is 1833615 Kbits/sec
-count of flows of cubic is 500
-sum of Bandwidth of cubic is 8064566 Kbits/sec
+* On the router: run `bash generate-flows.sh 20 10000000 2 100 10800 reno 1 1 0 bbr` to generate 500 flows of bbr and 500 flows of newreno at 20ms delay.
+Output is printed in the terminal. It has cca, duration of expt(sec), base RTT(ms)', total sum bandwidth(Kbps), flow count. 
+* On the router: run `bash generate-flows.sh 100 10000000 2 100 10800 reno 1 1 0 bbr` to generate 500 flows of bbr and 500 flows of newreno at 100ms delay.
+* On the router: run `bash generate-flows.sh 200 10000000 2 100 10800 reno 1 1 0 bbr` to generate 500 flows of bbr and 500 flows of newreno at 200ms delay.
+* On the router: run `bash generate-flows.sh 20 10000000 2 300 10800 reno 1 1 0 bbr` to generate 1500 flows of bbr and 1500 flows of newreno at 20ms delay.
+* On the router: run `bash generate-flows.sh 100 10000000 2 300 10800 reno 1 1 0 bbr` to generate 1500 flows of bbr and 1500 flows of newreno at 100ms delay.
+* On the router: run `bash generate-flows.sh 200 10000000 2 300 10800 reno 1 1 0 bbr` to generate 1500 flows of bbr and 1500 flows of newreno at 200ms delay.
+* On the router: run `bash generate-flows.sh 20 10000000 2 500 10800 reno 1 1 0 bbr` to generate 2500 flows of bbr and 2500 flows of newreno at 20ms delay.
+* On the router: run `bash generate-flows.sh 100 10000000 2 500 10800 reno 1 1 0 bbr` to generate 2500 flows of bbr and 2500 flows of newreno at 100ms delay.
+* On the router: run `bash generate-flows.sh 200 10000000 2 500 10800 reno 1 1 0 bbr` to generate 2500 flows of bbr and 2500 flows of newreno at 200ms delay.
 
-* To validate this: "BBR is highly unfair to loss-based CCA, i.e., NewReno and Cubic", On the router run: bash generate-flows.sh 20 10000000 3 10 1800 reno 10 1 bbr
+* On the router: run `bash generate-flows.sh 20 10000000 2 100 10800 cubic 1 1 0 bbr` to generate 500 flows of bbr and 500 flows of cubic at 20ms delay.
+Output is printed in the terminal. It has cca, duration of expt(sec), base RTT(ms)', total sum bandwidth(Kbps), flow count. 
+* On the router: run `bash generate-flows.sh 100 10000000 2 100 10800 cubic 1 1 0 bbr` to generate 500 flows of bbr and 500 flows of cubic at 100ms delay.
+* On the router: run `bash generate-flows.sh 200 10000000 2 100 10800 cubic 1 1 0 bbr` to generate 500 flows of bbr and 500 flows of cubic at 200ms delay.
+* On the router: run `bash generate-flows.sh 20 10000000 2 300 10800 cubic 1 1 0 bbr` to generate 1500 flows of bbr and 1500 flows of cubic at 20ms delay.
+* On the router: run `bash generate-flows.sh 100 10000000 2 300 10800 cubic 1 1 0 bbr` to generate 1500 flows of bbr and 1500 flows of cubic at 100ms delay.
+* On the router: run `bash generate-flows.sh 200 10000000 2 300 10800 cubic 1 1 0 bbr` to generate 1500 flows of bbr and 1500 flows of cubic at 200ms delay.
+* On the router: run `bash generate-flows.sh 20 10000000 2 500 10800 cubic 1 1 0 bbr` to generate 2500 flows of bbr and 2500 flows of cubic at 20ms delay.
+* On the router: run `bash generate-flows.sh 100 10000000 2 500 10800 cubic 1 1 0 bbr` to generate 2500 flows of bbr and 2500 flows of cubic at 100ms delay.
+* On the router: run `bash generate-flows.sh 200 10000000 2 500 10800 cubic 1 1 0 bbr` to generate 2500 flows of bbr and 2500 flows of cubic at 200ms delay. 
 
-Example output from running the command is 
-count of flows of reno is 499
-sum of Bandwidth of reno is 5861246 Kbits/sec
-count of flows of bbr is 1
-sum of Bandwidth of bbr is 93807 Kbits/sec
+
+* On the router: run `bash generate-flows.sh 20 10000000 3 100 10800 reno 1 1 0 bbr` to generate 999 flows of newreno and 1 flow of bbr at 20ms delay.
+Output is printed in the terminal. It has cca, duration of expt(sec), base RTT(ms)', total sum bandwidth(Kbps), flow count. 
+* On the router: run `bash generate-flows.sh 100 10000000 3 100 10800 reno 1 1 0 bbr` to generate 999 flows of newreno and 1 flow of bbr at 100ms delay.
+* On the router: run `bash generate-flows.sh 200 10000000 3 100 10800 reno 1 1 0 bbr` to generate 999 flows of newreno and 1 flow of bbr at 200ms delay.
+* On the router: run `bash generate-flows.sh 20 10000000 3 300 10800 reno 1 1 0 bbr` to generate 2999 flows of newreno and 1 flow of bbr at 20ms delay.
+* On the router: run `bash generate-flows.sh 100 10000000 3 300 10800 reno 1 1 0 bbr` to generate 2999 flows of newreno and 1 flow of bbr at 100ms delay.
+* On the router: run `bash generate-flows.sh 200 10000000 3 300 10800 reno 1 1 0 bbr` to generate 2999 flows of newreno and 1 flow of bbr at 200ms delay.
+* On the router: run `bash generate-flows.sh 20 10000000 3 500 10800 reno 1 1 0 bbr` to generate 4999 flows of newreno and 1 flow of bbr at 20ms delay.
+* On the router: run `bash generate-flows.sh 100 10000000 3 500 10800 reno 1 1 0 bbr` to generate 4999 flows of newreno and 1 flow of bbr at 100ms delay.
+* On the router: run `bash generate-flows.sh 200 10000000 3 500 10800 reno 1 1 0 bbr` to generate 4999 flows of newreno and 1 flow of bbr at 200ms delay.
+
+* On the router: run `bash generate-flows.sh 20 10000000 3 100 10800 cubic 1 1 0 bbr` to generate 999 flows of cubic and 1 flow of bbr at 20ms delay.
+Output is printed in the terminal. It has cca, duration of expt(sec), base RTT(ms)', total sum bandwidth(Kbps), flow count. 
+* On the router: run `bash generate-flows.sh 100 10000000 3 100 10800 cubic 1 1 0 bbr` to generate 999 flows of cubic and 1 flow of bbr at 100ms delay.
+* On the router: run `bash generate-flows.sh 200 10000000 3 100 10800 cubic 1 1 0 bbr` to generate 999 flows of cubic and 1 flow of bbr at 200ms delay.
+* On the router: run `bash generate-flows.sh 20 10000000 3 300 10800 cubic 1 1 0 bbr` to generate 2999 flows of cubic and 1 flow of bbr at 20ms delay.
+* On the router: run `bash generate-flows.sh 100 10000000 3 300 10800 cubic 1 1 0 bbr` to generate 2999 flows of cubic and 1 flow of bbr at 100ms delay.
+* On the router: run `bash generate-flows.sh 200 10000000 3 300 10800 cubic 1 1 0 bbr` to generate 2999 flows of cubic and 1 flow of bbr at 200ms delay.
+* On the router: run `bash generate-flows.sh 20 10000000 3 500 10800 cubic 1 1 0 bbr` to generate 4999 flows of cubic and 1 flow of bbr at 20ms delay.
+* On the router: run `bash generate-flows.sh 100 10000000 3 500 10800 cubic 1 1 0 bbr` to generate 4999 flows of cubic and 1 flow of bbr at 100ms delay.
+* On the router: run `bash generate-flows.sh 200 10000000 3 500 10800 cubic 1 1 0 bbr` to generate 4999 flows of cubic and 1 flow of bbr at 200ms delay.
 
 
 To validate this finding on FABRIC:
 
-As per the original paper, we have 
-1) Cubic achieves 70 to 80% of total throughput when competing with an equal number of NewReno flows at CoreScale 
-2) BBR is highly unfair to loss-based CCA, i.e., NewReno and Cubic. A single BBR flow takes 40% of the total throughput when competing with thousands of NewReno or Cubic flows. 
+* In the Jupyter environment, select File > New > Terminal and in this terminal, run `git clone https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP`
+* Open fabric-notebook subdirectory inside IMC directory.
+* Run the notebook `00-reserve.ipynb` to reserve the resources. This will reserve 10 sender-reciver pair and a router. All the required dependencies or modules will be installed.
+* Run the notebook `01-validate.ipynb' and confirm that you see about 24-28 Gbps sum throughput for multiple flows (on average 2.5 Gbps for each of the 10 flows), 8-17 Gbps throughput for single flow, and 0-1 ms RTT.
+* Run the notebook `02-setup-core.ipynb` and confirm that you see about **10 Gbps** sum throughput for multiple flows (on average 1 Gbps for each of the 10 flows), 8-10 Gbps throughput for single flow, and 0-2 ms RTT. 
+* Run the notebook `inter-cca-fairness-equal.ipynb`. Set the parameters in the notebook under 'Set experiment parameters' as mentioned below to run experiments with 500 newreno flows and 500 bbr flows, 20ms delay
+cca1="reno"; cca2 = "bbr"; delay=20; test_duration=10800; num_servers=100; flows=1; interval=1; omit=0
+* Run the notebook `inter-cca-fairness-equal.ipynb`. Set the parameters in the notebook under 'Set experiment parameters' as mentioned below to run experiments with 500 newreno flows and 500 bbr flows, 100ms delay
+cca1="reno"; cca2 = "bbr"; delay=100; test_duration=10800; num_servers=100; flows=1; interval=1; omit=0
+* Run the notebook `inter-cca-fairness-equal.ipynb`. Set the parameters in the notebook under 'Set experiment parameters' as mentioned below to run experiments with 500 newreno flows and 500 bbr flows, 200ms delay
+cca1="reno"; cca2 = "bbr"; delay=200; test_duration=10800; num_servers=100; flows=1; interval=1; omit=0
+* Run the notebook `inter-cca-fairness-equal.ipynb`. Set the parameters in the notebook under 'Set experiment parameters' as mentioned below to run experiments with 1500 newreno flows and 1500 bbr flows, 20ms delay
+cca1="reno"; cca2 = "bbr"; delay=20; test_duration=10800; num_servers=300; flows=1; interval=1; omit=0
+* Run the notebook `inter-cca-fairness-equal.ipynb`. Set the parameters in the notebook under 'Set experiment parameters' as mentioned below to run experiments with 1500 newreno flows and 1500 bbr flows, 100ms delay
+cca1="reno"; cca2 = "bbr"; delay=100; test_duration=10800; num_servers=300; flows=1; interval=1; omit=0
+* Run the notebook `inter-cca-fairness-equal.ipynb`. Set the parameters in the notebook under 'Set experiment parameters' as mentioned below to run experiments with 1500 newreno flows and 1500 bbr flows, 200ms delay
+cca1="reno"; cca2 = "bbr"; delay=200; test_duration=10800; num_servers=300; flows=1; interval=1; omit=0
+* Run the notebook `inter-cca-fairness-equal.ipynb`. Set the parameters in the notebook under 'Set experiment parameters' as mentioned below to run experiments with 2500 newreno flows and 2500 bbr flows, 20ms delay
+cca1="reno"; cca2 = "bbr"; delay=20; test_duration=10800; num_servers=500; flows=1; interval=1; omit=0
+* Run the notebook `inter-cca-fairness-equal.ipynb`. Set the parameters in the notebook under 'Set experiment parameters' as mentioned below to run experiments with 2500 newreno flows and 2500 bbr flows, 100ms delay
+cca1="reno"; cca2 = "bbr"; delay=100; test_duration=10800; num_servers=500; flows=1; interval=1; omit=0
+* Run the notebook `inter-cca-fairness-equal.ipynb`. Set the parameters in the notebook under 'Set experiment parameters' as mentioned below to run experiments with 2500 newreno flows and 2500 bbr flows, 200ms delay
+cca1="reno"; cca2 = "bbr"; delay=200; test_duration=10800; num_servers=500; flows=1; interval=1; omit=0
 
-<img width="394" alt="Screenshot 2023-08-21 at 9 28 02 AM" src="https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/assets/10760836/1077ba81-6f8c-470f-b45f-b626933fc6bf">
+* Run the notebook `inter-cca-fairness-equal.ipynb`. Set the parameters in the notebook under 'Set experiment parameters' as mentioned below to run experiments with 500 cubic flows and 500 bbr flows, 20ms delay
+cca1="cubic"; cca2 = "bbr"; delay=20; test_duration=10800; num_servers=100; flows=1; interval=1; omit=0
+* Run the notebook `inter-cca-fairness-equal.ipynb`. Set the parameters in the notebook under 'Set experiment parameters' as mentioned below to run experiments with 500 cubic flows and 500 bbr flows, 100ms delay
+cca1="cubic"; cca2 = "bbr"; delay=100; test_duration=10800; num_servers=100; flows=1; interval=1; omit=0
+* Run the notebook `inter-cca-fairness-equal.ipynb`. Set the parameters in the notebook under 'Set experiment parameters' as mentioned below to run experiments with 500 cubic flows and 500 bbr flows, 200ms delay
+cca1="cubic"; cca2 = "bbr"; delay=200; test_duration=10800; num_servers=100; flows=1; interval=1; omit=0
+* Run the notebook `inter-cca-fairness-equal.ipynb`. Set the parameters in the notebook under 'Set experiment parameters' as mentioned below to run experiments with 1500 cubic flows and 1500 bbr flows, 20ms delay
+cca1="cubic"; cca2 = "bbr"; delay=20; test_duration=10800; num_servers=300; flows=1; interval=1; omit=0
+* Run the notebook `inter-cca-fairness-equal.ipynb`. Set the parameters in the notebook under 'Set experiment parameters' as mentioned below to run experiments with 1500 cubic flows and 1500 bbr flows, 100ms delay
+cca1="cubic"; cca2 = "bbr"; delay=100; test_duration=10800; num_servers=300; flows=1; interval=1; omit=0
+* Run the notebook `inter-cca-fairness-equal.ipynb`. Set the parameters in the notebook under 'Set experiment parameters' as mentioned below to run experiments with 1500 cubic flows and 1500 bbr flows, 200ms delay
+cca1="cubic"; cca2 = "bbr"; delay=200; test_duration=10800; num_servers=300; flows=1; interval=1; omit=0
+* Run the notebook `inter-cca-fairness-equal.ipynb`. Set the parameters in the notebook under 'Set experiment parameters' as mentioned below to run experiments with 2500 cubic flows and 2500 bbr flows, 20ms delay
+cca1="cubic"; cca2 = "bbr"; delay=20; test_duration=10800; num_servers=500; flows=1; interval=1; omit=0
+* Run the notebook `inter-cca-fairness-equal.ipynb`. Set the parameters in the notebook under 'Set experiment parameters' as mentioned below to run experiments with 2500 cubic flows and 2500 bbr flows, 100ms delay
+cca1="cubic"; cca2 = "bbr"; delay=100; test_duration=10800; num_servers=500; flows=1; interval=1; omit=0
+* Run the notebook `inter-cca-fairness-equal.ipynb`. Set the parameters in the notebook under 'Set experiment parameters' as mentioned below to run experiments with 2500 cubic flows and 2500 bbr flows, 200ms delay
+cca1="cubic"; cca2 = "bbr"; delay=200; test_duration=10800; num_servers=500; flows=1; interval=1; omit=0
 
-<img width="816" alt="Screenshot 2023-08-21 at 9 45 31 AM" src="https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/assets/10760836/0b17c093-2bb2-4cf1-b9a3-b78eeee515bc">
+* Run the notebook `inter-cca-fairness-equal.ipynb`. Set the parameters in the notebook under 'Set experiment parameters' as mentioned below to run experiments with 500 cubic flows and 500 newreno flows, 20ms delay
+cca1="cubic"; cca2 = "reno"; delay=20; test_duration=10800; num_servers=100; flows=1; interval=1; omit=0
+* Run the notebook `inter-cca-fairness-equal.ipynb`. Set the parameters in the notebook under 'Set experiment parameters' as mentioned below to run experiments with 500 cubic flows and 500 newreno flows, 100ms delay
+cca1="cubic"; cca2 = "reno"; delay=100; test_duration=10800; num_servers=100; flows=1; interval=1; omit=0
+* Run the notebook `inter-cca-fairness-equal.ipynb`. Set the parameters in the notebook under 'Set experiment parameters' as mentioned below to run experiments with 500 cubic flows and 500 newreno flows, 200ms delay
+cca1="cubic"; cca2 = "reno"; delay=200; test_duration=10800; num_servers=100; flows=1; interval=1; omit=0
+* Run the notebook `inter-cca-fairness-equal.ipynb`. Set the parameters in the notebook under 'Set experiment parameters' as mentioned below to run experiments with 1500 cubic flows and 1500 newreno flows, 20ms delay
+cca1="cubic"; cca2 = "reno"; delay=20; test_duration=10800; num_servers=300; flows=1; interval=1; omit=0
+* Run the notebook `inter-cca-fairness-equal.ipynb`. Set the parameters in the notebook under 'Set experiment parameters' as mentioned below to run experiments with 1500 cubic flows and 1500 newreno flows, 100ms delay
+cca1="cubic"; cca2 = "reno"; delay=100; test_duration=10800; num_servers=300; flows=1; interval=1; omit=0
+* Run the notebook `inter-cca-fairness-equal.ipynb`. Set the parameters in the notebook under 'Set experiment parameters' as mentioned below to run experiments with 1500 cubic flows and 1500 newreno flows, 200ms delay
+cca1="cubic"; cca2 = "reno"; delay=200; test_duration=10800; num_servers=300; flows=1; interval=1; omit=0
+* Run the notebook `inter-cca-fairness-equal.ipynb`. Set the parameters in the notebook under 'Set experiment parameters' as mentioned below to run experiments with 2500 cubic flows and 2500 newreno flows, 20ms delay
+cca1="cubic"; cca2 = "reno"; delay=20; test_duration=10800; num_servers=500; flows=1; interval=1; omit=0
+* Run the notebook `inter-cca-fairness-equal.ipynb`. Set the parameters in the notebook under 'Set experiment parameters' as mentioned below to run experiments with 2500 cubic flows and 2500 newreno flows, 100ms delay
+cca1="cubic"; cca2 = "reno"; delay=100; test_duration=10800; num_servers=500; flows=1; interval=1; omit=0
+* Run the notebook `inter-cca-fairness-equal.ipynb`. Set the parameters in the notebook under 'Set experiment parameters' as mentioned below to run experiments with 2500 cubic flows and 2500 newreno flows, 200ms delay
+cca1="cubic"; cca2 = "reno"; delay=200; test_duration=10800; num_servers=500; flows=1; interval=1; omit=0
 
-As per our experiment on CloudLab, we have 
-1)  Cubic achieves 70 to 80% of total throughput when competing with an equal number of NewReno flows at CoreScale : which is same as the finding of the paper
 
-![Cubic Vs Reno _ 20ms RTT](https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/assets/10760836/84804668-7965-46f7-afce-ff7dd4cd2f3f)
+* Run the notebook `inter-cca-fairness-unequal.ipynb`. Set the parameters in the notebook under 'Set experiment parameters' as mentioned below to run experiments with 999 newreno flows and 1 bbr flow, 20ms delay
+cca1="reno"; cca2 = "bbr"; delay=20; test_duration=10800; num_servers=100; flows=1; interval=1; omit=0
+* Run the notebook `inter-cca-fairness-unequal.ipynb`. Set the parameters in the notebook under 'Set experiment parameters' as mentioned below to run experiments with 999 newreno flows and 1 bbr flow, 100ms delay
+cca1="reno"; cca2 = "bbr"; delay=100; test_duration=10800; num_servers=100; flows=1; interval=1; omit=0
+* Run the notebook `inter-cca-fairness-unequal.ipynb`. Set the parameters in the notebook under 'Set experiment parameters' as mentioned below to run experiments with 999 newreno flows and 1 bbr flow, 200ms delay
+cca1="reno"; cca2 = "bbr"; delay=200; test_duration=10800; num_servers=100; flows=1; interval=1; omit=0
+* Run the notebook `inter-cca-fairness-unequal.ipynb`. Set the parameters in the notebook under 'Set experiment parameters' as mentioned below to run experiments with 2999 newreno flows and 1 bbr flow, 20ms delay
+cca1="reno"; cca2 = "bbr"; delay=20; test_duration=10800; num_servers=300; flows=1; interval=1; omit=0
+* Run the notebook `inter-cca-fairness-unequal.ipynb`. Set the parameters in the notebook under 'Set experiment parameters' as mentioned below to run experiments with 2999 newreno flows and 1 bbr flow, 100ms delay
+cca1="reno"; cca2 = "bbr"; delay=100; test_duration=10800; num_servers=300; flows=1; interval=1; omit=0
+* Run the notebook `inter-cca-fairness-unequal.ipynb`. Set the parameters in the notebook under 'Set experiment parameters' as mentioned below to run experiments with 2999 newreno flows and 1 bbr flow, 200ms delay
+cca1="reno"; cca2 = "bbr"; delay=200; test_duration=10800; num_servers=300; flows=1; interval=1; omit=0
+* Run the notebook `inter-cca-fairness-unequal.ipynb`. Set the parameters in the notebook under 'Set experiment parameters' as mentioned below to run experiments with 4999 newreno flows and 1 bbr flow, 20ms delay
+cca1="reno"; cca2 = "bbr"; delay=20; test_duration=10800; num_servers=500; flows=1; interval=1; omit=0
+* Run the notebook `inter-cca-fairness-unequal.ipynb`. Set the parameters in the notebook under 'Set experiment parameters' as mentioned below to run experiments with 4999 newreno flows and 1 bbr flow, 100ms delay
+cca1="reno"; cca2 = "bbr"; delay=100; test_duration=10800; num_servers=500; flows=1; interval=1; omit=0
+* Run the notebook `inter-cca-fairness-unequal.ipynb`. Set the parameters in the notebook under 'Set experiment parameters' as mentioned below to run experiments with 4999 newreno flows and 1 bbr flow, 200ms delay
+cca1="reno"; cca2 = "bbr"; delay=200; test_duration=10800; num_servers=500; flows=1; interval=1; omit=0
 
-![Cubic Vs Reno _ 100ms RTT](https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/assets/10760836/7a81c67a-4a01-47cd-aab0-f73e84fc3ab3)
+* Run the notebook `inter-cca-fairness-unequal.ipynb`. Set the parameters in the notebook under 'Set experiment parameters' as mentioned below to run experiments with 999 cubic flows and 1 bbr flow, 20ms delay
+cca1="cubic"; cca2 = "bbr"; delay=20; test_duration=10800; num_servers=100; flows=1; interval=1; omit=0
+* Run the notebook `inter-cca-fairness-unequal.ipynb`. Set the parameters in the notebook under 'Set experiment parameters' as mentioned below to run experiments with 999 cubic flows and 1 bbr flow, 100ms delay
+cca1="cubic"; cca2 = "bbr"; delay=100; test_duration=10800; num_servers=100; flows=1; interval=1; omit=0
+* Run the notebook `inter-cca-fairness-unequal.ipynb`. Set the parameters in the notebook under 'Set experiment parameters' as mentioned below to run experiments with 999 cubic flows and 1 bbr flow, 200ms delay
+cca1="cubic"; cca2 = "bbr"; delay=200; test_duration=10800; num_servers=100; flows=1; interval=1; omit=0
+* Run the notebook `inter-cca-fairness-unequal.ipynb`. Set the parameters in the notebook under 'Set experiment parameters' as mentioned below to run experiments with 2999 cubic flows and 1 bbr flow, 20ms delay
+cca1="cubic"; cca2 = "bbr"; delay=20; test_duration=10800; num_servers=300; flows=1; interval=1; omit=0
+* Run the notebook `inter-cca-fairness-unequal.ipynb`. Set the parameters in the notebook under 'Set experiment parameters' as mentioned below to run experiments with 2999 cubic flows and 1 bbr flow, 100ms delay
+cca1="cubic"; cca2 = "bbr"; delay=100; test_duration=10800; num_servers=300; flows=1; interval=1; omit=0
+* Run the notebook `inter-cca-fairness-unequal.ipynb`. Set the parameters in the notebook under 'Set experiment parameters' as mentioned below to run experiments with 2999 cubic flows and 1 bbr flow, 200ms delay
+cca1="cubic"; cca2 = "bbr"; delay=200; test_duration=10800; num_servers=300; flows=1; interval=1; omit=0
+* Run the notebook `inter-cca-fairness-unequal.ipynb`. Set the parameters in the notebook under 'Set experiment parameters' as mentioned below to run experiments with 4999 cubic flows and 1 bbr flow, 20ms delay
+cca1="cubic"; cca2 = "bbr"; delay=20; test_duration=10800; num_servers=500; flows=1; interval=1; omit=0
+* Run the notebook `inter-cca-fairness-unequal.ipynb`. Set the parameters in the notebook under 'Set experiment parameters' as mentioned below to run experiments with 4999 cubic flows and 1 bbr flow, 100ms delay
+cca1="cubic"; cca2 = "bbr"; delay=100; test_duration=10800; num_servers=500; flows=1; interval=1; omit=0
+* Run the notebook `inter-cca-fairness-unequal.ipynb`. Set the parameters in the notebook under 'Set experiment parameters' as mentioned below to run experiments with 4999 cubic flows and 1 bbr flow, 200ms delay
+cca1="cubic"; cca2 = "bbr"; delay=200; test_duration=10800; num_servers=500; flows=1; interval=1; omit=0
 
-![Cubic Vs Reno _ 200ms RTT](https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/assets/10760836/e4876c45-e82b-4e0d-8c82-a6ee8f11ad3b)
-
-2) BBR seems to be highly FAIR when competing with Loss-based CCA. A single BBR flow takes only 1% of the total throughput when competing with thousands of NewReno or Cubic flows. 
-
+ 
 Discussion: 
+As per original paper:
+1. Cubic achieves 70 to 80% of total throughput when competing with an equal number of NewReno flows at CoreScale, in line with past research. 
+2. BBR is high unfair to loss-based CCA, i.e., NewReno and Cubic, in line with past research.
 
-As per the original paper, we have 
-1) Cubic achieves 70 to 80% of total throughput when competing with an equal number of NewReno flows at CoreScale 
-2) BBR is highly unfair to loss-based CCA, i.e., NewReno and Cubic. A single BBR flow takes 40% of the total throughput when competing with thousands of NewReno or Cubic flows. 
+<img width="394" alt="Screenshot 2023-08-21 at 9 28 02 AM" src="https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/assets/10760836/1077ba81-6f8c-470f-b45f-b626933fc6bf">
+
+<img width="816" alt="Screenshot 2023-08-21 at 9 45 31 AM" src="https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/assets/10760836/0b17c093-2bb2-4cf1-b9a3-b78eeee515bc">
+  
+As per experiment on CloudLab:
+1. Cubic achieves 70 to 80% of total throughput when competing with an equal number of NewReno flows at CoreScale, in line with past research.
+2. BBR is high unfair to loss-based CCA, i.e., NewReno and Cubic, contradicting past research. 
+
+![Cubic Vs Reno _ 20ms RTT](https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/assets/10760836/84804668-7965-46f7-afce-ff7dd4cd2f3f)
+
+![Cubic Vs Reno _ 100ms RTT](https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/assets/10760836/7a81c67a-4a01-47cd-aab0-f73e84fc3ab3)
+
+![Cubic Vs Reno _ 200ms RTT](https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/assets/10760836/e4876c45-e82b-4e0d-8c82-a6ee8f11ad3b)
+
+
 
 <img width="394" alt="Screenshot 2023-08-21 at 9 28 02 AM" src="https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/assets/10760836/1077ba81-6f8c-470f-b45f-b626933fc6bf">
 
@@ -475,13 +613,6 @@ As per our experiment on CloudLab, we have
 
 ![Cubic Vs Reno _ 200ms RTT](https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/assets/10760836/e4876c45-e82b-4e0d-8c82-a6ee8f11ad3b)
 
-2) BBR seems to be highly FAIR when competing with Loss-based CCA. A single BBR flow takes only 1% of the total throughput when competing with thousands of NewReno or Cubic flows.
-
-count of flows of reno is 999
-sum of Bandwidth of reno is 9409565 Kbits/sec
-count of flows of bbr is 1
-sum of Bandwidth of bbr is 90762 Kbits/sec
-BBR Throughput share = BBRTP/(RENO+BBR) = 0.00955356589 = 1% 
 
 
 ## Extension to intermediate settings
