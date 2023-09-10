@@ -595,11 +595,11 @@ As per experiment on CloudLab:
 1. Cubic achieves 70 to 80% of total throughput when competing with an equal number of NewReno flows at CoreScale, in line with past research.
 2. BBR is high unfair to loss-based CCA, i.e., NewReno and Cubic, contradicting past research. 
 
+![equal_reno_cubic](https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/assets/10760836/e1814080-b8a9-4871-9e95-66d098fae365)
 
-![equal_reno_bbr](https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/assets/10760836/5959c66d-46f8-4ebe-bfc2-6b778c6799a0)
+![equal_reno_bbr](https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/assets/10760836/ccad9acd-76d5-4d62-97a4-6995bc157e15)
 
-
-
+![equal_cubic_bbr](https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/assets/10760836/cb520260-1ffa-436d-946f-c17cbc5891bc)
 
 
 ## Extension to intermediate settings
@@ -958,5 +958,12 @@ cca1="cubic"; cca2 = "bbr"; delay=100; test_duration=10800; num_servers=50; flow
 * Run the notebook `inter-cca-fairness-unequal.ipynb`. Set the parameters in the notebook under 'Set experiment parameters' as mentioned below to run experiments with 499 cubic flows and 1 bbr flow, 200ms delay
 cca1="cubic"; cca2 = "bbr"; delay=200; test_duration=10800; num_servers=50; flows=1; interval=1; omit=0
 
+Results: 
+
+![equal_reno_cubic](https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/assets/10760836/f195ace7-cf3a-4e8c-814e-b4905ce68642)
+
+![equal_bbr_reno](https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/assets/10760836/eec6d6e4-0b9b-4152-bd3a-ae211cadaaa2)
+
+![equal_bbr_cubic](https://github.com/vinitaparasrampuria/IMC-Revisiting-TCP/assets/10760836/2b192cc2-02f1-4e04-9cb8-001fc65f1a7c)
 
 
