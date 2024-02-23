@@ -66,7 +66,7 @@ for i in range(params.n):
     else:
         node_sender = request.RawPC('sender-' + str(i))
         node_sender.hardware_type = params.endtype
-    node_sender.disk_image = 'urn:publicid:IDN+emulab.net+image+emulab-ops//UBUNTU18-64-STD'
+    node_sender.disk_image = 'urn:publicid:IDN+emulab.net+image+emulab-ops//UBUNTU16-64-STD'
     bs_node = node_sender.Blockstore("bs_node_" + str(i), "/mydata")
     bs_node.size = "0GB"
     node_sender.installRootKeys(True, True)
@@ -84,7 +84,7 @@ for i in range(params.n):
     else:
         node_receiver = request.RawPC('receiver-' + str(i))
         node_receiver.hardware_type = params.endtype
-    node_receiver.disk_image = 'urn:publicid:IDN+emulab.net+image+emulab-ops//UBUNTU18-64-STD'
+    node_receiver.disk_image = 'urn:publicid:IDN+emulab.net+image+emulab-ops//UBUNTU16-64-STD'
     node_receiver.installRootKeys(True, True)
     node_receiver.addService(pg.Execute(shell="bash", command="sudo apt-get update; sudo apt-get -y install iperf3; sudo modprobe tcp_bbr"))
     #node_receiver.addService(pg.Execute(shell="bash", command="bash /local/repository/setup-scripts/no-offload.sh"))  
