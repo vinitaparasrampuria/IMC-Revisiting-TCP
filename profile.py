@@ -70,9 +70,9 @@ for i in range(params.n):
     bs_node = node_sender.Blockstore("bs_node_" + str(i), "/mydata")
     bs_node.size = "0GB"
     node_sender.installRootKeys(True, True)
-    node_sender.addService(pg.Execute(shell="bash", command="sudo chmod a+r /mydata; sudo chmod a+w /mydata; sudo modprobe tcp_bbr"))
     node_sender.addService(pg.Execute(shell="bash", command="bash /local/repository/setup-scripts/install.sh; bash /local/repository/endpoint-scripts/install_iperf.sh"))
     node_sender.addService(pg.Execute(shell="bash", command="bash /local/repository/setup-scripts/no-offload.sh"))
+    node_sender.addService(pg.Execute(shell="bash", command="sudo chmod a+r /mydata; sudo chmod a+w /mydata; bash /local/repository/endpoint-scripts/enable_bbr.sh"))
     iface0 = node_sender.addInterface('interface-send-' + str(i), pg.IPv4Address('10.10.1.1' + str(i) ,'255.255.255.0'))
     iface0.bandwidth = 10000000
     link_0.addInterface(iface0)
@@ -87,7 +87,7 @@ for i in range(params.n):
     node_receiver.disk_image = 'urn:publicid:IDN+emulab.net+image+emulab-ops//UBUNTU16-64-STD'
     node_receiver.installRootKeys(True, True)
     #node_receiver.addService(pg.Execute(shell="bash", command="sudo apt-get update; sudo apt-get -y install iperf3; sudo modprobe tcp_bbr"))
-    node_receiver.addService(pg.Execute(shell="bash", command="bash /local/repository/endpoint-scripts/install_iperf.sh; sudo modprobe tcp_bbr"))  
+    node_receiver.addService(pg.Execute(shell="bash", command="bash /local/repository/endpoint-scripts/install_iperf.sh; bash /local/repository/endpoint-scripts/enable_bbr.sh"))  
     iface0 = node_receiver.addInterface('interface-recv-' + str(i), pg.IPv4Address('10.10.2.1' + str(i),'255.255.255.0'))
     iface0.bandwidth = 10000000
     link_1.addInterface(iface0)
