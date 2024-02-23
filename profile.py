@@ -86,8 +86,8 @@ for i in range(params.n):
         node_receiver.hardware_type = params.endtype
     node_receiver.disk_image = 'urn:publicid:IDN+emulab.net+image+emulab-ops//UBUNTU16-64-STD'
     node_receiver.installRootKeys(True, True)
-    node_receiver.addService(pg.Execute(shell="bash", command="sudo apt-get update; sudo apt-get -y install iperf3; sudo modprobe tcp_bbr"))
-    #node_receiver.addService(pg.Execute(shell="bash", command="bash /local/repository/setup-scripts/no-offload.sh"))  
+    #node_receiver.addService(pg.Execute(shell="bash", command="sudo apt-get update; sudo apt-get -y install iperf3; sudo modprobe tcp_bbr"))
+    node_receiver.addService(pg.Execute(shell="bash", command="bash /local/repository/endpoint-scripts/install_iperf.sh; sudo modprobe tcp_bbr"))  
     iface0 = node_receiver.addInterface('interface-recv-' + str(i), pg.IPv4Address('10.10.2.1' + str(i),'255.255.255.0'))
     iface0.bandwidth = 10000000
     link_1.addInterface(iface0)
