@@ -35,7 +35,10 @@ params = pc.bindParameters()
 request = pc.makeRequestRSpec()
 
 # Node router
-node_router = request.RawPC('router')
+if params.v:
+  node_router = request.XenVM('router')
+else:
+  node_router = request.RawPC('router')
 node_router.disk_image = 'urn:publicid:IDN+emulab.net+image+emulab-ops//UBUNTU22-64-STD'
 node_router.hardware_type = params.rtrtype
 bs_node = node_router.Blockstore("bs_node_router", "/mydata")
