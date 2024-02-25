@@ -39,8 +39,9 @@ if params.v:
   node_router = request.XenVM('router')
 else:
   node_router = request.RawPC('router')
+  node_router.hardware_type = params.rtrtype
 node_router.disk_image = 'urn:publicid:IDN+emulab.net+image+emulab-ops//UBUNTU22-64-STD'
-node_router.hardware_type = params.rtrtype
+
 #bs_node = node_router.Blockstore("bs_node_router", "/mydata")
 #bs_node.size = "0GB"
 node_router.addService(pg.Execute(shell="bash", command="bash /local/repository/setup-scripts/mlnx-install.sh; bash /local/repository/setup-scripts/install.sh"))
