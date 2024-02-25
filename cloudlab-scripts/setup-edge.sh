@@ -11,7 +11,9 @@ echo "Capacity test with multiple flows"
 
 for i in {0..9}
 do
-   sudo ssh -o StrictHostKeyChecking=no root@receiver-$i 'iperf3 -s -1 -f g -D --logfile validate.dat'
+   sudo ssh -o StrictHostKeyChecking=no root@receiver-$i /bin/bash << EOF
+   nohup iperf3 -s -1 -f g --logfile validate.dat > /dev/null 2>&1 &
+EOF
 done
 
 for i in {0..9}
