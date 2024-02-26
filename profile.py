@@ -42,8 +42,8 @@ else:
   node_router.hardware_type = params.rtrtype
 node_router.disk_image = 'urn:publicid:IDN+emulab.net+image+emulab-ops//UBUNTU22-64-STD'
 
-#bs_node = node_router.Blockstore("bs_node_router", "/mydata")
-#bs_node.size = "0GB"
+bs_node = node_router.Blockstore("bs_node_router", "/mydata")
+bs_node.size = "0GB"
 node_router.addService(pg.Execute(shell="bash", command="bash /local/repository/setup-scripts/mlnx-install.sh; bash /local/repository/setup-scripts/install.sh"))
 node_router.addService(pg.Execute(shell="bash", command="sudo chmod a+r /mydata; sudo chmod a+w /mydata"))
 node_router.addService(pg.Execute(shell="bash", command="bash /local/repository/setup-scripts/no-offload.sh"))
@@ -71,8 +71,8 @@ for i in range(params.n):
         node_sender = request.RawPC('sender-' + str(i))
         node_sender.hardware_type = params.endtype
     node_sender.disk_image = 'urn:publicid:IDN+emulab.net+image+emulab-ops//UBUNTU18-64-STD'
-    #bs_node = node_sender.Blockstore("bs_node_" + str(i), "/mydata")
-    #bs_node.size = "0GB"
+    bs_node = node_sender.Blockstore("bs_node_" + str(i), "/mydata")
+    bs_node.size = "0GB"
     node_sender.installRootKeys(True, True)
     node_sender.addService(pg.Execute(shell="bash", command="bash /local/repository/setup-scripts/install.sh; bash /local/repository/endpoint-scripts/install_iperf.sh"))
     node_sender.addService(pg.Execute(shell="bash", command="bash /local/repository/setup-scripts/no-offload.sh"))
