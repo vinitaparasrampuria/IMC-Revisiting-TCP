@@ -4,8 +4,8 @@ import os
 import csv
 import sys
 
-for i in range(1, len(sys.argv)):
-    print('argument:', i, 'value:', sys.argv[i])	
+#for i in range(1, len(sys.argv)):
+    #print('argument:', i, 'value:', sys.argv[i])	
 ip=sys.argv[1]
 
 output_filename="data-cwn-10.10.2.1"+ip+"-file.txt"
@@ -54,7 +54,7 @@ with open("sender-cwn1-10.10.2.1"+ip+"-file.txt", 'r') as file:
         columns = ip1_match.group(1)+ip2_match.group(1), cwnd , rtt, data_segs_out, retrans
         writer.writerow(columns)
 
-      with open(output_filename, 'a', newline='') as csvfile:
-        writer = csv.writer(csvfile)
-        columns = ip1_match.group(1)+ip2_match.group(1), cwnd , rtt, data_segs_out, retrans
-        writer.writerow(columns)
+      #with open(output_filename, 'a', newline='') as csvfile:
+      #  writer = csv.writer(csvfile)
+      #  columns = ip1_match.group(1)+ip2_match.group(1), cwnd , rtt, data_segs_out, retrans
+      #  writer.writerow(columns)

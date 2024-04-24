@@ -4,9 +4,12 @@ import csv
 import sys
 import os
 
-for i in range(1, len(sys.argv)):
-    print('argument:', i, 'value:', sys.argv[i])    
+#for i in range(1, len(sys.argv)):
+    #print('argument:', i, 'value:', sys.argv[i]) 
+    #random_variable = 3
 i=int(sys.argv[1])
+num_seg_sent=float(sys.argv[2])
+num_seg_dropped = float(sys.argv[3])
 
 
 dat_exp = pd.DataFrame( columns=['port',
@@ -42,12 +45,13 @@ dat_exp['retrans_iperf'] = pd.to_numeric(dat_exp['retrans_iperf'], errors='coerc
 dat_exp = dat_exp.assign(p_ss_retrans = dat_exp['retrans_ss']/dat_exp['data_seg'])
 dat_exp = dat_exp.assign(p_iperf_retrans = dat_exp['retrans_iperf']/dat_exp['data_seg'])
 dat_exp = dat_exp.assign(p_cwnd_halve = dat_exp['cwnd_halve']/dat_exp['data_seg'])
-#dat_exp = dat_exp.assign(p_router_drop = n_seg_dropped/n_seg_sent )
+
+
+dat_exp = dat_exp.assign(p_n_seg_sent = num_seg_sent)
+dat_exp = dat_exp.assign(p_n_seg_dropped = num_seg_dropped)
+dat_exp = dat_exp.assign(p_router_drop = num_seg_dropped/num_seg_sent)
 
 
 output_filename="packet_loss"+str(i)+".csv"
 dat_exp.to_csv(output_filename, sep=',', index=False, encoding='utf-8')
-
-
-
 
