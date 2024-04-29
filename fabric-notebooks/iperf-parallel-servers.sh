@@ -2,11 +2,12 @@
 
 # Base port is the port number after which the ports on server will be listening 
 #For ee., if base port is 50000 then it will listen on 50001,50002,50003 etc.
-base_port=60000
+#base_port=60000
 
 # Command line input: number of servers
 # E.g. 5
 num_servers=$1
+base_port=$2
 shift
 
 # Command line input: base report file name

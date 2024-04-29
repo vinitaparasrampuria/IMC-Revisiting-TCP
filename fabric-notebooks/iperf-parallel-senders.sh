@@ -1,5 +1,5 @@
 
-base_port=60000
+#base_port=60000
 
 # E.g. 1.1.1.1
 server_ip=$1
@@ -20,6 +20,8 @@ flows=$5
 interval=$6
 
 omit=$7
+
+base_port=$8
 
 # Run iperf multiple times
 for i in `seq 1 $num_clients`; do
