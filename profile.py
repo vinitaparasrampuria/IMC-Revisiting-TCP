@@ -77,9 +77,8 @@ for i in range(params.n):
     #node_sender.addService(pg.Execute(shell="bash", command="bash /local/repository/setup-scripts/install.sh; bash /local/repository/endpoint-scripts/install_iperf.sh"))
     node_sender.addService(pg.Execute(shell="bash", command="bash /local/repository/setup-scripts/install.sh"))  
     node_sender.addService(pg.Execute(shell="bash", command="bash /local/repository/setup-scripts/no-offload.sh"))
-    node_sender.addService(pg.Execute(shell="bash", command="sudo apt-get update; sudo apt-get -y install iperf3"))
     #node_sender.addService(pg.Execute(shell="bash", command="sudo chmod a+r /mydata; sudo chmod a+w /mydata; bash /local/repository/endpoint-scripts/enable_bbr.sh"))
-    node_sender.addService(pg.Execute(shell="bash", command="sudo chmod a+r /mydata; sudo chmod a+w /mydata; sudo modprobe tcp_bbr"))
+    node_sender.addService(pg.Execute(shell="bash", command="sudo apt-get update; sudo apt-get -y install iperf3; sudo chmod a+r /mydata; sudo chmod a+w /mydata; sudo modprobe tcp_bbr"))
     iface0 = node_sender.addInterface('interface-send-' + str(i), pg.IPv4Address('10.10.1.1' + str(i) ,'255.255.255.0'))
     iface0.bandwidth = 10000000
     link_0.addInterface(iface0)
